@@ -1,0 +1,86 @@
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    :root {
+			--background: 210 11% 4%;
+      --foreground: 0 0% 98%;
+
+      --card: 0 0% 3.9%;
+      --card-foreground: 0 0% 98%;
+
+      --popover: 0 0% 3.9%;
+      --popover-foreground: 0 0% 98%;
+
+			--primary: 0 0% 100%;
+      --primary-foreground: 0 0% 14.9%;
+
+			--muted: 217.2 32.6% 17.5%;
+			--muted-foreground: 215 20.2% 65.1%;
+
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
+
+			--chat-received: 0, 0%, 100%;
+			--chat-received-foreground: 217.2 32.6% 17.5%;
+
+			--chat-sent: 0, 0%, 100%;
+			--chat-sent-foreground: 168 47% 30%;
+
+      --border: 0 0% 20%;
+      --input: 0 0% 14.9%;
+      --ring: 0 0% 83.1%;
+
+      --radius: 0.5rem;
+    }
+  }
+
+  @layer base {
+		
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
+
+	@layer components {
+		.visually-hidden {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border-width: 0;
+		}
+
+		.animate-in-blur {
+			filter: blur(2px);
+			opacity: 0.95;
+			transition: all .5s ease;
+		}
+
+		.animate-out-blur {
+			transition: all .5s ease;
+		}
+	}
+
+	html {
+		font-family: system-ui, sans-serif;
+	}
+	code {
+			font-family:
+					Menlo,
+					Monaco,
+					Lucida Console,
+					Liberation Mono,
+					DejaVu Sans Mono,
+					Bitstream Vera Sans Mono,
+					Courier New,
+					monospace;
+	}

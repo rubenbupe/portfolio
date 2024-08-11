@@ -1,0 +1,71 @@
+---
+type Props = {
+    color: string;
+};
+
+const { color } = Astro.props;
+---
+
+<style define:vars={{ color }}>
+    .conic-header {
+        --color: var(--color);
+    }
+</style>
+
+<script>
+    /* const interpolateValues = (value: number, ranges: [number[], number[]]) => {
+		const [inputRange, outputRange] = ranges;
+		const isAscending = inputRange[0] < inputRange[1];
+		const curRange = inputRange.findIndex((range) => isAscending ? value < range : value > range);
+		if (curRange === -1) return outputRange[outputRange.length - 1];
+		const [min, max] = inputRange.slice(curRange - 1, curRange + 1);
+		const [outMin, outMax] = outputRange.slice(curRange - 1, curRange + 1);
+		return (
+			((value - min) / (max - min)) * (outMax - outMin) + outMin
+		);
+	}; */
+
+    const scrollHandler = () => {
+        const conicHeaders = document.querySelectorAll(
+            ".conic-header"
+        ) as unknown as HTMLElement[];
+
+        if (!conicHeaders.length) return;
+        const onScroll = () => {
+            const scrollY = window.scrollY;
+
+            conicHeaders.forEach((conicHeader) => {
+                const fromBottom =
+                    window.innerHeight - conicHeader.getBoundingClientRect().y;
+
+                // Until 50px of conic header is visible, the gradients are at 80% and 20% respectively
+                // After that, the gradients are at 0% and 100% respectively, in a 500px range
+
+                const rightPercentage = Math.min(
+                    100,
+                    Math.max(20, ((fromBottom - 50) / 300) * 100)
+                );
+                const leftPercentage = 100 - rightPercentage;
+
+                conicHeader.style.background = `conic-gradient(from 90deg at ${leftPercentage}% 0%, var(--color), transparent 180deg) 0% 0% / 50% 100% no-repeat, conic-gradient(from 270deg at ${rightPercentage}% 0%, transparent 180deg, var(--color)) 100% 0% / 50% 100% no-repeat`;
+            });
+        };
+        document.addEventListener("scroll", onScroll);
+
+        document.addEventListener("astro:before-swap", () => {
+            document.removeEventListener("scroll", onScroll);
+        });
+
+        onScroll();
+    };
+
+    scrollHandler();
+
+    document.addEventListener("astro:after-swap", () => {
+        scrollHandler();
+    });
+</script>
+<div
+    class="conic-header absolute h-[600px] w-full after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(to_bottom,transparent_70%,hsl(var(--background)))]"
+>
+</div>

@@ -1,0 +1,31 @@
+---
+import { cn } from "../lib/utils";
+
+type Props = {
+    number?: number;
+};
+
+const { number = 20 } = Astro.props;
+
+const meteors = [...new Array(number)].map(() => ({
+    top: "-5px",
+    left: `calc(${Math.random()}*100vw)`,
+    animationDelay: Math.random() * 1 + 0.2 + "s",
+    animationDuration: Math.floor(Math.random() * 8 + 2) + "s",
+}));
+---
+
+<>
+    {
+        [...meteors].map((style, idx) => (
+            <span
+                class={cn(
+                    "pointer-events-none absolute left-1/2 top-1/2 size-0.5 rotate-[215deg] animate-meteor rounded-full bg-slate-500 shadow-[0_0_0_1px_#ffffff10]"
+                )}
+                style={style}
+            >
+                <div class="pointer-events-none absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-slate-500 to-transparent" />
+            </span>
+        ))
+    }
+</>
