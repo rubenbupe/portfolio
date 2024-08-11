@@ -1,16 +1,13 @@
 ---
 type Props = {
     color: string;
+    borderColor: string;
 };
 
-const { color } = Astro.props;
+const { color, borderColor } = Astro.props;
 ---
 
-<style define:vars={{ color }}>
-    .conic-header {
-        --color: var(--color);
-    }
-</style>
+<style define:vars={{ color, "border-color": borderColor }}></style>
 
 <script>
     /* const interpolateValues = (value: number, ranges: [number[], number[]]) => {
@@ -32,8 +29,6 @@ const { color } = Astro.props;
 
         if (!conicHeaders.length) return;
         const onScroll = () => {
-            const scrollY = window.scrollY;
-
             conicHeaders.forEach((conicHeader) => {
                 const fromBottom =
                     window.innerHeight - conicHeader.getBoundingClientRect().y;
@@ -46,8 +41,19 @@ const { color } = Astro.props;
                     Math.max(20, ((fromBottom - 50) / 300) * 100)
                 );
                 const leftPercentage = 100 - rightPercentage;
+                const opacity = Math.min(
+                    1,
+                    Math.max(0.5, (fromBottom - 50) / 300)
+                );
+
+                const borderLeftPercentage =
+                    50 -
+                    Math.min(30, Math.max(0, ((fromBottom - 50) / 300) * 30));
+                const borderRightPercentage = 100 - borderLeftPercentage;
 
                 conicHeader.style.background = `conic-gradient(from 90deg at ${leftPercentage}% 0%, var(--color), transparent 180deg) 0% 0% / 50% 100% no-repeat, conic-gradient(from 270deg at ${rightPercentage}% 0%, transparent 180deg, var(--color)) 100% 0% / 50% 100% no-repeat`;
+                conicHeader.style.opacity = opacity.toString();
+                conicHeader.style.borderImage = `linear-gradient(to right, transparent, transparent ${borderLeftPercentage - 10}%, var(--border-color) ${borderLeftPercentage}%, var(--border-color) ${borderRightPercentage}%, transparent ${borderRightPercentage + 10}%, transparent) 30`;
             });
         };
         document.addEventListener("scroll", onScroll);
@@ -66,6 +72,6 @@ const { color } = Astro.props;
     });
 </script>
 <div
-    class="conic-header absolute h-[600px] w-full after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(to_bottom,transparent_70%,hsl(var(--background)))]"
+    class="conic-header absolute h-[600px] w-full border-t border-t-transparent after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(to_bottom,transparent_70%,hsl(var(--background)))]"
 >
 </div>
