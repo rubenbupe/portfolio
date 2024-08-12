@@ -10,18 +10,6 @@ const { color, borderColor } = Astro.props;
 <style define:vars={{ color, "border-color": borderColor }}></style>
 
 <script>
-    /* const interpolateValues = (value: number, ranges: [number[], number[]]) => {
-		const [inputRange, outputRange] = ranges;
-		const isAscending = inputRange[0] < inputRange[1];
-		const curRange = inputRange.findIndex((range) => isAscending ? value < range : value > range);
-		if (curRange === -1) return outputRange[outputRange.length - 1];
-		const [min, max] = inputRange.slice(curRange - 1, curRange + 1);
-		const [outMin, outMax] = outputRange.slice(curRange - 1, curRange + 1);
-		return (
-			((value - min) / (max - min)) * (outMax - outMin) + outMin
-		);
-	}; */
-
     const scrollHandler = () => {
         const conicHeaders = document.querySelectorAll(
             ".conic-header"
@@ -32,9 +20,6 @@ const { color, borderColor } = Astro.props;
             conicHeaders.forEach((conicHeader) => {
                 const fromBottom =
                     window.innerHeight - conicHeader.getBoundingClientRect().y;
-
-                // Until 50px of conic header is visible, the gradients are at 80% and 20% respectively
-                // After that, the gradients are at 0% and 100% respectively, in a 500px range
 
                 const rightPercentage = Math.min(
                     100,

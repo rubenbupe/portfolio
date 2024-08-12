@@ -1,69 +1,53 @@
 ---
-import Button from "../components/Button.astro";
 import Layout from "../layouts/Layout.astro";
 import Spotlight from "../components/Spotlight.astro";
 import Section from "../components/Section.astro";
-import HeroAnimation from "../components/HeroAnimation.astro";
-import { Icon } from "astro-icon/components";
-import { githubUrl, mailUrl } from "../constants/site";
 import ConicHeader from "../components/ConicHeader.astro";
-import { FlipWords } from "../components/FlipWords";
+import Hero from "../sections/Hero.astro";
+import About from "../sections/About.astro";
 ---
 
+<script>
+    const handleParallax = () => {
+        const parallaxTrigger = document.getElementById("pricing-parallax");
+        const parallax = document.getElementById("pricing-parallax-target");
+
+        const onMove = (e: MouseEvent) => {
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight;
+            if (parallax)
+                parallax.style.transform = `rotateX(${y * 3}deg) rotateY(${x * 3}deg)`;
+        };
+        parallaxTrigger?.addEventListener("mousemove", onMove);
+
+        const onLeave = () => {
+            if (parallax)
+                parallax.style.transform = "rotateX(0deg) rotateY(0deg)";
+        };
+        parallaxTrigger?.addEventListener("mouseleave", onLeave);
+
+        document.addEventListener("astro:before-swap", () => {
+            parallaxTrigger?.removeEventListener("mousemove", onMove);
+            parallaxTrigger?.removeEventListener("mouseleave", onLeave);
+        });
+    };
+
+    handleParallax();
+    document.addEventListener("astro:after-swap", () => {
+        handleParallax();
+    });
+</script>
 <Layout>
     <Spotlight class="-top-0 left-0 md:left-40 md:-top-48" fill="#d1d1d1" />
-    <div class="relative w-full overflow-hidden flex flex-col">
-        <HeroAnimation number={30} />
-        <Section id="home" class="relative py-24 min-h-[80vh]">
-            <div class="">
-                <h1
-                    class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-                >
-                    Rubén Buzón
-                </h1>
-                <p
-                    class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl pb-1 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-                >
-                    Full-Stack Engineer
-                </p>
-                <p class="mt-4 max-w-lg leading-normal text-foreground/50">
-                    I'm a Full-Stack engineer with a passion for building
-                    high-quality software. I have experience in both frontend
-                    and backend technologies, and I'm always looking for new
-                    challenges.
-                    <div class="flex gap-4 mt-8">
-                        <a href={mailUrl} target="_blank">
-                            <Button size="default"> Get in touch </Button>
-                        </a>
-                        <a href={githubUrl} target="_blank">
-                            <Button size="default" variant="outline">
-                                <Icon name="tabler:brand-github" class="mr-2" />
-                                Github
-                            </Button>
-                        </a>
-                    </div>
-                </p>
-
-                <style></style>
-            </div>
+    <Hero />
+    <About />
+    <div class="relative w-full flex flex-col">
+        <ConicHeader
+            color="rgba(97,106,115,.12)"
+            borderColor="rgba(247,247,247,.22)"
+        />
+        <Section id="about2" class="relative py-24 min-h-[90vh]">
+            hola 2
         </Section>
-        <div class="relative w-full flex flex-col">
-            <ConicHeader
-                color="rgba(97,106,115,.12)"
-                borderColor="rgba(247,247,247,.22)"
-            />
-            <Section id="about" class="relative py-24 min-h-[90vh]">
-                hola 1
-            </Section>
-        </div>
-        <div class="relative w-full flex flex-col">
-            <ConicHeader
-                color="rgba(97,106,115,.12)"
-                borderColor="rgba(247,247,247,.22)"
-            />
-            <Section id="about2" class="relative py-24 min-h-[90vh]">
-                hola 2
-            </Section>
-        </div>
     </div>
 </Layout>

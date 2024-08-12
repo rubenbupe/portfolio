@@ -1,0 +1,98 @@
+---
+import Section from "../components/Section.astro";
+import ConicHeader from "../components/ConicHeader.astro";
+import Separator from "../components/Separator.astro";
+import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
+---
+
+<div class="relative w-full flex flex-col">
+    <ConicHeader
+        color="rgba(97,106,115,.12)"
+        borderColor="rgba(247,247,247,.22)"
+    />
+    <Section id="about" class="relative py-24 min-h-[90vh]">
+        <div class="grid md:grid-cols-2 gap-8 md:px-12">
+            <div>
+                <div class="flex gap-4">
+                    <h2
+                        class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+                    >
+                        About me
+                    </h2>
+                    <Separator
+                        class="inline flex-1 w-fit translate-y-1 border-primary"
+                    />
+                </div>
+                <p
+                    class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8"
+                >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam id lorem a eros rutrum finibus. Donec rhoncus turpis
+                    quis lacinia varius. Fusce sagittis at justo eu molestie.
+                    Fusce bibendum, quam fringilla tincidunt luctus, enim orci
+                    iaculis ipsum, id auctor dolor erat ac sem. Cras cursus leo
+                    vel mollis rhoncus. Praesent ac ultricies eros, id
+                    vestibulum est. Suspendisse eros eros, pretium ac leo nec,
+                    malesuada fermentum diam. Donec quam velit, efficitur non
+                    enim non, elementum euismod tortor.
+                </p>
+                <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam id lorem a eros rutrum finibus. Donec rhoncus turpis
+                    quis lacinia varius. Fusce sagittis at justo eu molestie.
+                    Fusce bibendum, quam fringilla tincidunt luctus, enim orci
+                    iaculis ipsum, id auctor dolor erat ac sem. Cras cursus leo
+                    vel mollis rhoncus. Praesent ac ultricies eros, id
+                    vestibulum est. Suspendisse eros eros, pretium ac leo nec,
+                    malesuada fermentum diam. Donec quam velit, efficitur non
+                    enim non, elementum euismod tortor.
+                </p>
+            </div>
+            <div class="relative flex justify-center items-center group">
+                <div id="pricing-parallax" class="h-full w-full absolute">
+                    <div
+                        id="pricing-parallax-target"
+                        class="pointer-events-none trasition-transform flex h-full w-full items-center justify-center duration-300 ease-out will-change-transform"
+                        style="transform-style: preserve-3d;"
+                    >
+                        <div
+                            class="h-full w-full text-foreground/10"
+                            style="background-position: center center; transform: translateZ(-1000px);"
+                        >
+                            <GridPatternSvg
+                                className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
+                            />
+                        </div>
+                        <div
+                            class="pointer-events-none absolute top-0 left-0 h-full w-full blur-3xl"
+                            style="background-position: center center; transform: translateZ(-500px);"
+                        >
+                            <div
+                                class="h-full w-full bg-gradient-to-br from-teal-500/20 to-indigo-500/20 to-80% from-30% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
+                            >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="isolate bg-primary rounded-lg max-w-64 pointer-events-none"
+                >
+                    <div
+                        class="absolute w-64 aspect-square transition-all duration-300 transform bg-primary/50 rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-4 group-hover:translate-x-4"
+                    >
+                    </div>
+                    <div
+                        class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg"
+                    >
+                    </div>
+
+                    <img
+                        src="/images/profile.webp"
+                        alt="Profile picture"
+                        class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4"
+                    />
+                </div>
+            </div>
+        </div>
+    </Section>
+</div>
