@@ -400,7 +400,7 @@ const arcs = [
         borderColor="rgba(247,247,247,.22)"
     />
     <div
-        class="w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+        class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
     >
         <Particles
             client:load
@@ -413,9 +413,11 @@ const arcs = [
         />
     </div>
     <div
-        class="absolute h-full w-full overflow-hidden self-center max-w-[1500px] min-w-[1000px]"
+        class="absolute h-full w-full max-w-full overflow-hidden self-center max-w-[1500px]"
     >
-        <div class="absolute aspect-square w-[100%] -bottom-1/2">
+        <div
+            class="absolute aspect-square w-[100%] -bottom-0 transform translate-y-1/2"
+        >
             <World data={arcs} globeConfig={globeConfig} client:only />
         </div>
     </div>
