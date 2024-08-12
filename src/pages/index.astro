@@ -5,7 +5,9 @@ import Section from "../components/Section.astro";
 import ConicHeader from "../components/ConicHeader.astro";
 import Hero from "../sections/Hero.astro";
 import About from "../sections/About.astro";
+import Separator from "../components/Separator.astro";
 ---
+
 <Layout>
     <Spotlight class="-top-0 left-0 md:left-40 md:-top-48" fill="#d1d1d1" />
     <Hero />
@@ -16,7 +18,22 @@ import About from "../sections/About.astro";
             borderColor="rgba(247,247,247,.22)"
         />
         <Section id="about2" class="relative py-24 min-h-[90vh]">
-            hola 2
+            <div class="grid md:grid-cols-2 gap-8 md:px-12">
+                <div>
+                    <div class="flex gap-4">
+                        <h2
+                            class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+                        >
+                            Experience
+                        </h2>
+                        <Separator
+                            class="inline flex-1 w-fit translate-y-1 border-primary"
+                        />
+                    </div>
+                </div>
+                <div class="relative flex justify-center items-center group">
+                </div>
+            </div>
         </Section>
     </div>
 </Layout>

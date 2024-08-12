@@ -23,6 +23,7 @@ const links = [
     const headerContainerClasses = ["top-4"];
     const headerScrolledClasses = [
         "bg-card/60",
+        "shadow-lg",
         "!border-t",
         "!border-x-border",
         "!md:mx-8",
@@ -56,7 +57,7 @@ const links = [
 >
     <header
         class={cn(
-            "border border-t-0 border-x-transparent mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
+            "border border-t-0 border-x-transparent outline outline-[1px] outline-card mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
             "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
         )}
     >
