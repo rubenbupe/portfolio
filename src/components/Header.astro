@@ -12,10 +12,9 @@ const { class: className } = Astro.props;
 
 const links = [
     { href: "#about", text: "About me" },
-    { href: "#jobs", text: "Jobs" },
-    { href: "#projects", text: "Projects" },
-    { href: "#contact", text: "Contact" },
-    { href: "/resume", text: "Resume" },
+    { href: "#jobs", text: "Experience" },
+    { href: "#projects", text: "Work" },
+    { href: "/resume.pdf", text: "Resume", external: true },
 ];
 ---
 
@@ -27,7 +26,7 @@ const links = [
         "!border-t",
         "!border-x-border",
         "!md:mx-8",
-        "!mx-2",
+        "!mx-4",
         "!px-4",
         "!rounded-2xl",
         "![mask-image:none]",
@@ -48,6 +47,23 @@ const links = [
         window.addEventListener("scroll", handleScroll);
     });
 </script>
+<script>
+    function toggleMobileNavbar() {
+        document.getElementById("mobile-navbar")?.classList.toggle("hidden");
+    }
+
+    const navLinks = document.querySelectorAll("#mobile-navbar a");
+    navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            toggleMobileNavbar();
+        });
+    });
+
+    const navbarToggle = document.getElementById("mobile-navbar-toggle");
+    navbarToggle?.addEventListener("click", () => {
+        toggleMobileNavbar();
+    });
+</script>
 <div
     id="header-container"
     class={cn(
@@ -58,7 +74,7 @@ const links = [
     <header
         class={cn(
             "border border-t-0 border-x-transparent outline outline-[1px] outline-card mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
-            "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
+            "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
         )}
     >
         <nav class="flex gap-4 items-center">
@@ -69,14 +85,22 @@ const links = [
                 <span class="text-foreground/70 mr-1 font-light">/</span
                 >rubenbupe
             </a>
-            <div class="flex gap-4 ml-auto items-center">
+            <div class="gap-4 ml-auto items-center hidden md:flex">
                 {
                     [...links].map((link) => (
                         <a
-                            class="text-md font-medium mx-2 text-foreground"
+                            class="text-sm font-medium mx-2 text-foreground hover:underline"
                             href={link.href}
+                            target={link.external ? "_blank" : "_self"}
                         >
                             {link.text}
+                            {!!link.external && (
+                                <Icon
+                                    name="tabler:external-link"
+                                    size={12}
+                                    class="inline-block align-top"
+                                />
+                            )}
                         </a>
                     ))
                 }
@@ -97,6 +121,87 @@ const links = [
                     <Button class="" size="sm">Contact</Button>
                 </a>
             </div>
+
+            <a
+                id="mobile-navbar-toggle"
+                class="flex ml-auto md:hidden"
+                aria-label="Open mobile navigation"
+                aria-controls="mobile-navbar"
+            >
+                <Button class="p-2" size="sm" variant="outline"
+                    ><Icon name="tabler:menu" size={18} /></Button
+                >
+            </a>
         </nav>
     </header>
+    <nav
+        id="mobile-navbar"
+        class="fixed hidden md:!hidden inset-0 backdrop-blur-3xl bg-white/10 flex flex-col"
+    >
+        <div
+            class="m-4 outline rounded-2xl outline-[1px] outline-card border bg-card/60 p-3 px-4 flex flex-col gap-4 flex-1"
+        >
+            <div class="flex items-center">
+                <a
+                    class="text-lg tracking-tight font-semibold mx-2 text-foreground"
+                    href="#home"
+                >
+                    <span class="text-foreground/70 mr-1 font-light">/</span
+                    >rubenbupe
+                </a>
+                <Button
+                    class="p-2 ml-auto self-start"
+                    size="sm"
+                    variant="outline"
+                    onclick="document.getElementById('mobile-navbar').classList.toggle('hidden')"
+                    aria-label="Close mobile navigation"
+                    aria-controls="mobile-navbar"
+                >
+                    <Icon name="tabler:x" size={18} />
+                </Button>
+            </div>
+            {
+                [...links].map((link) => (
+                    <a
+                        class="text-lg font-medium text-foreground hover:underline mx-8 mt-2"
+                        href={link.href}
+                        target={link.external ? "_blank" : "_self"}
+                    >
+                        {link.text}
+                        {!!link.external && (
+                            <Icon
+                                name="tabler:external-link"
+                                size={12}
+                                class="inline-block align-top"
+                            />
+                        )}
+                    </a>
+                ))
+            }
+            <p
+                class="text-lg font-light text-foreground hover:underline mx-2 mt-4"
+            >
+                Contact
+            </p>
+            <div class="flex gap-4 mx-8">
+                <a href={linkedinUrl} target="_blank">
+                    <Button class="p-2" size="sm" variant="outline"
+                        ><Icon name="tabler:brand-linkedin" size={18} /></Button
+                    >
+                </a>
+
+                <a href={githubUrl} target="_blank">
+                    <Button class="p-2" size="sm" variant="outline"
+                        ><Icon name="tabler:brand-github" size={18} /></Button
+                    >
+                </a>
+
+                <a href={mailUrl} target="_blank">
+                    <Button class="p-2" size="sm" variant="outline">
+                        <Icon name="tabler:mail" size={18} />
+                    </Button>
+                </a>
+            </div>
+        </div>
+    </nav>
 </div>
