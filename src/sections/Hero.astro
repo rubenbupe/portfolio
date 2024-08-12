@@ -1,7 +1,7 @@
 ---
 import Button from "../components/Button.astro";
 import Section from "../components/Section.astro";
-import HeroAnimation from "../components/HeroAnimation.astro";
+import HeroAnimation from "../components/MeteorAnimation.astro";
 import { Icon } from "astro-icon/components";
 import { githubUrl, mailUrl } from "../constants/site";
 ---
@@ -9,40 +9,42 @@ import { githubUrl, mailUrl } from "../constants/site";
 <div class="relative w-full overflow-hidden flex flex-col">
     <HeroAnimation number={30} />
     <Section id="home" class="relative py-24 min-h-[80vh]">
-        <div class="">
-            <h1
-                class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-            >
-                Rubén Buzón
-            </h1>
-            <p
-                class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl pb-1 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-            >
-                Full-Stack Engineer
-            </p>
-            <p
-                class="mt-4 max-w-lg leading-normal text-foreground/50 md:text-lg"
-            >
-                I'm a Full-Stack engineer with a passion for building
-                high-quality software. I have experience in both frontend and
-                backend technologies, and I'm always looking for new challenges.
-                <div class="flex gap-4 mt-8">
-                    <a href={mailUrl} target="_blank">
-                        <Button size="default"> Get in touch </Button>
-                    </a>
-                    <a href={githubUrl} target="_blank">
-                        <Button size="default" variant="outline">
-                            <Icon
-                                name="tabler:brand-github-filled"
-                                class="mr-2"
-                            />
-                            Github
-                        </Button>
-                    </a>
-                </div>
-            </p>
-
-            <style></style>
-        </div>
+        <h1
+            class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            Rubén Buzón
+        </h1>
+        <p
+            class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl pb-1 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            Full-Stack Engineer
+        </p>
+        <p class="mt-4 max-w-lg leading-normal text-foreground/50 md:text-lg">
+            I'm a Full-Stack engineer with a passion for building high-quality
+            software. I have experience in both frontend and backend
+            technologies, and I'm always looking for new challenges.
+            <div class="flex gap-4 mt-8">
+                <a href={mailUrl} target="_blank">
+                    <Button size="default"> Get in touch </Button>
+                </a>
+                <a href={githubUrl} target="_blank">
+                    <Button size="default" variant="outline">
+                        <Icon name="tabler:brand-github-filled" class="mr-2" />
+                        Github
+                    </Button>
+                </a>
+            </div>
+        </p>
     </Section>
+    <div class="absolute bottom-4 left-0 right-0 mx-auto flex justify-center">
+        <a href="#about" aria-label="Scroll down">
+            <Button
+                size="default"
+                variant="outline"
+                class="rounded-full p-2 animate-bounce"
+            >
+                <Icon name="tabler:arrow-down" size={18} />
+            </Button>
+        </a>
+    </div>
 </div>

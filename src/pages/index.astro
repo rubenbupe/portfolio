@@ -6,34 +6,18 @@ import ConicHeader from "../components/ConicHeader.astro";
 import Hero from "../sections/Hero.astro";
 import About from "../sections/About.astro";
 import Separator from "../components/Separator.astro";
+import { Globe } from "../components/Globe";
+import { World } from "../components/Globe";
+import { HoloCard } from "../components/HoloCard";
+import { Particles } from "../components/Particles";
+import { ExpandableHoloJobCard } from "../components/ExpandableHoloJobCard";
+import MeteorAnimation from "../components/MeteorAnimation.astro";
+import Jobs from "../sections/Jobs.astro";
 ---
 
 <Layout>
     <Spotlight class="-top-0 left-0 md:left-40 md:-top-48" fill="#d1d1d1" />
     <Hero />
     <About />
-    <div class="relative w-full flex flex-col">
-        <ConicHeader
-            color="rgba(97,106,115,.12)"
-            borderColor="rgba(247,247,247,.22)"
-        />
-        <Section id="about2" class="relative py-24 min-h-[90vh]">
-            <div class="grid md:grid-cols-2 gap-8 md:px-12">
-                <div>
-                    <div class="flex gap-4">
-                        <h2
-                            class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
-                        >
-                            Experience
-                        </h2>
-                        <Separator
-                            class="inline flex-1 w-fit translate-y-1 border-primary"
-                        />
-                    </div>
-                </div>
-                <div class="relative flex justify-center items-center group">
-                </div>
-            </div>
-        </Section>
-    </div>
+    <Jobs />
 </Layout>

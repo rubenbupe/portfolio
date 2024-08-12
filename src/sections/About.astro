@@ -4,6 +4,7 @@ import ConicHeader from "../components/ConicHeader.astro";
 import Separator from "../components/Separator.astro";
 import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
 import { Icon } from "astro-icon/components";
+import { Particles } from "../components/Particles";
 ---
 
 <script>
@@ -42,110 +43,118 @@ import { Icon } from "astro-icon/components";
         color="rgba(97,106,115,.12)"
         borderColor="rgba(247,247,247,.22)"
     />
-    <Section id="about" class="relative py-24 min-h-[90vh]">
-        <div class="grid md:grid-cols-2 gap-8 md:px-12">
-            <div>
-                <div class="flex gap-4">
-                    <h2
-                        class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
-                    >
-                        About me
-                    </h2>
-                    <Separator
-                        class="inline flex-1 w-fit translate-y-1 border-primary"
-                    />
-                </div>
-                <p
-                    class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8"
+    <div
+        class="w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+    >
+        <Particles
+            client:load
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+        />
+    </div>
+</div>
+<Section id="about" class="relative py-24 min-h-[90vh]">
+    <div class="grid md:grid-cols-2 gap-12 md:px-12">
+        <div>
+            <div class="flex gap-4">
+                <h2
+                    class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
                 >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam id lorem a eros rutrum finibus. Donec rhoncus turpis
-                    quis lacinia varius. Fusce sagittis at justo eu molestie.
-                    Fusce bibendum, quam fringilla tincidunt luctus, enim orci
-                    iaculis ipsum, id auctor dolor erat ac sem. Cras cursus leo
-                    vel mollis rhoncus. Praesent ac ultricies eros, id
-                    vestibulum est. Suspendisse eros eros, pretium ac leo nec,
-                    malesuada fermentum diam. Donec quam velit, efficitur non
-                    enim non, elementum euismod tortor.
-                </p>
-                <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam id lorem a eros rutrum finibus. Donec rhoncus turpis
-                    quis lacinia varius. Fusce sagittis at justo eu molestie.
-                    Fusce bibendum, quam fringilla tincidunt luctus, enim orci
-                    iaculis ipsum, id auctor dolor erat ac sem.
-                </p>
-                <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                    Things I am interested in:
-                </p>
-                <ul
-                    class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2"
-                >
-                    {
-                        [
-                            "Web development",
-                            "UI/UX design",
-                            "Mobile development",
-                            "Backend development",
-                            "Machine learning",
-                        ].map((item, index) => (
-                            <li class="text-primary mt-2 ml-2 flex items-center">
-                                <Icon
-                                    name="tabler:chevron-right"
-                                    class="inline"
-                                />
-                                <span class="ml-2">{item}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
+                    About me
+                </h2>
+                <Separator
+                    class="inline flex-1 w-fit translate-y-1 border-primary"
+                />
             </div>
-            <div class="relative flex justify-center items-center group">
-                <div id="pricing-parallax" class="h-full w-full absolute">
+            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                id lorem a eros rutrum finibus. Donec rhoncus turpis quis
+                lacinia varius. Fusce sagittis at justo eu molestie. Fusce
+                bibendum, quam fringilla tincidunt luctus, enim orci iaculis
+                ipsum, id auctor dolor erat ac sem. Cras cursus leo vel mollis
+                rhoncus. Praesent ac ultricies eros, id vestibulum est.
+                Suspendisse eros eros, pretium ac leo nec, malesuada fermentum
+                diam. Donec quam velit, efficitur non enim non, elementum
+                euismod tortor.
+            </p>
+            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                id lorem a eros rutrum finibus. Donec rhoncus turpis quis
+                lacinia varius. Fusce sagittis at justo eu molestie. Fusce
+                bibendum, quam fringilla tincidunt luctus, enim orci iaculis
+                ipsum, id auctor dolor erat ac sem.
+            </p>
+            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+                Things I am interested in:
+            </p>
+            <ul
+                class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2"
+            >
+                {
+                    [
+                        "Web development",
+                        "UI/UX design",
+                        "Mobile development",
+                        "Backend development",
+                        "Machine learning",
+                    ].map((item, index) => (
+                        <li class="text-primary mt-2 ml-2 flex items-center">
+                            <Icon name="tabler:chevron-right" class="inline" />
+                            <span class="ml-2">{item}</span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="relative flex justify-center items-center group">
+            <div id="pricing-parallax" class="h-full w-full absolute">
+                <div
+                    id="pricing-parallax-target"
+                    class="pointer-events-none trasition-transform flex h-full w-full items-center justify-center duration-300 ease-out will-change-transform"
+                    style="transform-style: preserve-3d;"
+                >
                     <div
-                        id="pricing-parallax-target"
-                        class="pointer-events-none trasition-transform flex h-full w-full items-center justify-center duration-300 ease-out will-change-transform"
-                        style="transform-style: preserve-3d;"
+                        class="h-full w-full text-foreground/10"
+                        style="background-position: center center; transform: translateZ(-1000px);"
+                    >
+                        <GridPatternSvg
+                            className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
+                        />
+                    </div>
+                    <div
+                        class="pointer-events-none absolute top-0 left-0 h-full w-full blur-3xl"
+                        style="background-position: center center; transform: translateZ(-500px);"
                     >
                         <div
-                            class="h-full w-full text-foreground/10"
-                            style="background-position: center center; transform: translateZ(-1000px);"
+                            class="h-full w-full bg-gradient-to-br from-gray-800/20 to-primary/30 to-80% from-40% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
                         >
-                            <GridPatternSvg
-                                className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
-                            />
-                        </div>
-                        <div
-                            class="pointer-events-none absolute top-0 left-0 h-full w-full blur-3xl"
-                            style="background-position: center center; transform: translateZ(-500px);"
-                        >
-                            <div
-                                class="h-full w-full bg-gradient-to-br from-gray-800/20 to-primary/30 to-80% from-40% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
-                            >
-                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div
+                class="isolate bg-primary rounded-lg max-w-64 pointer-events-none transition-all group-hover:[transform:rotateX(10deg)_rotateY(15deg)_rotate(0deg)]"
+            >
+                <div
+                    class="absolute w-64 aspect-square transition-all duration-300 transform bg-primary/50 rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-4 group-hover:translate-x-4"
+                >
                 </div>
                 <div
-                    class="isolate bg-primary rounded-lg max-w-64 pointer-events-none transition-all group-hover:[transform:rotateX(10deg)_rotateY(15deg)_rotate(0deg)]"
+                    class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg"
                 >
-                    <div
-                        class="absolute w-64 aspect-square transition-all duration-300 transform bg-primary/50 rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-4 group-hover:translate-x-4"
-                    >
-                    </div>
-                    <div
-                        class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg"
-                    >
-                    </div>
-
-                    <img
-                        src="/images/profile.webp"
-                        alt="Profile"
-                        loading="lazy"
-                        class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4"
-                    />
                 </div>
+
+                <img
+                    src="/images/profile.webp"
+                    alt="Profile"
+                    loading="lazy"
+                    class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4"
+                />
             </div>
         </div>
-    </Section>
-</div>
+    </div>
+</Section>

@@ -1,0 +1,448 @@
+---
+import ConicHeader from "../components/ConicHeader.astro";
+import { ExpandableHoloJobCard } from "../components/ExpandableHoloJobCard";
+import { World } from "../components/Globe";
+import MeteorAnimation from "../components/MeteorAnimation.astro";
+import { Particles } from "../components/Particles";
+import Section from "../components/Section.astro";
+import Separator from "../components/Separator.astro";
+
+const globeConfig = {
+    pointSize: 4,
+    globeColor: "#000000",
+    showAtmosphere: true,
+    atmosphereColor: "white",
+    atmosphereAltitude: 0.07,
+    emissive: "#062056",
+    emissiveIntensity: 0.1,
+    shininess: 0.9,
+    polygonColor: "rgba(255,255,255,0.7)",
+    ambientLight: "white",
+    directionalLeftLight: "white",
+    directionalTopLight: "white",
+    pointLight: "white",
+    arcTime: 1000,
+    arcLength: 0.9,
+    rings: 1,
+    maxRings: 3,
+    initialPosition: { lat: 22.3193, lng: 114.1694 },
+    autoRotate: true,
+    autoRotateSpeed: 0.3,
+};
+const colors = ["#ffffff", "#878787", "#323232"];
+const arcs = [
+    {
+        order: 1,
+        startLat: -19.885592,
+        startLng: -43.951191,
+        endLat: -22.9068,
+        endLng: -43.1729,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 1,
+        startLat: 28.6139,
+        startLng: 77.209,
+        endLat: 3.139,
+        endLng: 101.6869,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 1,
+        startLat: -19.885592,
+        startLng: -43.951191,
+        endLat: -1.303396,
+        endLng: 36.852443,
+        arcAlt: 0.5,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 2,
+        startLat: 1.3521,
+        startLng: 103.8198,
+        endLat: 35.6762,
+        endLng: 139.6503,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 2,
+        startLat: 51.5072,
+        startLng: -0.1276,
+        endLat: 3.139,
+        endLng: 101.6869,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 2,
+        startLat: -15.785493,
+        startLng: -47.909029,
+        endLat: 36.162809,
+        endLng: -115.119411,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 3,
+        startLat: -33.8688,
+        startLng: 151.2093,
+        endLat: 22.3193,
+        endLng: 114.1694,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 3,
+        startLat: 21.3099,
+        startLng: -157.8581,
+        endLat: 40.7128,
+        endLng: -74.006,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 3,
+        startLat: -6.2088,
+        startLng: 106.8456,
+        endLat: 51.5072,
+        endLng: -0.1276,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 4,
+        startLat: 11.986597,
+        startLng: 8.571831,
+        endLat: -15.595412,
+        endLng: -56.05918,
+        arcAlt: 0.5,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 4,
+        startLat: -34.6037,
+        startLng: -58.3816,
+        endLat: 22.3193,
+        endLng: 114.1694,
+        arcAlt: 0.7,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 4,
+        startLat: 51.5072,
+        startLng: -0.1276,
+        endLat: 48.8566,
+        endLng: -2.3522,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 5,
+        startLat: 14.5995,
+        startLng: 120.9842,
+        endLat: 51.5072,
+        endLng: -0.1276,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 5,
+        startLat: 1.3521,
+        startLng: 103.8198,
+        endLat: -33.8688,
+        endLng: 151.2093,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 5,
+        startLat: 34.0522,
+        startLng: -118.2437,
+        endLat: 48.8566,
+        endLng: -2.3522,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 6,
+        startLat: -15.432563,
+        startLng: 28.315853,
+        endLat: 1.094136,
+        endLng: -63.34546,
+        arcAlt: 0.7,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 6,
+        startLat: 37.5665,
+        startLng: 126.978,
+        endLat: 35.6762,
+        endLng: 139.6503,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 6,
+        startLat: 22.3193,
+        startLng: 114.1694,
+        endLat: 51.5072,
+        endLng: -0.1276,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 7,
+        startLat: -19.885592,
+        startLng: -43.951191,
+        endLat: -15.595412,
+        endLng: -56.05918,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 7,
+        startLat: 48.8566,
+        startLng: -2.3522,
+        endLat: 52.52,
+        endLng: 13.405,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 7,
+        startLat: 52.52,
+        startLng: 13.405,
+        endLat: 34.0522,
+        endLng: -118.2437,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 8,
+        startLat: -8.833221,
+        startLng: 13.264837,
+        endLat: -33.936138,
+        endLng: 18.436529,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 8,
+        startLat: 49.2827,
+        startLng: -123.1207,
+        endLat: 52.3676,
+        endLng: 4.9041,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 8,
+        startLat: 1.3521,
+        startLng: 103.8198,
+        endLat: 40.7128,
+        endLng: -74.006,
+        arcAlt: 0.5,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 9,
+        startLat: 51.5072,
+        startLng: -0.1276,
+        endLat: 34.0522,
+        endLng: -118.2437,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 9,
+        startLat: 22.3193,
+        startLng: 114.1694,
+        endLat: -22.9068,
+        endLng: -43.1729,
+        arcAlt: 0.7,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 9,
+        startLat: 1.3521,
+        startLng: 103.8198,
+        endLat: -34.6037,
+        endLng: -58.3816,
+        arcAlt: 0.5,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 10,
+        startLat: -22.9068,
+        startLng: -43.1729,
+        endLat: 28.6139,
+        endLng: 77.209,
+        arcAlt: 0.7,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 10,
+        startLat: 34.0522,
+        startLng: -118.2437,
+        endLat: 31.2304,
+        endLng: 121.4737,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 10,
+        startLat: -6.2088,
+        startLng: 106.8456,
+        endLat: 52.3676,
+        endLng: 4.9041,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 11,
+        startLat: 41.9028,
+        startLng: 12.4964,
+        endLat: 34.0522,
+        endLng: -118.2437,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 11,
+        startLat: -6.2088,
+        startLng: 106.8456,
+        endLat: 31.2304,
+        endLng: 121.4737,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 11,
+        startLat: 22.3193,
+        startLng: 114.1694,
+        endLat: 1.3521,
+        endLng: 103.8198,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 12,
+        startLat: 34.0522,
+        startLng: -118.2437,
+        endLat: 37.7749,
+        endLng: -122.4194,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 12,
+        startLat: 35.6762,
+        startLng: 139.6503,
+        endLat: 22.3193,
+        endLng: 114.1694,
+        arcAlt: 0.2,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 12,
+        startLat: 22.3193,
+        startLng: 114.1694,
+        endLat: 34.0522,
+        endLng: -118.2437,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 13,
+        startLat: 52.52,
+        startLng: 13.405,
+        endLat: 22.3193,
+        endLng: 114.1694,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 13,
+        startLat: 11.986597,
+        startLng: 8.571831,
+        endLat: 35.6762,
+        endLng: 139.6503,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 13,
+        startLat: -22.9068,
+        startLng: -43.1729,
+        endLat: -34.6037,
+        endLng: -58.3816,
+        arcAlt: 0.1,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+    {
+        order: 14,
+        startLat: -33.936138,
+        startLng: 18.436529,
+        endLat: 21.395643,
+        endLng: 39.883798,
+        arcAlt: 0.3,
+        color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    },
+];
+---
+
+<div class="relative w-full flex flex-col">
+    <ConicHeader
+        color="rgba(97,106,115,.12)"
+        borderColor="rgba(247,247,247,.22)"
+    />
+    <div
+        class="w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+    >
+        <Particles
+            client:load
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+        />
+    </div>
+    <div
+        class="absolute h-full w-full overflow-hidden self-center max-w-[1500px] min-w-[1000px]"
+    >
+        <div class="absolute aspect-square w-[100%] -bottom-1/2">
+            <World data={arcs} globeConfig={globeConfig} client:only />
+        </div>
+    </div>
+    <Section id="jobs" class="relative py-24 min-h-[90vh] flex flex-col">
+        <div class="flex gap-8">
+            <Separator
+                class="inline flex-1 w-fit translate-y-1 border-primary"
+            />
+            <h2
+                class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+            >
+                Experience
+            </h2>
+            <Separator
+                class="inline flex-1 w-fit translate-y-1 border-primary"
+            />
+        </div>
+        <p class="mt-8 self-center text-center text-foreground/50 max-w-lg">
+            Click on the cards to learn more about the places I have worked at
+            and the projects I have been involved in.
+        </p>
+        <ul
+            class="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24"
+        >
+            <ExpandableHoloJobCard client:load>
+                <MeteorAnimation slot="animation" />
+            </ExpandableHoloJobCard>
+        </ul>
+    </Section>
+</div>

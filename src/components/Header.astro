@@ -11,9 +11,10 @@ type Props = {
 const { class: className } = Astro.props;
 
 const links = [
-    { href: "#about", text: "About me" },
+    { href: "#about", text: "About" },
     { href: "#jobs", text: "Experience" },
     { href: "#projects", text: "Work" },
+    /*     { href: "/blog", text: "Blog" }, */
     { href: "/resume.pdf", text: "Resume", external: true },
 ];
 ---
@@ -23,7 +24,7 @@ const links = [
     const headerScrolledClasses = [
         "bg-card/60",
         "shadow-lg",
-        "!border-t",
+        "!border-t-border",
         "!border-x-border",
         "!md:mx-8",
         "!mx-4",
@@ -73,7 +74,7 @@ const links = [
 >
     <header
         class={cn(
-            "border border-t-0 border-x-transparent outline outline-[1px] outline-card mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
+            "border border-t-transparent border-x-transparent outline outline-[1px] outline-card mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
             "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
         )}
     >
@@ -89,7 +90,7 @@ const links = [
                 {
                     [...links].map((link) => (
                         <a
-                            class="text-sm font-medium mx-2 text-foreground hover:underline"
+                            class="text-sm font-medium mx-2 text-foreground hover:underline whitespace-nowrap"
                             href={link.href}
                             target={link.external ? "_blank" : "_self"}
                         >
@@ -98,26 +99,26 @@ const links = [
                                 <Icon
                                     name="tabler:external-link"
                                     size={12}
-                                    class="inline-block align-top"
+                                    class="inline align-top"
                                 />
                             )}
                         </a>
                     ))
                 }
 
-                <a href={linkedinUrl} target="_blank">
+                <a href={linkedinUrl} target="_blank" aria-label="LinkedIn">
                     <Button class="p-2" size="sm" variant="outline"
                         ><Icon name="tabler:brand-linkedin" size={18} /></Button
                     >
                 </a>
 
-                <a href={githubUrl} target="_blank">
+                <a href={githubUrl} target="_blank" aria-label="Github">
                     <Button class="p-2" size="sm" variant="outline"
                         ><Icon name="tabler:brand-github" size={18} /></Button
                     >
                 </a>
 
-                <a href={mailUrl} target="_blank">
+                <a href={mailUrl} target="_blank" aria-label="Mail">
                     <Button class="" size="sm">Contact</Button>
                 </a>
             </div>
