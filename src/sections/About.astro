@@ -5,6 +5,37 @@ import Separator from "../components/Separator.astro";
 import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
 ---
 
+<script>
+    const handleParallax = () => {
+        const parallaxTrigger = document.getElementById("pricing-parallax");
+        const parallax = document.getElementById("pricing-parallax-target");
+
+        const onMove = (e: MouseEvent) => {
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight;
+            if (parallax)
+                parallax.style.transform = `rotateX(${y * 3}deg) rotateY(${x * 3}deg)`;
+        };
+        parallaxTrigger?.addEventListener("mousemove", onMove);
+
+        const onLeave = () => {
+            if (parallax)
+                parallax.style.transform = "rotateX(0deg) rotateY(0deg)";
+        };
+        parallaxTrigger?.addEventListener("mouseleave", onLeave);
+
+        document.addEventListener("astro:before-swap", () => {
+            parallaxTrigger?.removeEventListener("mousemove", onMove);
+            parallaxTrigger?.removeEventListener("mouseleave", onLeave);
+        });
+    };
+
+    handleParallax();
+    document.addEventListener("astro:after-swap", () => {
+        handleParallax();
+    });
+</script>
+
 <div class="relative w-full flex flex-col">
     <ConicHeader
         color="rgba(97,106,115,.12)"
@@ -88,7 +119,8 @@ import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
 
                     <img
                         src="/images/profile.webp"
-                        alt="Profile picture"
+                        alt="Profile"
+                        loading="lazy"
                         class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4"
                     />
                 </div>

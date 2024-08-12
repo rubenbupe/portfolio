@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Spotlight from "../components/Spotlight.astro";
+---
+
+<Layout>
+    <Spotlight class="-top-0 left-0 md:left-40 md:-top-48" fill="#d1d1d1" />
+    <div class="flex flex-col items-center justify-center h-[90vh]">
+        <h1
+            class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            500
+        </h1>
+        <p
+            class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl pb-1 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            Internal Server Error
+        </p>
+    </div>
+</Layout>

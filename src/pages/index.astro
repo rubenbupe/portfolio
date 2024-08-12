@@ -6,37 +6,6 @@ import ConicHeader from "../components/ConicHeader.astro";
 import Hero from "../sections/Hero.astro";
 import About from "../sections/About.astro";
 ---
-
-<script>
-    const handleParallax = () => {
-        const parallaxTrigger = document.getElementById("pricing-parallax");
-        const parallax = document.getElementById("pricing-parallax-target");
-
-        const onMove = (e: MouseEvent) => {
-            const x = e.clientX / window.innerWidth - 0.5;
-            const y = e.clientY / window.innerHeight;
-            if (parallax)
-                parallax.style.transform = `rotateX(${y * 3}deg) rotateY(${x * 3}deg)`;
-        };
-        parallaxTrigger?.addEventListener("mousemove", onMove);
-
-        const onLeave = () => {
-            if (parallax)
-                parallax.style.transform = "rotateX(0deg) rotateY(0deg)";
-        };
-        parallaxTrigger?.addEventListener("mouseleave", onLeave);
-
-        document.addEventListener("astro:before-swap", () => {
-            parallaxTrigger?.removeEventListener("mousemove", onMove);
-            parallaxTrigger?.removeEventListener("mouseleave", onLeave);
-        });
-    };
-
-    handleParallax();
-    document.addEventListener("astro:after-swap", () => {
-        handleParallax();
-    });
-</script>
 <Layout>
     <Spotlight class="-top-0 left-0 md:left-40 md:-top-48" fill="#d1d1d1" />
     <Hero />

@@ -1,11 +1,22 @@
 ---
 import { cn } from "../lib/utils";
+import Button from "./Button.astro";
+import { Icon } from "astro-icon/components";
+import { mailUrl, githubUrl, linkedinUrl } from "../constants/site";
 
 type Props = {
     class?: string;
 };
 
 const { class: className } = Astro.props;
+
+const links = [
+    { href: "#about", text: "About me" },
+    { href: "#jobs", text: "Jobs" },
+    { href: "#projects", text: "Projects" },
+    { href: "#contact", text: "Contact" },
+    { href: "/resume", text: "Resume" },
+];
 ---
 
 <script>
@@ -45,11 +56,11 @@ const { class: className } = Astro.props;
 >
     <header
         class={cn(
-            "border border-t-0 border-x-transparent mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_90%,transparent)]",
+            "border border-t-0 border-x-transparent mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
             "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
         )}
     >
-        <nav class="flex">
+        <nav class="flex gap-4 items-center">
             <a
                 class="text-lg tracking-tight font-semibold mx-2 text-foreground"
                 href="#home"
@@ -57,6 +68,34 @@ const { class: className } = Astro.props;
                 <span class="text-foreground/70 mr-1 font-light">/</span
                 >rubenbupe
             </a>
+            <div class="flex gap-4 ml-auto items-center">
+                {
+                    [...links].map((link) => (
+                        <a
+                            class="text-md font-medium mx-2 text-foreground"
+                            href={link.href}
+                        >
+                            {link.text}
+                        </a>
+                    ))
+                }
+
+                <a href={linkedinUrl} target="_blank">
+                    <Button class="p-2" size="sm" variant="outline"
+                        ><Icon name="tabler:brand-linkedin" size={18} /></Button
+                    >
+                </a>
+
+                <a href={githubUrl} target="_blank">
+                    <Button class="p-2" size="sm" variant="outline"
+                        ><Icon name="tabler:brand-github" size={18} /></Button
+                    >
+                </a>
+
+                <a href={mailUrl} target="_blank">
+                    <Button class="" size="sm">Contact</Button>
+                </a>
+            </div>
         </nav>
     </header>
 </div>
