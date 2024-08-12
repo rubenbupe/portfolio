@@ -3,6 +3,7 @@ import Section from "../components/Section.astro";
 import ConicHeader from "../components/ConicHeader.astro";
 import Separator from "../components/Separator.astro";
 import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
+import { Icon } from "astro-icon/components";
 ---
 
 <script>
@@ -72,12 +73,32 @@ import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
                     Nullam id lorem a eros rutrum finibus. Donec rhoncus turpis
                     quis lacinia varius. Fusce sagittis at justo eu molestie.
                     Fusce bibendum, quam fringilla tincidunt luctus, enim orci
-                    iaculis ipsum, id auctor dolor erat ac sem. Cras cursus leo
-                    vel mollis rhoncus. Praesent ac ultricies eros, id
-                    vestibulum est. Suspendisse eros eros, pretium ac leo nec,
-                    malesuada fermentum diam. Donec quam velit, efficitur non
-                    enim non, elementum euismod tortor.
+                    iaculis ipsum, id auctor dolor erat ac sem.
                 </p>
+                <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+                    Things I am interested in:
+                </p>
+                <ul
+                    class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2"
+                >
+                    {
+                        [
+                            "Web development",
+                            "UI/UX design",
+                            "Mobile development",
+                            "Backend development",
+                            "Machine learning",
+                        ].map((item, index) => (
+                            <li class="text-primary mt-2 ml-2 flex items-center">
+                                <Icon
+                                    name="tabler:chevron-right"
+                                    class="inline"
+                                />
+                                <span class="ml-2">{item}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
             </div>
             <div class="relative flex justify-center items-center group">
                 <div id="pricing-parallax" class="h-full w-full absolute">
