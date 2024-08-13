@@ -100,7 +100,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
 				spotlight: "spotlight 2s ease .75s 1 forwards",
 				meteor: "meteor 5s linear infinite",
-				grid: "grid 15s linear infinite",
+				grid: "grid 30s linear infinite",
       },
     },
   },
