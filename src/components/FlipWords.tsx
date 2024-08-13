@@ -28,9 +28,6 @@ export const FlipWords = ({
       }, duration);
   }, [isAnimating, duration, startAnimation]);
 
-	console.log(currentWord.split(""), currentWord.split("").map((letter, index) => (
-		`${letter}`
-	)))
   return (
     <AnimatePresence
       onExitComplete={() => {

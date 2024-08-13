@@ -91,9 +91,15 @@ export function ExpandableHoloJobCard({
                     >
                       {active.title}
                     </motion.h3>
+										<motion.p
+											layoutId={`role-${active.id}-${id}`}
+											className="text-neutral-600 dark:text-neutral-400 text-base"
+										>
+											{active.role}
+										</motion.p>
                     <motion.p
                       layoutId={`timeperiod-${active.id}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-base"
+                      className="text-neutral-600 dark:text-neutral-400 text-base text-xs"
                     >
                       {active.timePeriod}
                     </motion.p>

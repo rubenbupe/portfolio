@@ -73,6 +73,7 @@ export function Globe() {
 		<div className="w-full max-w-full flex justify-center">
 			<canvas
 				ref={canvasRef}
+				className="bg-transparent"
 				style={{
 					width: size,
 					height: size,

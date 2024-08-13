@@ -56,7 +56,6 @@ export const HoloCard = ({
 
   const updateStyles = () => {
     if (refElement.current) {
-      console.log(state.current);
       const { background, rotate, holo } = state.current;
       refElement.current?.style.setProperty("--m-x", `${holo.x}%`);
       refElement.current?.style.setProperty("--m-y", `${holo.y}%`);

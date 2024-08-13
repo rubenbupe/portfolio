@@ -1,12 +1,14 @@
 ---
 import Anchor from "../components/Anchor.astro";
-import { BackgroundChess } from "../components/BackgroundChess";
+import BackgroundChess from "../components/BackgroundChess.astro";
 import { FlipWords } from "../components/FlipWords";
 import Section from "../components/Section.astro";
 import { mailUrl } from "../constants/site";
 ---
 
 <div class="relative w-full flex flex-col h-[80vh] overflow-hidden">
+    <BackgroundChess />
+
     <Section
         id="jobs"
         class="py-24 h-full flex flex-col justify-center items-center"
@@ -15,9 +17,9 @@ import { mailUrl } from "../constants/site";
             class="absolute inset-0 w-full h-full bg-background z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none"
         >
         </div>
-        <BackgroundChess className="" client:load />
+
         <h2
-            class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+            class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-center"
         >
             <span aria-hidden="false" class="visually-hidden"
                 >Let's build the future together</span
@@ -40,7 +42,7 @@ import { mailUrl } from "../constants/site";
             Get in touch
         </Anchor>
     </Section>
-    <p class="relative mt-auto mb-2 text-center text-foreground/80">
+    <p class="relative mt-auto mb-2 text-center text-foreground/80 text-xs">
         © {new Date().getFullYear()} Rubén Buzón.
     </p>
 </div>
