@@ -5,9 +5,11 @@ import { useOutsideClick } from "../lib/hooks";
 import { HoloCard } from "./HoloCard";
 
 export function ExpandableHoloJobCard({
-	animation
+	animation,
+	listClassName,
 }: {
 	animation?: React.ReactNode;
+	listClassName?: string;
 }) {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
     null
@@ -122,6 +124,7 @@ export function ExpandableHoloJobCard({
           </div>
         ) : null}
       </AnimatePresence>
+			<ul className={listClassName}>
         {cards.map((card, index) => (
 					<motion.li
 						layoutId={`card-${card.id}-${id}`}
@@ -146,6 +149,7 @@ export function ExpandableHoloJobCard({
 					</motion.li>
           
         ))}
+			</ul>
     </>
   );
 }

@@ -439,12 +439,11 @@ const arcs = [
             Click on the cards to learn more about the places I have worked at
             and the projects I have been involved in.
         </p>
-        <ul
-            class="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24"
+        <ExpandableHoloJobCard
+            client:visible
+            listClassName="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24"
         >
-            <ExpandableHoloJobCard client:visible>
-                <MeteorAnimation slot="animation" />
-            </ExpandableHoloJobCard>
-        </ul>
+            <MeteorAnimation slot="animation" />
+        </ExpandableHoloJobCard>
     </Section>
 </div>
