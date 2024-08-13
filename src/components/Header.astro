@@ -20,6 +20,10 @@ const links = [
 ---
 
 <script>
+    // Scroll events can be expensive, it is recommended to change them once
+    // scroll css animations are supported for most users.
+    // https://caniuse.com/mdn-css_properties_animation-timeline_scroll
+    let isSticky = false;
     const headerContainerClasses = ["top-4"];
     const headerScrolledClasses = [
         "bg-card/60",
@@ -32,16 +36,20 @@ const links = [
         "!rounded-2xl",
         "![mask-image:none]",
     ];
-    const handleScroll = () => {
-        const header = document.querySelector("header");
-        const headerContainer = document.querySelector("#header-container");
+    const header = document.querySelector("header");
+    const headerContainer = document.querySelector("#header-container");
 
+    const handleScroll = () => {
         if (window.scrollY > 50) {
+            if (isSticky) return;
             header?.classList.add(...headerScrolledClasses);
             headerContainer?.classList.add(...headerContainerClasses);
+            isSticky = true;
         } else {
+            if (!isSticky) return;
             header?.classList.remove(...headerScrolledClasses);
             headerContainer?.classList.remove(...headerContainerClasses);
+            isSticky = false;
         }
     };
     document.addEventListener("astro:page-load", () => {

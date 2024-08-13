@@ -10,6 +10,11 @@ const { color, borderColor } = Astro.props;
 <style define:vars={{ color, "border-color": borderColor }}></style>
 
 <script>
+    // Scroll events can be expensive, it is recommended to change them once
+    // scroll css animations are supported for most users.
+    // https://caniuse.com/mdn-css_properties_animation-timeline_scroll
+    const animationStartOffset = 50;
+    const animationEndOffset = 450;
     const scrollHandler = () => {
         const conicHeaders = document.querySelectorAll(
             ".conic-header"
@@ -18,22 +23,42 @@ const { color, borderColor } = Astro.props;
         if (!conicHeaders.length) return;
         const onScroll = () => {
             conicHeaders.forEach((conicHeader) => {
+                if (conicHeader.getBoundingClientRect().y > window.innerHeight)
+                    return;
+                if (conicHeader.getBoundingClientRect().bottom < 0) return;
+
                 const fromBottom =
                     window.innerHeight - conicHeader.getBoundingClientRect().y;
 
                 const rightPercentage = Math.min(
                     100,
-                    Math.max(20, ((fromBottom - 50) / 300) * 100)
+                    Math.max(
+                        20,
+                        ((fromBottom - animationStartOffset) /
+                            animationEndOffset) *
+                            100
+                    )
                 );
                 const leftPercentage = 100 - rightPercentage;
                 const opacity = Math.min(
                     1,
-                    Math.max(0.5, (fromBottom - 50) / 300)
+                    Math.max(
+                        0.5,
+                        (fromBottom - animationStartOffset) / animationEndOffset
+                    )
                 );
 
                 const borderLeftPercentage =
                     50 -
-                    Math.min(30, Math.max(0, ((fromBottom - 50) / 300) * 30));
+                    Math.min(
+                        30,
+                        Math.max(
+                            0,
+                            ((fromBottom - animationStartOffset) /
+                                animationEndOffset) *
+                                30
+                        )
+                    );
                 const borderRightPercentage = 100 - borderLeftPercentage;
 
                 conicHeader.style.background = `conic-gradient(from 90deg at ${leftPercentage}% 0%, var(--color), transparent 180deg) 0% 0% / 50% 100% no-repeat, conic-gradient(from 270deg at ${rightPercentage}% 0%, transparent 180deg, var(--color)) 100% 0% / 50% 100% no-repeat`;
