@@ -3,6 +3,11 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../lib/hooks";
 import { HoloCard } from "./HoloCard";
+import measesoranSvg from "../assets/svg/measesoran.svg?raw";
+import gabinsoftSvg from "../assets/svg/gabinsoft.svg?raw";
+import calmavitySvg from "../assets/svg/calmavity.svg?raw";
+import nodelixSvg from "../assets/svg/nodelix.svg?raw";
+import holocardLogoPatternSvg from "../assets/svg/holocard-logo-pattern.svg?raw";
 
 export function ExpandableHoloJobCard({
 	animation,
@@ -78,8 +83,8 @@ export function ExpandableHoloJobCard({
 								<CloseIcon />
 							</motion.button>
              
-							<div className="w-full min-h-64 flex items-center justify-center" >
-								<motion.div layoutId={`image-${active.id}-${id}`} dangerouslySetInnerHTML={{ __html: active.svg }} />
+							<div className="w-full max-h-64 p-12 flex items-center justify-center" >
+								<motion.div layoutId={`image-${active.id}-${id}`} className="w-24" dangerouslySetInnerHTML={{ __html: active.svg }} />
 							</div>
 
               <div className="flex-1 flex flex-col overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]">
@@ -141,8 +146,9 @@ export function ExpandableHoloJobCard({
 						<HoloCard
 								className="flex flex-col items-center justify-center"
 								foilSvg={card.svg}
+								logoPatternSvg={holocardLogoPatternSvg}
 						>
-							<motion.div layoutId={`image-${card.id}-${id}`}>
+							<motion.div layoutId={`image-${card.id}-${id}`} className="w-12 h-12">
 								<div dangerouslySetInnerHTML={{ __html: card.svg }} />
               </motion.div>
 							<motion.p 
@@ -197,36 +203,9 @@ export const CloseIcon = () => {
 const cards = [
   {
 		id: 1,
-		title: "Job",
-		timePeriod: "2020 - present",
-		svg: `<svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="66"
-      height="66"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </svg>`,
+		title: "Gabinsoft",
+		timePeriod: "2022 - present",
+		svg: gabinsoftSvg,
 		badges: ["React", "TypeScript", "Tailwind CSS"],
 		role: "Frontend Developer",
 		paragraphs: [
@@ -236,36 +215,9 @@ const cards = [
   },
   {
 		id: 2,
-		title: "Job 2",
-		timePeriod: "2023 - present",
-		svg: `<svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="66"
-      height="66"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </svg>`,
+		title: "Me Asesoran",
+		timePeriod: "sep. 2020 - present",
+		svg: measesoranSvg,
 		badges: ["React", "TypeScript", "Tailwind CSS"],
 		role: "Frontend Developer",
 		paragraphs: [
@@ -275,36 +227,9 @@ const cards = [
   },
   {
 		id: 3,
-		title: "Job 3",
-		timePeriod: "2023 - present",
-		svg: `<svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="66"
-      height="66"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </svg>`,
+		title: "Calmavity",
+		timePeriod: "2019 - 2022",
+		svg: calmavitySvg,
 		badges: ["React", "TypeScript", "Tailwind CSS"],
 		role: "Frontend Developer",
 		paragraphs: [
@@ -324,36 +249,9 @@ const cards = [
   },
 	{
 		id: 4,
-		title: "Job 4",
-		timePeriod: "2023 - present",
-		svg: `<svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="66"
-      height="66"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-white"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </svg>`,
+		title: "Nodelix",
+		timePeriod: "2019 - present",
+		svg: nodelixSvg,
 		badges: ["React", "TypeScript", "Tailwind CSS"],
 		role: "Frontend Developer",
 		paragraphs: [
