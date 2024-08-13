@@ -1,3 +1,5 @@
+export const site = 'https://rubenbupe.com';
+
 export const siteName = 'Rubén Buzón';
 export const siteDescription = 'Rubén Buzón - Full Stack Engineer';
 
