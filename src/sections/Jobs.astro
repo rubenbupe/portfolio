@@ -1,7 +1,7 @@
 ---
 import ConicHeader from "../components/ConicHeader.astro";
 import { ExpandableHoloJobCard } from "../components/ExpandableHoloJobCard";
-import { World } from "../components/Globe";
+import { Globe } from "../components/Globe";
 import MeteorAnimation from "../components/MeteorAnimation.astro";
 import { Particles } from "../components/Particles";
 import Section from "../components/Section.astro";
@@ -403,7 +403,7 @@ const arcs = [
         class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
     >
         <Particles
-            client:idle
+            client:visible
             background="transparent"
             minSize={0.4}
             maxSize={1}
@@ -418,7 +418,7 @@ const arcs = [
         <div
             class="absolute aspect-square w-[100%] -bottom-0 transform translate-y-1/2"
         >
-            <World data={arcs} globeConfig={globeConfig} client:only />
+            <Globe client:only />
         </div>
     </div>
     <Section id="jobs" class="relative py-24 min-h-[90vh] flex flex-col">
