@@ -3,6 +3,7 @@ import { cn } from "../lib/utils";
 import Button from "./Button.astro";
 import { Icon } from "astro-icon/components";
 import { mailUrl, githubUrl, linkedinUrl } from "../constants/site";
+import Anchor from "./Anchor.astro";
 
 type Props = {
     class?: string;
@@ -114,36 +115,41 @@ const links = [
                     ))
                 }
 
-                <a href={linkedinUrl} target="_blank" aria-label="LinkedIn">
-                    <Button class="p-2" size="sm" variant="outline"
-                        ><Icon name="tabler:brand-linkedin" size={18} /></Button
-                    >
-                </a>
-
-                <a href={githubUrl} target="_blank" aria-label="Github">
-                    <Button class="p-2" size="sm" variant="outline"
-                        ><Icon name="tabler:brand-github" size={18} /></Button
-                    >
-                </a>
-
-                <a href={mailUrl} target="_blank" aria-label="Mail">
-                    <Button class="" size="sm">Contact</Button>
-                </a>
-            </div>
-
-            <a
-                id="mobile-navbar-toggle"
-                class="flex ml-auto md:hidden"
-                aria-label="Open mobile navigation"
-            >
-                <Button
+                <Anchor
                     class="p-2"
                     size="sm"
                     variant="outline"
-                    aria-hidden="true"
-                    ><Icon name="tabler:menu" size={18} /></Button
+                    href={linkedinUrl}
+                    target="_blank"
+                    aria-label="LinkedIn"
+                    ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
                 >
-            </a>
+
+                <Anchor
+                    class="p-2"
+                    size="sm"
+                    variant="outline"
+                    href={githubUrl}
+                    target="_blank"
+                    aria-label="Github"
+                    ><Icon name="tabler:brand-github" size={18} /></Anchor
+                >
+
+                <Anchor
+                    class=""
+                    size="sm"
+                    href={mailUrl}
+                    target="_blank"
+                    aria-label="Mail">Contact</Anchor
+                >
+            </div>
+            <Button
+                id="mobile-navbar-toggle"
+                class="flex ml-auto md:hidden p-2"
+                aria-label="Open mobile navigation"
+                size="sm"
+                variant="outline"><Icon name="tabler:menu" size={18} /></Button
+            >
         </nav>
     </header>
     <nav
@@ -196,23 +202,33 @@ const links = [
                 Contact
             </p>
             <div class="flex gap-4 mx-8">
-                <a href={linkedinUrl} target="_blank">
-                    <Button class="p-2" size="sm" variant="outline"
-                        ><Icon name="tabler:brand-linkedin" size={18} /></Button
-                    >
-                </a>
+                <Anchor
+                    class="p-2"
+                    size="sm"
+                    variant="outline"
+                    href={linkedinUrl}
+                    target="_blank"
+                    ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
+                >
 
-                <a href={githubUrl} target="_blank">
-                    <Button class="p-2" size="sm" variant="outline"
-                        ><Icon name="tabler:brand-github" size={18} /></Button
-                    >
-                </a>
+                <Anchor
+                    class="p-2"
+                    size="sm"
+                    variant="outline"
+                    href={githubUrl}
+                    target="_blank"
+                    ><Icon name="tabler:brand-github" size={18} /></Anchor
+                >
 
-                <a href={mailUrl} target="_blank">
-                    <Button class="p-2" size="sm" variant="outline">
-                        <Icon name="tabler:mail" size={18} />
-                    </Button>
-                </a>
+                <Anchor
+                    class="p-2"
+                    size="sm"
+                    variant="outline"
+                    href={mailUrl}
+                    target="_blank"
+                >
+                    <Icon name="tabler:mail" size={18} />
+                </Anchor>
             </div>
         </div>
     </nav>
