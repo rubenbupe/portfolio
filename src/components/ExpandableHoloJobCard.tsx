@@ -131,7 +131,7 @@ export function ExpandableHoloJobCard({
         ) : null}
       </AnimatePresence>
 			<ul className={listClassName}>
-        {cards.map((card, index) => (
+        {cards.map((card) => (
 					<motion.li
 						layoutId={`card-${card.id}-${id}`}
 						key={card.title}

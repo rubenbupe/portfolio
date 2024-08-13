@@ -1,5 +1,3 @@
-import plugin from 'tailwindcss';
-
 /** @type {import('tailwindcss').Config} */
 const {
   default: flattenColorPalette,
