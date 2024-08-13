@@ -4,14 +4,25 @@ import Spotlight from "../components/Spotlight.astro";
 import Hero from "../sections/Hero.astro";
 import About from "../sections/About.astro";
 import Jobs from "../sections/Jobs.astro";
+import Section from "../components/Section.astro";
+import ConicHeader from "../components/ConicHeader.astro";
+import { Particles } from "../components/Particles";
+import Separator from "../components/Separator.astro";
+import { BackgroundChess } from "../components/BackgroundChess.tsx";
+import { FlipWords } from "../components/FlipWords";
+import Anchor from "../components/Anchor.astro";
+import { mailUrl } from "../constants/site";
+import Contact from "../sections/Contact.astro";
 ---
 
 <Layout>
     <Spotlight
-        class="-top-[80vh] left-0 md:left-40 md:-top-64 max-w-[90%]"
+        class="-top-[80vh] left-0 md:left-40 md:-top-[65vh] max-w-[90%]"
         fill="#d1d1d1"
     />
     <Hero />
     <About />
     <Jobs />
+
+    <Contact />
 </Layout>

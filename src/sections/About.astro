@@ -49,7 +49,7 @@ import profileImage from "../assets/profile.webp";
         class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
     >
         <Particles
-						client:visible
+            client:visible
             background="transparent"
             minSize={0.4}
             maxSize={1}
@@ -150,12 +150,21 @@ import profileImage from "../assets/profile.webp";
                 >
                 </div>
 
-                <Image
-                    src={profileImage}
-                    alt="Profile"
-                    loading="lazy"
-                    class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4 aspect-square flex-1"
-                />
+                <div
+                    class="relative flex w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4 aspect-square flex-1"
+                >
+                    <Image
+                        src={profileImage}
+                        alt="Profile"
+                        loading="lazy"
+                        class="rounded-lg shadow-lg filter grayscale w-full flex-1"
+                    />
+                    <p
+                        class="absolute inset-0 text-center text-black self-center text-2xl font-bold"
+                    >
+                        PLACEHOLDER
+                    </p>
+                </div>
             </div>
         </div>
     </div>

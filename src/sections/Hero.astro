@@ -26,15 +26,18 @@ import Anchor from "../components/Anchor.astro";
             technologies, and I'm always looking for new challenges.
         </p>
         <div class="flex gap-4 mt-8">
-            <a href={mailUrl} target="_blank">
-                <Button size="default"> Get in touch </Button>
-            </a>
-            <a href={githubUrl} target="_blank">
-                <Button size="default" variant="outline">
-                    <Icon name="tabler:brand-github-filled" class="mr-2" />
-                    Github
-                </Button>
-            </a>
+            <Anchor size="default" href={mailUrl} target="_blank">
+                Get in touch
+            </Anchor>
+            <Anchor
+                size="default"
+                variant="outline"
+                href={githubUrl}
+                target="_blank"
+            >
+                <Icon name="tabler:brand-github-filled" class="mr-2" />
+                Github
+            </Anchor>
         </div>
     </Section>
     <div class="absolute bottom-4 left-0 right-0 mx-auto flex justify-center">

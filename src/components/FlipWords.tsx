@@ -28,6 +28,9 @@ export const FlipWords = ({
       }, duration);
   }, [isAnimating, duration, startAnimation]);
 
+	console.log(currentWord.split(""), currentWord.split("").map((letter, index) => (
+		`${letter}`
+	)))
   return (
     <AnimatePresence
       onExitComplete={() => {
@@ -71,9 +74,9 @@ export const FlipWords = ({
               delay: index * 0.08,
               duration: 0.4,
             }}
-            className="inline-block"
+            className="inline whitespace-nowrap"
           >
-            {letter}
+						{`${letter}`}
           </motion.span>
         ))}
       </motion.div>
