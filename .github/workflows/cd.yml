@@ -11,6 +11,8 @@ on:
 jobs:
     avoid-reduncy:
         runs-on: ubuntu-latest
+        permissions:
+            actions: write
         steps:
             - name: Cancel previous redundant builds
               uses: styfle/cancel-workflow-action@0.9.1
