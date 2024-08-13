@@ -110,7 +110,7 @@ import { Particles } from "../components/Particles";
                 }
             </ul>
         </div>
-        <div class="relative flex justify-center items-center group">
+        <div class="relative flex justify-center items-center group w-full">
             <div id="pricing-parallax" class="h-full w-full absolute">
                 <div
                     id="pricing-parallax-target"
@@ -151,8 +151,10 @@ import { Particles } from "../components/Particles";
                 <img
                     src="/images/profile.webp"
                     alt="Profile"
-                    loading="lazy"
-                    class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4"
+                    loading="eager"
+                    width="64"
+                    height="64"
+                    class="rounded-lg shadow-lg filter grayscale w-full transition-all duration-300 transform group-hover:-translate-y-4 group-hover:-translate-x-4 aspect-square"
                 />
             </div>
         </div>
