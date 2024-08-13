@@ -403,7 +403,7 @@ const arcs = [
         class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
     >
         <Particles
-            client:load
+            client:idle
             background="transparent"
             minSize={0.4}
             maxSize={1}
@@ -442,7 +442,7 @@ const arcs = [
         <ul
             class="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24"
         >
-            <ExpandableHoloJobCard client:load>
+            <ExpandableHoloJobCard client:visible>
                 <MeteorAnimation slot="animation" />
             </ExpandableHoloJobCard>
         </ul>
