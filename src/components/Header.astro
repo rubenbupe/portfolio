@@ -61,20 +61,24 @@ const links = [
     });
 </script>
 <script>
-    function toggleMobileNavbar() {
-        document.getElementById("mobile-navbar")?.classList.toggle("hidden");
-    }
+    document.addEventListener("astro:page-load", () => {
+        function toggleMobileNavbar() {
+            document
+                .getElementById("mobile-navbar")
+                ?.classList.toggle("hidden");
+        }
 
-    const navLinks = document.querySelectorAll("#mobile-navbar a");
-    navLinks.forEach((link) => {
-        link.addEventListener("click", () => {
+        const navLinks = document.querySelectorAll("#mobile-navbar a");
+        navLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                toggleMobileNavbar();
+            });
+        });
+
+        const navbarToggle = document.getElementById("mobile-navbar-toggle");
+        navbarToggle?.addEventListener("click", () => {
             toggleMobileNavbar();
         });
-    });
-
-    const navbarToggle = document.getElementById("mobile-navbar-toggle");
-    navbarToggle?.addEventListener("click", () => {
-        toggleMobileNavbar();
     });
 </script>
 <div
