@@ -1,10 +1,8 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import { cn, formatDate } from "../../lib/utils";
-import { Icon } from "astro-icon/components";
+import { formatDate } from "../../lib/utils";
 import { Image } from "astro:assets";
-import Button from "../../components/Button.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("blog");
@@ -27,57 +25,57 @@ if (!slug || !post) {
     });
 }
 
-const { title, description, pubDate, updatedDate, heroImage } =
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } =
     Astro.props.data;
 ---
 
 <Layout title={title}>
     <div class="relative container max-w-screen-md py-10">
-        <Button
-            onclick="history.back()"
-            variant="ghost"
-            class={cn(
-                "absolute left-[-200px] top-10 hidden xl:inline-flex text-muted-foreground"
-            )}
-            transition:animate="slide"
-        >
-            <Icon name="tabler:chevron-left" class="mr-2 size-4" />
-            {" "}Back
-        </Button>
-
-        <article class="prose dark:prose-invert max-w-none">
-            <Image
-                class="rounded-xl overflow-hidden my-6"
-                width={720}
-                height={360}
-                src={heroImage}
-                alt={title}
-                transition:name={`img-${slug}`}
-            />
-            <div class="flex items-center justify-between">
+        <article class="max-w-none">
+            <div class="flex items-center justify-center w-full">
                 <span
-                    class="font-medium text-muted-foreground"
+                    class="mt-6 text-center text-sm leading-[1.6] text-foreground/50 font-normal"
                     transition:name={`date-${slug}`}
                 >
-                    {formatDate(pubDate)}
+                    <time datetime={pubDate.toDateString()}>
+                        {formatDate(pubDate)}
+                    </time>
                     {
                         updatedDate && (
                             <span>
-                                - Last updated on {formatDate(updatedDate)}
+                                - Last updated on{" "}
+                                <time datetime={updatedDate.toDateString()}>
+                                    {formatDate(updatedDate)}
+                                </time>
                             </span>
                         )
                     }
                 </span>
             </div>
-            <h1
-                class="font-heading text-4xl my-4"
+            <h2
+                class="mt-4 text-center text-3xl md:text-6xl tracking-tight leading-[120%] font-gradient"
                 transition:name={`title-${slug}`}
             >
                 {title}
-            </h1>
-            <p>{description}</p>
-            <hr class="my-6" />
-            <Content />
+            </h2>
+            <p
+                class="text-center text-lg md:text-xl leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-2"
+            >
+                {description}
+            </p>
+
+            <Image
+                loading="eager"
+                class="w-full h-full object-cover rounded-md overflow-hidden aspect-video border mt-12 mb-12"
+                width={720}
+                height={360}
+                src={heroImage}
+                alt={heroImageAlt}
+                transition:name={`img-${post.slug}`}
+            />
+            <div class="prose prose-invert">
+                <Content />
+            </div>
         </article>
     </div>
 </Layout>
