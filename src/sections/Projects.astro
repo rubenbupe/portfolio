@@ -39,6 +39,26 @@ const projects = [
         url: "https://github.com",
         feature: true,
     },
+    {
+        title: "Project 4",
+        paragraphs: [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+        ],
+        badges: ["React", "TailwindCSS", "Vite"],
+        url: "https://github.com",
+        feature: false,
+    },
+    {
+        title: "Project 5",
+        paragraphs: [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+        ],
+        badges: ["React", "TailwindCSS", "Vite"],
+        url: "https://github.com",
+        feature: false,
+    },
 ];
 ---
 
@@ -109,7 +129,7 @@ const projects = [
             <div class="absolute w-full h-full overflow-hidden">
                 <div
                     id="cursor-glow"
-                    class="absolute w-24 h-24 rounded-full bg-foreground/70 pointer-events-none [filter:blur(150px)] opacity-0 transition-opacity duration-300 ease-in-out"
+                    class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none [filter:blur(150px)] opacity-0 transition-opacity duration-300 ease-in-out"
                 >
                 </div>
             </div>
@@ -183,35 +203,42 @@ const projects = [
                         class={cn(
                             `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500`,
                             project.feature
-                                ? "md:col-span-2 grid grid-cols-1 md:grid-cols-2"
+                                ? "md:col-span-2 grid grid-cols-1 md:grid-cols-2 items-center"
                                 : "md:col-span-1 flex flex-col"
                         )}
                     >
-                        <div class="p-8">
-                            <h3 class="text-xl font-bold">{project.title}</h3>
+                        <div class="p-8 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-500">
+                            <h3 class="text-xl font-bold">
+                                <code>{project.title}</code>
+                            </h3>
                             <div class="w-full mt-4">
                                 <div class="flex flex-col gap-2">
                                     {project.paragraphs.map((paragraph) => (
                                         <p class="text-sm text-foreground/50">
-                                            {paragraph}
+                                            <code>{paragraph}</code>
                                         </p>
                                     ))}
                                 </div>
                             </div>
-                            <div class="flex gap-2 mt-4">
+                            <div class="flex gap-2 mt-4 flex-wrap">
                                 {project.badges.map((badge) => (
                                     <span class="text-xs border-foreground text-foreground border border-dashed p-1 px-2 rounded-full group-hover:bg-foreground/20 transition-all duration-500">
-                                        {badge}
+                                        <code>{badge}</code>
                                     </span>
                                 ))}
                             </div>
                         </div>
-                        <div class="relative w-full h-48 p-6">
-                            <div class="absolute inset-6 bg-foreground/20 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 ease-in-out" />
+                        <div
+                            class={cn(
+                                "relative w-full aspect-video p-8 overflow-hidden",
+                                project.feature ? "" : ""
+                            )}
+                        >
+                            <div class="absolute inset-8 bg-foreground/20 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 ease-in-out group-hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)]" />
                             <img
                                 src="https://picsum.photos/200"
                                 alt="Project 1"
-                                class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow"
+                                class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow object-cover"
                             />
                         </div>
                     </a>

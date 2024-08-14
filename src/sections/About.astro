@@ -104,8 +104,15 @@ import profileImage from "../assets/profile.webp";
                         "Backend development",
                         "Machine learning",
                     ].map((item) => (
-                        <li class="text-primary mt-2 ml-2 flex items-center">
-                            <Icon name="tabler:chevron-right" class="inline" />
+                        <li class="relative group text-primary mt-2 ml-2 flex items-center">
+                            <Icon
+                                name="tabler:chevron-right"
+                                class="absolute left-0 transform -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
+                            />
+                            <Icon
+                                name="tabler:chevron-right"
+                                class="inline opacity-100 group-hover:opacity-0 group-hover:translate-x-8 transition-all duration-300"
+                            />
                             <span class="ml-2">{item}</span>
                         </li>
                     ))
