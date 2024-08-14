@@ -4,11 +4,8 @@ import Spotlight from "../components/Spotlight.astro";
 import Hero from "../sections/Hero.astro";
 import About from "../sections/About.astro";
 import Jobs from "../sections/Jobs.astro";
-import Section from "../components/Section.astro";
-import ConicHeader from "../components/ConicHeader.astro";
-import { Particles } from "../components/Particles";
-import Separator from "../components/Separator.astro";
 import Contact from "../sections/Contact.astro";
+import Projects from "../sections/Projects.astro";
 ---
 
 <Layout>
@@ -19,42 +16,6 @@ import Contact from "../sections/Contact.astro";
     <Hero />
     <About />
     <Jobs />
-    <div class="relative w-full flex flex-col">
-        <ConicHeader
-            color="rgba(97,106,115,.12)"
-            borderColor="rgba(247,247,247,.22)"
-        />
-        <div
-            class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
-        >
-            <Particles
-                client:visible
-                background="transparent"
-                minSize={0.4}
-                maxSize={1}
-                particleDensity={100}
-                className="w-full h-full"
-                particleColor="#FFFFFF"
-            />
-        </div>
-        <Section
-            id="projects"
-            class="relative py-24 min-h-[90vh] flex flex-col"
-        >
-            <div class="grid md:grid-cols-2 gap-12 md:px-12">
-                <div class="flex gap-4 col-start-2">
-                    <Separator
-                        class="inline flex-1 w-fit translate-y-1 border-primary"
-                    />
-                    <h2
-                        class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
-                    >
-                        Projects
-                    </h2>
-                </div>
-            </div>
-						
-        </Section>
-    </div>
+    <Projects />
     <Contact />
 </Layout>

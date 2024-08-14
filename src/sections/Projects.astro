@@ -1,0 +1,222 @@
+---
+import Section from "../components/Section.astro";
+import ConicHeader from "../components/ConicHeader.astro";
+import { Particles } from "../components/Particles";
+import Separator from "../components/Separator.astro";
+import GridIcon from "../components/GridIcon.astro";
+import { cn } from "../lib/utils";
+
+const projects = [
+    {
+        title: "Project 1",
+        paragraphs: [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+        ],
+        badges: ["React", "TailwindCSS", "Vite"],
+        url: "https://github.com",
+        feature: false,
+    },
+    {
+        title: "Project 2",
+        paragraphs: [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+        ],
+        badges: ["React", "TailwindCSS", "Vite"],
+        url: "https://github.com",
+        feature: false,
+    },
+    {
+        title: "Project 3",
+        paragraphs: [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+        ],
+        badges: ["React", "TailwindCSS", "Vite"],
+        url: "https://github.com",
+        feature: true,
+    },
+];
+---
+
+<script>
+    const handleMouse = () => {
+        const projectsGrid = document.getElementById("projects-grid");
+        const cursorGlow = document.getElementById("cursor-glow");
+
+        if (!projectsGrid || !cursorGlow) return;
+
+        projectsGrid.addEventListener("mousemove", (e) => {
+            const bbox = projectsGrid.getBoundingClientRect();
+            const x = e.clientX - bbox.left - cursorGlow.offsetWidth / 2;
+            const y = e.clientY - bbox.top - cursorGlow.offsetHeight / 2;
+
+            cursorGlow.style.left = `${x}px`;
+            cursorGlow.style.top = `${y}px`;
+        });
+
+        projectsGrid.addEventListener("mouseleave", () => {
+            cursorGlow.style.opacity = "0";
+        });
+
+        projectsGrid.addEventListener("mouseenter", () => {
+            cursorGlow.style.opacity = "1";
+        });
+    };
+
+    handleMouse();
+    document.addEventListener("astro:after-swap", () => {
+        handleMouse();
+    });
+</script>
+<div class="relative w-full flex flex-col overflow-hidden">
+    <ConicHeader
+        color="rgba(97,106,115,.12)"
+        borderColor="rgba(247,247,247,.22)"
+    />
+    <div class="w-full max-w-[40rem] h-40 relative self-center">
+        <Particles
+            client:visible
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+        />
+    </div>
+    <Section id="projects" class="relative py-24 min-h-[90vh] flex flex-col">
+        <div class="grid md:grid-cols-2 gap-12 px-4 md:px-12">
+            <div class="flex gap-4 col-start-2">
+                <Separator
+                    class="inline flex-1 w-fit translate-y-1 border-primary"
+                />
+                <h2
+                    class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
+                >
+                    Projects
+                </h2>
+            </div>
+        </div>
+
+        <div
+            id="projects-grid"
+            class="relative mt-24 grid md:grid-cols-2 border-l border-b border-dashed bg-gradient-to-b from-foreground/10 [box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)]"
+        >
+            <div class="absolute w-full h-full overflow-hidden">
+                <div
+                    id="cursor-glow"
+                    class="absolute w-24 h-24 rounded-full bg-foreground/70 pointer-events-none [filter:blur(150px)] opacity-0 transition-opacity duration-300 ease-in-out"
+                >
+                </div>
+            </div>
+            <div
+                class="w-48
+							h-48
+					absolute
+					-top-48
+					-left-48
+					border-b
+					border-r
+					border-dashed
+					[mask-image:linear-gradient(to_bottom_right,transparent_50%,black)]"
+            >
+            </div>
+
+            <div
+                class="w-48
+							h-48
+							absolute
+							-bottom-48
+							-right-48
+							border-t
+							border-l
+							border-dashed
+							[mask-image:linear-gradient(to_top_left,transparent_50%,black)]"
+            >
+            </div>
+            <div
+                class="w-48
+							h-48
+							absolute
+							-top-48
+							-right-48
+							border-b
+							border-l
+							border-dashed
+							[mask-image:linear-gradient(to_bottom_left,transparent_50%,black)]"
+            >
+            </div>
+            <div
+                class="w-48
+							h-48
+							absolute
+							-bottom-48
+							-left-48
+							border-t
+							border-r
+							border-dashed
+							[mask-image:linear-gradient(to_top_right,transparent_50%,black)]"
+            >
+            </div>
+            <GridIcon
+                class="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-foreground"
+            />
+            <GridIcon
+                class="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-foreground"
+            />
+            <GridIcon
+                class="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-foreground"
+            />
+            <GridIcon
+                class="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-foreground"
+            />
+
+            {
+                projects.map((project, idx) => (
+                    <a
+                        href={project.url}
+                        target="_blank"
+                        class={cn(
+                            `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500`,
+                            project.feature
+                                ? "md:col-span-2 grid grid-cols-1 md:grid-cols-2"
+                                : "md:col-span-1 flex flex-col"
+                        )}
+                    >
+                        <div class="p-8">
+                            <h3 class="text-xl font-bold">{project.title}</h3>
+                            <div class="w-full mt-4">
+                                <div class="flex flex-col gap-2">
+                                    {project.paragraphs.map((paragraph) => (
+                                        <p class="text-sm text-foreground/50">
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                {project.badges.map((badge) => (
+                                    <span class="text-xs border-foreground text-foreground border border-dashed p-1 px-2 rounded-full group-hover:bg-foreground/20 transition-all duration-500">
+                                        {badge}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div class="relative w-full h-48 p-6">
+                            <div class="absolute inset-6 bg-foreground/20 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 ease-in-out" />
+                            <img
+                                src="https://picsum.photos/200"
+                                alt="Project 1"
+                                class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow"
+                            />
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </Section>
+</div>
