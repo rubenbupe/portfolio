@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import icon from "astro-icon";
+import mdx from '@astrojs/mdx';
 
 import sitemap from "@astrojs/sitemap";
 import { site } from './src/constants/site';
@@ -9,7 +10,7 @@ import { site } from './src/constants/site';
 // https://astro.build/config
 export default defineConfig({
 	site,
-  integrations: [tailwind(), react(), icon({
+  integrations: [mdx(), tailwind(), react(), icon({
     svgoOptions: {
       multipass: true,
       plugins: ['preset-default',

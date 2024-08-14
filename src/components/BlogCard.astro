@@ -1,0 +1,50 @@
+---
+import { formatDate } from "../lib/utils";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Pin3d from "./Pin3d.astro";
+
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+---
+
+<Pin3d
+    title="Click to read more"
+    href={`/blog/${post.slug}/`}
+    containerClassName="w-full"
+    className="w-full p-4 rounded-2xl border border-transparent group-hover/pin:border-border outline outline-transparent group-hover/pin:outline-black outline-[1px] transition-all"
+>
+    <article class="w-full">
+        <Image
+            loading="eager"
+            class="w-full h-full object-cover rounded-md overflow-hidden aspect-video border filter grayscale group-hover/pin:grayscale-0 transition-all"
+            width={720}
+            height={360}
+            src={post.data.heroImage}
+            alt={post.data.heroImageAlt}
+            transition:name={`img-${post.slug}`}
+        />
+
+        <div>
+            <h2
+                class="text-lg md:text-xl leading-tight line-clamp-3 mt-4 text-balance"
+                transition:name={"title-" + post.slug}
+            >
+                {post.data.title}
+            </h2>
+        </div>
+        <div class="flex items-center justify-between mt-2">
+            <span
+                class="font-medium text-foreground/50 text-sm"
+                transition:name={"date-" + post.slug}
+            >
+                {formatDate(post.data.pubDate)}
+            </span>
+        </div>
+    </article>
+    <div
+        class="absolute -inset-2 pointer-evnets-none rounded-2xl group-hover/pin:backdrop-blur transition-all duration-500 [mask-image:linear-gradient(to_top,transparent,black)]"
+    >
+    </div>
+</Pin3d>

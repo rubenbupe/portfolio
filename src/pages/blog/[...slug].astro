@@ -1,0 +1,83 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { cn, formatDate } from "../../lib/utils";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import Button from "../../components/Button.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: post,
+    }));
+}
+
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+const slug = Astro.params.slug;
+const { Content } = await post.render();
+
+if (!slug || !post) {
+    return new Response(null, {
+        status: 404,
+        statusText: "Not found",
+    });
+}
+
+const { title, description, pubDate, updatedDate, heroImage } =
+    Astro.props.data;
+---
+
+<Layout title={title}>
+    <div class="relative container max-w-screen-md py-10">
+        <Button
+            onclick="history.back()"
+            variant="ghost"
+            class={cn(
+                "absolute left-[-200px] top-10 hidden xl:inline-flex text-muted-foreground"
+            )}
+            transition:animate="slide"
+        >
+            <Icon name="tabler:chevron-left" class="mr-2 size-4" />
+            {" "}Back
+        </Button>
+
+        <article class="prose dark:prose-invert max-w-none">
+            <Image
+                class="rounded-xl overflow-hidden my-6"
+                width={720}
+                height={360}
+                src={heroImage}
+                alt={title}
+                transition:name={`img-${slug}`}
+            />
+            <div class="flex items-center justify-between">
+                <span
+                    class="font-medium text-muted-foreground"
+                    transition:name={`date-${slug}`}
+                >
+                    {formatDate(pubDate)}
+                    {
+                        updatedDate && (
+                            <span>
+                                - Last updated on {formatDate(updatedDate)}
+                            </span>
+                        )
+                    }
+                </span>
+            </div>
+            <h1
+                class="font-heading text-4xl my-4"
+                transition:name={`title-${slug}`}
+            >
+                {title}
+            </h1>
+            <p>{description}</p>
+            <hr class="my-6" />
+            <Content />
+        </article>
+    </div>
+</Layout>

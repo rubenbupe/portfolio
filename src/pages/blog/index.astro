@@ -1,0 +1,46 @@
+---
+import { getPosts, getFeaturedPosts } from "../../lib/fetchers";
+import Layout from "../../layouts/Layout.astro";
+import Section from "../../components/Section.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import { Particles } from "../../components/Particles";
+
+const posts = await getPosts();
+const featuredPosts = await getFeaturedPosts();
+---
+
+<Layout>
+    <Section class="py-24 flex flex-col gap-12">
+        <h1
+            class="text-4xl font-medium pb-1 tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            Blog
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 -mx-4">
+            {featuredPosts.map((post) => <BlogCard {...post} />)}
+        </div>
+        <h2
+            class="text-2xl font-medium pb-1 tracking-tight sm:text-3xl md:text-4xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+        >
+            All Posts
+        </h2>
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 -mx-4 gap-y-8"
+        >
+            {posts.map((post) => <BlogCard {...post} />)}
+        </div>
+    </Section>
+    <div
+        class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(at_bottom,white_20%,transparent)]"
+    >
+        <Particles
+            client:visible
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+        />
+    </div>
+</Layout>

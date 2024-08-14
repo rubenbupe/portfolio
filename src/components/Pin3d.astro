@@ -1,0 +1,50 @@
+---
+import { cn } from "../lib/utils";
+import { buttonVariants } from "./Button.astro";
+
+type Props = {
+    href?: string;
+    title: string;
+    className?: string;
+    containerClassName?: string;
+};
+
+const { href, title, className, containerClassName } = Astro.props;
+---
+
+<a
+    class={cn("relative group/pin cursor-pointer", containerClassName)}
+    style={{
+        perspective: "1000px",
+    }}
+    href={href}
+>
+    <div
+        class={cn(
+            "relative transition duration-500 [transform:rotateX(0deg)_scale(1)] group-hover/pin:[transform:rotateX(30deg)_scale(0.8)]",
+            className
+        )}
+    >
+        <slot />
+    </div>
+    <div
+        class="absolute top-0 pointer-events-none w-full h-fit flex items-center justify-center opacity-0 group-hover/pin:opacity-100 transition duration-500"
+    >
+        <div class="w-full -mt-7 flex-none inset-0">
+            <div class="absolute top-0 inset-x-0 flex justify-center">
+                <div
+                    class={cn(
+                        buttonVariants({ variant: "outline", size: "sm" }),
+                        "relative flex items-center rounded-full p-0 py-0 px-4"
+                    )}
+                >
+                    <span
+                        class="relative z-20 text-white text-xs font-bold inline-block py-0.5"
+                    >
+                        {title}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
