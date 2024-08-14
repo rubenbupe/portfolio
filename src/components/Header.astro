@@ -12,9 +12,9 @@ type Props = {
 const { class: className } = Astro.props;
 
 const links = [
-    { href: "#about", text: "About" },
-    { href: "#jobs", text: "Experience" },
-    { href: "#projects", text: "Work" },
+    { href: "/#about", text: "About" },
+    { href: "/#jobs", text: "Experience" },
+    { href: "/#projects", text: "Work" },
     /*     { href: "/blog", text: "Blog" }, */
     { href: "/resume.pdf", text: "Resume", external: true },
 ];
@@ -90,7 +90,7 @@ const links = [
         <nav class="flex gap-4 items-center">
             <a
                 class="text-lg tracking-tight font-semibold mx-2 text-foreground"
-                href="#home"
+                href="/#home"
             >
                 <span class="text-foreground/70 mr-1 font-light">/</span
                 >rubenbupe
@@ -162,7 +162,7 @@ const links = [
             <div class="flex items-center">
                 <a
                     class="text-lg tracking-tight font-semibold mx-2 text-foreground"
-                    href="#home"
+                    href="/#home"
                 >
                     <span class="text-foreground/70 mr-1 font-light">/</span
                     >rubenbupe
