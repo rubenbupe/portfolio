@@ -13,11 +13,6 @@ import { mailUrl } from "../constants/site";
         id="jobs"
         class="py-24 h-full flex flex-col justify-center items-center"
     >
-        <div
-            class="absolute inset-0 w-full h-full bg-background z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none"
-        >
-        </div>
-
         <h2
             class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-center"
         >
@@ -41,6 +36,10 @@ import { mailUrl } from "../constants/site";
         <Anchor size="default" href={mailUrl} target="_blank" class="mt-8">
             Get in touch
         </Anchor>
+        <div
+            class="absolute inset-0 w-full h-full bg-background [mask-image:radial-gradient(transparent,white)] pointer-events-none"
+        >
+        </div>
     </Section>
     <p class="relative mt-auto mb-2 text-center text-foreground/80 text-xs">
         © {new Date().getFullYear()} Rubén Buzón.

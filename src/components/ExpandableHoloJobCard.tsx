@@ -49,13 +49,13 @@ export function ExpandableHoloJobCard({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-card/20 h-full w-full z-10 backdrop-blur-md"
+            className="fixed inset-0 bg-card/20 h-full w-full z-[1] backdrop-blur-md"
           />
         )}
       </AnimatePresence>
       <AnimatePresence>
         {active && typeof active === "object" ? (
-          <div className="fixed inset-0  grid place-items-center z-[100]">
+          <div className="fixed inset-0  grid place-items-center z-[1]">
             <motion.div
               layoutId={`card-${active.id}-${id}`}
               ref={ref}
