@@ -11,9 +11,11 @@ import holocardLogoPatternSvg from "../assets/svg/holocard-logo-pattern.svg?raw"
 
 export function ExpandableHoloJobCard({
 	animation,
+	bullet,
 	listClassName,
 }: {
 	animation?: React.ReactNode;
+	bullet?: React.ReactNode;
 	listClassName?: string;
 }) {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
@@ -98,37 +100,40 @@ export function ExpandableHoloJobCard({
                     </motion.h3>
 										<motion.p
 											layoutId={`role-${active.id}-${id}`}
-											className="text-neutral-600 dark:text-neutral-400 text-base"
+											className="text-primary/50 text-base"
 										>
 											{active.role}
 										</motion.p>
                     <motion.p
                       layoutId={`timeperiod-${active.id}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-base text-xs"
+                      className="text-primary/50 text-base text-xs"
                     >
                       {active.timePeriod}
                     </motion.p>
                   </div>
                 </div>
 								<div className="p-4 px-6">
-									<motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex gap-1">
+									<motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex gap-1 gap-y-2 flex-wrap">
 										{active.badges.map((badge, index) => (
 											<span key={index} className="text-xs bg-foreground text-background px-2 py-1 rounded-full mr-2">{badge}</span>
 										))}
 									</motion.div>
 								</div>
                 <div className="pt-4 relative px-6 flex-1">
-                  <motion.div
+                  <motion.ul
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="flex-1 text-foreground/50 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4"
+                    className="flex-1 text-foreground/60 text-xs md:text-sm h-40 md:h-fit pb-10 flex flex-col items-start gap-4"
                   >
                     {active.paragraphs.map((paragraph, index) => (
-											<p key={index}>{paragraph}</p>
+											<div className="flex items-start gap-2" key={index}>
+												{bullet}
+												<li className="flex-1">{paragraph}</li>
+											</div>
 										))}
-                  </motion.div>
+                  </motion.ul>
                 </div>
               </div>
             </motion.div>
@@ -206,11 +211,13 @@ const cards = [
 		title: "Gabinsoft",
 		timePeriod: "2022 - present",
 		svg: gabinsoftSvg,
-		badges: ["React", "TypeScript", "Tailwind CSS"],
-		role: "Frontend Developer",
+		badges: ["TypeScript", "Go", "React", "React Native", "HTML/CSS", "Docker", "Kubernetes", "SQL", "RabbitMQ", "Redis", "NodeJS", "Google Cloud", "Git"],
+		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
+			"Drove the creation of the platform based on the foundations of Calmavity, which included the development of the backend and frontend technologies.",
+			"Reimplemented the psychologist's platform with the updated requirements of our new business model, which included the development of new features and the improvement of existing ones.",
+			"Developed a landing page for the platform, focusing on the design, SEO, and performance of the website.",
+			"Migrated critical and heavy processes to Go, which allowed us to improve the performance and scalability of the platform.",
 		],
   },
   {
@@ -218,11 +225,13 @@ const cards = [
 		title: "Me Asesoran",
 		timePeriod: "sep. 2020 - present",
 		svg: measesoranSvg,
-		badges: ["React", "TypeScript", "Tailwind CSS"],
-		role: "Frontend Developer",
+		badges: ["PHP", "Laravel", "React", "TypeScript", "HTML/CSS", "Docker", "Kubernetes", "PostgreSQL", "RabbitMQ", "NodeJS", "AWS", "Git"],
+		role: "Fullstack Developer",
 		paragraphs: [
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
+			"Developed a variety of features for the platform, which included the development of backend and frontend technologies for thousands of users.",
+			"Worked alongside the product team to develop new features and improve existing ones",
+			"Drove the migration of the main platform to a new architecture, which included developing new processes and rewriting our monolithic application into a microservices architecture, allowing us to create a more scalable and reliable platform. In this process, we implemented concepts such as event-driven architecture, CQRS, and DDD. This allowed us to scale the platform and develop new features faster.",
+			"Drove the development of Me Asesoran Rentas, a new product that allowed users to easily submit their tax returns to the government. This included the development of a backend and frontend, the integration with the Spain government's API and authentication system, and the development of a variety of features related to the validation and submission of tax returns by fiscal advisors.",
 		],
   },
   {
@@ -230,21 +239,15 @@ const cards = [
 		title: "Calmavity",
 		timePeriod: "2019 - 2022",
 		svg: calmavitySvg,
-		badges: ["React", "TypeScript", "Tailwind CSS"],
-		role: "Frontend Developer",
+		badges: ["TypeScript", "React", "React Native", "HTML/CSS", "Docker", "Kubernetes", "MongoDB", "NodeJS", "AWS", "Git"],
+		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
+			"Drove the development of the full stack of the platform, including the architecture, design, and implementation of the backend and frontend technologies.",
+			"Developed a mobile application for iOS and Android using React Native, which included features such as user authentication, push notifications, real-time chat, and video calls, among others.",
+			"Developed two web application using React, which included the features of the mobile application",
+			"Developed a backend using NodeJS and MongoDB, with support for the features needed by the mobile and web applications.",
+			"Deployed the platform on AWS using Docker and Kubernetes, which allowed for a scalable and reliable infrastructure. This was a little overkill for the size of the project, but I did it primarily to learn how to use these technologies.",
+
 		],
   },
 	{
@@ -252,11 +255,12 @@ const cards = [
 		title: "Nodelix",
 		timePeriod: "2019 - present",
 		svg: nodelixSvg,
-		badges: ["React", "TypeScript", "Tailwind CSS"],
-		role: "Frontend Developer",
+		badges: ["Python", "Django", "ML", "TensorFlow", "OCR", "AWS", "Git"],
+		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget nunc. Nullam nec nisl nec nunc.",
+			"Deliver scalable and reliable ML solutions to clients in the fiscal sector, including OCR and data extraction tools. Focused on the development of computer vision and machine learning models.",
+			"Developed a custom OCR solution for a client in the fiscal sector, which included a pipeline for data processing, extraction, and indexing. The solution was able to process and extract data in real time from multiple types of documents, including invoices, receipts, and contracts.",
+			"Worked side by side with clients to understand their needs and requirements, and to deliver a solution that met their expectations.",
 		],
   },
 ]

@@ -5,59 +5,90 @@ import { Particles } from "../components/Particles";
 import Separator from "../components/Separator.astro";
 import GridIcon from "../components/GridIcon.astro";
 import { cn } from "../lib/utils";
+import projectGabinsoftDashboard from "../assets/project-gabinsoft-dashboard.webp";
+import projectMeAsesoranRentas from "../assets/project-measesoran-rentas.webp";
+import projectBuildingRoofDetection from "../assets/project-building-roof-detection.webp";
+import projectGabinsoftLanding from "../assets/project-gabinsoft-landing.webp";
+import projectFacialExpressionRecognition from "../assets/project-facial-expression-recognition.webp";
+import projectOpenSource from "../assets/project-open-source.webp";
+import { Image } from "astro:assets";
 
 const projects = [
     {
-        title: "Project 1",
+        title: "Gabinsoft Web and Mobile Apps",
         paragraphs: [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Gabinsoft is a company that specializes in building tools for psychologists. I created the full stack web and mobile apps, as well as the backend services.",
+            "This apps include a full CRM, a billing system, a calendar, real-time chat, video calls, and more.",
         ],
-        badges: ["React", "TailwindCSS", "Vite"],
-        url: "https://github.com",
+        badges: ["TypeScript", "Go", "React", "React Native", "CSS", "SQL"],
+        url: "https://app.gabinsoft.com",
+        image: projectGabinsoftDashboard,
         feature: false,
     },
     {
-        title: "Project 2",
+        title: "Me Asesoran Rentas",
         paragraphs: [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "Me Asesoran Rentas is an app that helps people submit their tax returns. I created the backend services, the web and mobile apps, and the review tools.",
+            "This project has a lot of integrations with the government's APIs, and it's used by thousands of people every year.",
         ],
-        badges: ["React", "TailwindCSS", "Vite"],
-        url: "https://github.com",
+        badges: ["TypeScript", "React", "React Native", "CSS", "SQL"],
+        url: "https://rentas.measesoran.com",
+        image: projectMeAsesoranRentas,
         feature: false,
     },
     {
-        title: "Project 3",
+        title: "Open Source contributions",
         paragraphs: [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "I've contributed to the open source community by releasing a few small projects of my own, and will continue to do so. I believe that open source is the future of software development, and I feel that it's important to give back to the community that has given me so much.",
+            "Some of my projects include a few Reac Native Navigation components, some ML projects, and a Twitter client for bash.",
         ],
-        badges: ["React", "TailwindCSS", "Vite"],
-        url: "https://github.com",
+        badges: ["TypeScript", "React Native", "Python", "Bash"],
+        url: "https://github.com/rubenbupe",
+        image: projectOpenSource,
         feature: true,
     },
     {
-        title: "Project 4",
+        title: "Next Gabinsoft Landing Page",
         paragraphs: [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "I created the landing page for Gabinsoft, with a hero section inspired by Linear's website, and a few sections showcasing the features of the apps.",
+            "Focusing on performance, SEO, and accessibility, I built the site using Astro, TailwindCSS, and TypeScript.",
+            "This project is still in development, and will be released soon.",
         ],
-        badges: ["React", "TailwindCSS", "Vite"],
-        url: "https://github.com",
+        badges: ["TypeScript", "Astro", "TailwindCSS"],
+        url: "https://next-gabinsoft.rubenbupe.com",
+        image: projectGabinsoftLanding,
         feature: false,
     },
     {
-        title: "Project 5",
+        title: "Facial expression recognition",
         paragraphs: [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec.",
+            "This was one of my last projects at my university. I created a system that could detect facial expressions in real-time using a webcam.",
+            "The system was built using TensorFlow and OpenCV, and it was able to detect 3 different expressions with an accuracy of 86%, or 5 different expressions with an accuracy of 74%.",
+            "I got honorable mention for this project.",
         ],
-        badges: ["React", "TailwindCSS", "Vite"],
-        url: "https://github.com",
+        badges: ["TypeScript", "Astro", "TailwindCSS"],
+        url: "https://next-gabinsoft.rubenbupe.com",
+        image: projectFacialExpressionRecognition,
         feature: false,
+    },
+    {
+        title: "Building roof detection",
+        paragraphs: [
+            "This was also one of my last projects at my university. We created a system that could detect the roofs of buildings in satellite images.",
+            "I also developed a microservices architecture to showcase how the system could be used in a real-world scenario. This included a web app, a backend service to process the images, and an analytics service.",
+            "This project got me an offer to work at my professor's company, which I declined to pursue my own projects.",
+        ],
+        badges: [
+            "Python",
+            "React",
+            "Docker",
+            "Kubernetes",
+            "MongoDB",
+            "TensorFlow",
+        ],
+        url: "https://github.com/rubenbupe/building-roof-detection",
+        image: projectBuildingRoofDetection,
+        feature: true,
     },
 ];
 ---
@@ -117,7 +148,7 @@ const projects = [
                 <h2
                     class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
                 >
-                    Projects
+                    Some projects
                 </h2>
             </div>
         </div>
@@ -204,7 +235,7 @@ const projects = [
                             `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500`,
                             project.feature
                                 ? "md:col-span-2 grid grid-cols-1 md:grid-cols-2 items-center"
-                                : "md:col-span-1 flex flex-col"
+                                : "md:col-span-1 flex flex-col justify-between"
                         )}
                     >
                         <div class="p-8 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-500">
@@ -234,8 +265,8 @@ const projects = [
                             )}
                         >
                             <div class="absolute inset-8 bg-foreground/20 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 ease-in-out group-hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)]" />
-                            <img
-                                src="https://picsum.photos/200"
+                            <Image
+                                src={project.image}
                                 alt="Project 1"
                                 class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow object-cover"
                             />

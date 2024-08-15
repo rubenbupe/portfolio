@@ -7,6 +7,7 @@ import { Icon } from "astro-icon/components";
 import { Particles } from "../components/Particles";
 import { Image } from "astro:assets";
 import profileImage from "../assets/profile.webp";
+import nameToSpeech from "../assets/name-to-speech.mp3";
 ---
 
 <script>
@@ -72,26 +73,38 @@ import profileImage from "../assets/profile.webp";
                     class="inline flex-1 w-fit translate-y-1 border-primary"
                 />
             </div>
+            <audio id="name-to-speech-audio" src={nameToSpeech} class="hidden"
+            ></audio>
             <p class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                id lorem a eros rutrum finibus. Donec rhoncus turpis quis
-                lacinia varius. Fusce sagittis at justo eu molestie. Fusce
-                bibendum, quam fringilla tincidunt luctus, enim orci iaculis
-                ipsum, id auctor dolor erat ac sem. Cras cursus leo vel mollis
-                rhoncus. Praesent ac ultricies eros, id vestibulum est.
-                Suspendisse eros eros, pretium ac leo nec, malesuada fermentum
-                diam. Donec quam velit, efficitur non enim non, elementum
-                euismod tortor.
+                Hey there! My name is <button
+                    onclick="document.getElementById('name-to-speech-audio').play()"
+                    class="cursor-pointer hover:text-primary/60 hover:underline"
+                    area-label="Check pronunciation"
+                    ><strong>Rubén Buzón</strong><Icon
+                        name="tabler:volume-2"
+                        class="inline transform -translate-y-1 translate-x-[1px]"
+                    /></button
+                >
+
+                and I'm a software engineer based in Madrid, Spain. I'm
+                passionate about technology and science in general. I started
+                programming when I was 14 because I've always loved video games
+                and I wanted to know how software was made. Since then, I've
+                been learning and improving my skills to become a better
+                developer.
             </p>
             <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                id lorem a eros rutrum finibus. Donec rhoncus turpis quis
-                lacinia varius. Fusce sagittis at justo eu molestie. Fusce
-                bibendum, quam fringilla tincidunt luctus, enim orci iaculis
-                ipsum, id auctor dolor erat ac sem.
+                I truly believe that technology, specially software, can change
+                the world for the better. That's why I'm always looking for new
+                opportunities to work on projects that can make a difference,
+                and why I put so much effort, care and passion into my work
+                (like this website!).
             </p>
             <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                Things I am interested in:
+                I would describe myself as a full-stack developer with
+                experience in a wide range of technologies, but I'm always
+                looking to learn new things and improve my skills. Some of the
+                things I'm good at are:
             </p>
             <ul
                 class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2"
@@ -99,10 +112,11 @@ import profileImage from "../assets/profile.webp";
                 {
                     [
                         "Web development",
-                        "UI/UX design",
-                        "Mobile development",
                         "Backend development",
-                        "Machine learning",
+                        "UI/UX design",
+                        "Sofware architecture",
+                        "Mobile development",
+                        "ML/AI",
                     ].map((item) => (
                         <li class="relative group text-primary mt-2 ml-2 flex items-center">
                             <Icon
