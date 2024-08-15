@@ -15,7 +15,7 @@ const links = [
     { href: "/#about", text: "About" },
     { href: "/#jobs", text: "Experience" },
     { href: "/#projects", text: "Work" },
-    // { href: "/blog", text: "Blog" },
+    { href: "/blog", text: "Blog" },
     { href: "/resume.pdf", text: "Resume", external: true },
 ];
 ---
@@ -34,8 +34,8 @@ const links = [
             "!border-t-border",
             "!border-x-border",
             "!md:mx-8",
-            "!mx-4",
-            "!px-8",
+            "!mx-8",
+            "!px-4",
             "!rounded-2xl",
             "![mask-image:none]",
         ];
@@ -122,33 +122,42 @@ const links = [
                     ))
                 }
 
-                <Anchor
-                    class="p-2"
-                    size="sm"
-                    variant="outline"
-                    href={linkedinUrl}
-                    target="_blank"
-                    aria-label="LinkedIn"
-                    ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
-                >
+                <div class="flex gap-2">
+                    <Anchor
+                        class="p-2"
+                        size="sm"
+                        variant="outline"
+                        href={linkedinUrl}
+                        target="_blank"
+                        aria-label="LinkedIn"
+                        ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
+                    >
 
-                <Anchor
-                    class="p-2"
-                    size="sm"
-                    variant="outline"
-                    href={githubUrl}
-                    target="_blank"
-                    aria-label="Github"
-                    ><Icon name="tabler:brand-github" size={18} /></Anchor
-                >
+                    <Anchor
+                        class="p-2"
+                        size="sm"
+                        variant="outline"
+                        href={githubUrl}
+                        target="_blank"
+                        aria-label="Github"
+                        ><Icon name="tabler:brand-github" size={18} /></Anchor
+                    >
 
-                <Anchor
-                    class=""
-                    size="sm"
-                    href={mailUrl}
-                    target="_blank"
-                    aria-label="Mail">Contact</Anchor
-                >
+                    <Anchor
+                        class="p-2"
+                        size="sm"
+                        href={mailUrl}
+                        target="_blank"
+                        aria-label="Mail"
+                    >
+                        <Icon
+                            name="tabler:mail"
+                            size={18}
+                            class="block lg:hidden"
+                        />
+                        <span class="hidden lg:block">Contact</span>
+                    </Anchor>
+                </div>
             </div>
             <Button
                 id="mobile-navbar-toggle"
