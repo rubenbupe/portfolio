@@ -75,7 +75,7 @@ const projects = [
         title: "Building roof detection",
         paragraphs: [
             "This was also one of my last projects at my university. We created a system that could detect the roofs of buildings in satellite images.",
-            "I also developed a microservices architecture to showcase how the system could be used in a real-world scenario. This included a web app, a backend service to process the images, and an analytics service.",
+            "I also developed a microservices architecture to showcase how the system could be used in a real-world scenario. This included a web app, a backend service to process the images, and an analytics service. I used Docker and Kubernetes to deploy the system as part of a CI/CD pipeline.",
             "This project got me an offer to work at my professor's company, which I declined to pursue my own projects.",
         ],
         badges: [
@@ -85,6 +85,7 @@ const projects = [
             "Kubernetes",
             "MongoDB",
             "TensorFlow",
+            "Github Actions",
         ],
         url: "https://github.com/rubenbupe/building-roof-detection",
         image: projectBuildingRoofDetection,
@@ -232,10 +233,10 @@ const projects = [
                         href={project.url}
                         target="_blank"
                         class={cn(
-                            `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500`,
+                            `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500 flex flex-col justify-between`,
                             project.feature
-                                ? "md:col-span-2 grid grid-cols-1 md:grid-cols-2 items-center"
-                                : "md:col-span-1 flex flex-col justify-between"
+                                ? "md:col-span-2 md:grid md:grid-cols-2 items-center"
+                                : "md:col-span-1"
                         )}
                     >
                         <div class="p-8 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-500">
