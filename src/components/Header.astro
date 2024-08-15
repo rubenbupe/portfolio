@@ -130,8 +130,10 @@ const links = [
                         href={linkedinUrl}
                         target="_blank"
                         aria-label="LinkedIn"
-                        ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
-                    >
+                        ><Icon name="tabler:brand-linkedin" size={18} />
+
+                        <span class="sr-only">LinkedIn</span>
+                    </Anchor>
 
                     <Anchor
                         class="p-2"
@@ -140,8 +142,9 @@ const links = [
                         href={githubUrl}
                         target="_blank"
                         aria-label="Github"
-                        ><Icon name="tabler:brand-github" size={18} /></Anchor
-                    >
+                        ><Icon name="tabler:brand-github" size={18} />
+                        <span class="sr-only">Github</span>
+                    </Anchor>
 
                     <Anchor
                         class="p-2"
@@ -224,8 +227,9 @@ const links = [
                     variant="outline"
                     href={linkedinUrl}
                     target="_blank"
-                    ><Icon name="tabler:brand-linkedin" size={18} /></Anchor
-                >
+                    aria-label="LinkedIn"
+                    ><Icon name="tabler:brand-linkedin" size={18} />
+                </Anchor>
 
                 <Anchor
                     class="p-2"
@@ -233,6 +237,7 @@ const links = [
                     variant="outline"
                     href={githubUrl}
                     target="_blank"
+                    aria-label="Github"
                     ><Icon name="tabler:brand-github" size={18} /></Anchor
                 >
 
@@ -242,6 +247,7 @@ const links = [
                     variant="outline"
                     href={mailUrl}
                     target="_blank"
+                    aria-label="Mail"
                 >
                     <Icon name="tabler:mail" size={18} />
                 </Anchor>
