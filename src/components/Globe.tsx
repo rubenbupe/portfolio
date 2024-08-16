@@ -32,10 +32,14 @@ export function Globe() {
       markers: [ { location: [37.7595, -122.4367], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [40.7128, -74.006], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [52.520008, 13.404954], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [51.507351, -0.127758], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [35.689487, 139.691711], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [22.396427, 114.109497], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [30.047503, 31.233702], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [-33.86882, 151.20929], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, { location: [-9.746956, -44.261249], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize }, ],
       onRender: (state) => {
         state.phi = phi;
-        phi += 0.0005;
+       // phi += 0.0001;
       }
     });
 
+		// The animation is heavy, so we stop it after first render
+		setTimeout(() => {
+			globe.toggle(false);
+		})
     return () => {
       globe.destroy();
     };
