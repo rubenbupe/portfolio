@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import ConicHeader from "../components/ConicHeader.astro";
-import { ExpandableHoloJobCard } from "../components/ExpandableHoloJobCard";
+import { ExpandableHoloJobCards } from "../components/ExpandableHoloJobCards";
 import { Globe } from "../components/Globe";
 import MeteorAnimation from "../components/MeteorAnimation.astro";
 import { Particles } from "../components/Particles";
@@ -54,12 +54,12 @@ import Separator from "../components/Separator.astro";
             Click on the cards below to learn more about the places I've worked
             at, and a little bit about what I did there.
         </p>
-        <ExpandableHoloJobCard
+        <ExpandableHoloJobCards
             client:visible
             listClassName="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24 w-fit self-center"
         >
             <MeteorAnimation slot="animation" />
             <Icon name="tabler:chevron-right" slot="bullet" class="mt-1" />
-        </ExpandableHoloJobCard>
+        </ExpandableHoloJobCards>
     </Section>
 </div>

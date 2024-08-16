@@ -9,7 +9,7 @@ import calmavitySvg from "../assets/svg/calmavity.svg?raw";
 import nodelixSvg from "../assets/svg/nodelix.svg?raw";
 import holocardLogoPatternSvg from "../assets/svg/holocard-logo-pattern.svg?raw";
 
-export function ExpandableHoloJobCard({
+export function ExpandableHoloJobCards({
 	animation,
 	bullet,
 	listClassName,
