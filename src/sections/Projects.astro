@@ -106,8 +106,10 @@ const projects = [
             const x = e.clientX - bbox.left - cursorGlow.offsetWidth / 2;
             const y = e.clientY - bbox.top - cursorGlow.offsetHeight / 2;
 
-            cursorGlow.style.left = `${x}px`;
-            cursorGlow.style.top = `${y}px`;
+            requestAnimationFrame(() => {
+                cursorGlow.style.left = `${x}px`;
+                cursorGlow.style.top = `${y}px`;
+            });
         });
 
         projectsGrid.addEventListener("mouseleave", () => {
@@ -158,10 +160,12 @@ const projects = [
             id="projects-grid"
             class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-gradient-to-b from-foreground/10 [box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)]"
         >
-            <div class="absolute w-full h-full overflow-hidden">
+            <div
+                class="absolute w-full h-full overflow-hidden pointer-events-none"
+            >
                 <div
                     id="cursor-glow"
-                    class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none [filter:blur(150px)] opacity-0 transition-opacity duration-300 ease-in-out"
+                    class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none opacity-0 transition-opacity duration-300 ease-in-out blur-[150px] [will-change:filter]"
                 >
                 </div>
             </div>
@@ -233,7 +237,7 @@ const projects = [
                         href={project.url}
                         target="_blank"
                         class={cn(
-                            `relative group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500 flex flex-col justify-between`,
+                            `group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500 flex flex-col justify-between`,
                             project.feature
                                 ? "md:col-span-2 md:grid md:grid-cols-2 items-center"
                                 : "md:col-span-1"
