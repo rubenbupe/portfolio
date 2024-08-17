@@ -20,6 +20,8 @@ npm install
 npm run dev
 ```
 
+3. (Optional) Add your resume to the `public` folder so that the button on the homepage can link to it. The resume should be named `resume.pdf`.
+
 ## Building the website
 
 The build process generates a production-ready version of the website that can be served using a static file server.
