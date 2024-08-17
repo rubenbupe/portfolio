@@ -61,7 +61,7 @@ export function ExpandableHoloJobCards({
             <motion.div
               layoutId={`card-${active.id}-${id}`}
               ref={ref}
-              className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline outline-[1px] outline-card"
+              className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline outline-[1px] outline-black"
             >
 							{animation}
 							<motion.button
@@ -79,7 +79,7 @@ export function ExpandableHoloJobCards({
 										duration: 0.05,
 									},
 								}}
-								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline outline-[1px] outline-card border"
+								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline outline-[1px] outline-black border"
 								onClick={() => setActive(null)}
 							>
 								<CloseIcon />
