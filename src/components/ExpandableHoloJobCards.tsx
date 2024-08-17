@@ -145,25 +145,30 @@ export function ExpandableHoloJobCards({
 					<motion.li
 						layoutId={`card-${card.id}-${id}`}
 						key={card.title}
-						onClick={() => setActive(card)}
 						className="flex flex-col items-center cursor-pointer"
 					>
-						<HoloCard
-								className="flex flex-col items-center justify-center"
-								foilSvg={card.svg}
-								logoPatternSvg={holocardLogoPatternSvg}
+						<button
+							className="rounded-[48px]"
+							aria-label={`View ${card.title} details`}
+							onClick={() => setActive(card)}
 						>
-							<motion.div layoutId={`image-${card.id}-${id}`} className="w-12 h-12">
-								<div dangerouslySetInnerHTML={{ __html: card.svg }} />
-              </motion.div>
-							<motion.p 
-							layoutId={`title-${card.id}-${id}`}
-							className="text-white font-bold text-xl mt-4">{card.title}</motion.p>
-							<motion.p className="absolute bottom-4 text-foreground/50 text-xs" layoutId={`timeperiod-${card.id}-${id}`}>
-								{card.timePeriod}
-							</motion.p>
-							<p className="visually-hidden" aria-hidden="true">{card.paragraphs.reduce((acc, a) => `${acc} ${a}`, '')}</p>
-						</HoloCard>
+							<HoloCard
+									className="flex flex-col items-center justify-center"
+									foilSvg={card.svg}
+									logoPatternSvg={holocardLogoPatternSvg}
+							>
+								<motion.div layoutId={`image-${card.id}-${id}`} className="w-12 h-12">
+									<div dangerouslySetInnerHTML={{ __html: card.svg }} />
+								</motion.div>
+								<motion.p 
+								layoutId={`title-${card.id}-${id}`}
+								className="text-white font-bold text-xl mt-4">{card.title}</motion.p>
+								<motion.p className="absolute bottom-4 text-foreground/50 text-xs" layoutId={`timeperiod-${card.id}-${id}`}>
+									{card.timePeriod}
+								</motion.p>
+								<p className="visually-hidden" aria-hidden="true">{card.paragraphs.reduce((acc, a) => `${acc} ${a}`, '')}</p>
+							</HoloCard>
+						</button>
 					</motion.li>
           
         ))}
