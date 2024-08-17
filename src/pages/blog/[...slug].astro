@@ -3,7 +3,6 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate } from "../../lib/utils";
 import { Image } from "astro:assets";
-import Spotlight from "../../components/Spotlight.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("blog");

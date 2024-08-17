@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+const analyticsId = import.meta.env.GOOGLE_ANALYTICS_ID;
 ---
 
 <!doctype html>
@@ -19,6 +21,18 @@ const { title } = Astro.props;
         <meta name="description" content={siteDescription} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="sitemap" href="/sitemap-index.xml" />
+				{!!analyticsId && (
+					<>
+						<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} />
+						<script is:inline define:vars={{analyticsId}}>
+							window.dataLayer = window.dataLayer || [];
+							function gtag(){dataLayer.push(arguments);}
+							gtag('js', new Date());
+
+							gtag('config', `${analyticsId}`);
+						</script>
+					</>
+				)}
 
         <link
             rel="apple-touch-icon"
