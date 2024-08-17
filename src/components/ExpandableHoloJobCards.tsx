@@ -219,10 +219,10 @@ const cards = [
 		badges: ["TypeScript", "Go", "React", "React Native", "HTML/CSS", "Docker", "Kubernetes", "SQL", "RabbitMQ", "Redis", "NodeJS", "Google Cloud", "Git"],
 		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Drove the creation of the platform based on the foundations of Calmavity, which included the development of the backend and frontend technologies.",
-			"Reimplemented the psychologist's platform with the updated requirements of our new business model, which included the development of new features and the improvement of existing ones.",
-			"Developed a landing page for the platform, focusing on the design, SEO, and performance of the website.",
-			"Migrated critical and heavy processes to Go, which allowed us to improve the performance and scalability of the platform.",
+			"Drove the creation of the platform based on the foundations of Calmavity, which included the development of the backend, frontend, and mobile apps",
+			"Created the psychologist's platform based on the requirements of the business model, which included the development of new features and the improvement of existing ones",
+			"Developed a marketing website for the platform, focusing on the design, SEO, and performance",
+			"Migrated critical and heavy processes to independent services using Go, which allowed us to scale the platform and reduce bottlenecks",
 		],
   },
   {
@@ -233,10 +233,10 @@ const cards = [
 		badges: ["PHP", "Laravel", "React", "TypeScript", "HTML/CSS", "Docker", "Kubernetes", "PostgreSQL", "RabbitMQ", "NodeJS", "AWS", "Git"],
 		role: "Fullstack Developer",
 		paragraphs: [
-			"Developed a variety of features for the platform, which included the development of backend and frontend technologies for thousands of users.",
-			"Worked alongside the product team to develop new features and improve existing ones",
-			"Drove the migration of the main platform to a new architecture, which included developing new processes and rewriting our monolithic application into a microservices architecture, allowing us to create a more scalable and reliable platform. In this process, we implemented concepts such as event-driven architecture, CQRS, and DDD. This allowed us to scale the platform and develop new features faster.",
-			"Drove the development of Me Asesoran Rentas, a new product that allowed users to easily submit their tax returns to the government. This included the development of a backend and frontend, the integration with the Spain government's API and authentication system, and the development of a variety of features related to the validation and submission of tax returns by fiscal advisors.",
+			"Developed a variety of features for the main platform, which included the development of backend and frontend technologies for thousands of users",
+			"Worked alongside the product team to understand the requirements and needs of the users, and to develop features that met their expectations",
+			"Drove the migration of the main platform to a new architecture, which included developing new processes and rewriting our monolithic application into a microservices architecture. In this process, we implemented concepts such as event-driven architecture, CQRS, and DDD. This allowed us to scale the platform and develop new features faster",
+			"Drove the development of Me Asesoran Rentas, a new product that allowed users to easily submit their tax returns to the government. This included the development of a backend and frontend, the integration with the Spain government's API and authentication system, and features related to the validation and submission of tax returns by fiscal advisors",
 		],
   },
   {
@@ -247,11 +247,11 @@ const cards = [
 		badges: ["TypeScript", "React", "React Native", "HTML/CSS", "Docker", "Kubernetes", "MongoDB", "NodeJS", "AWS", "Git"],
 		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Drove the development of the full stack of the platform, including the architecture, design, and implementation of the backend and frontend technologies.",
-			"Developed a mobile application for iOS and Android using React Native, which included features such as user authentication, push notifications, real-time chat, and video calls, among others.",
-			"Developed two web application using React, which included the features of the mobile application",
-			"Developed a backend using NodeJS and MongoDB, with support for the features needed by the mobile and web applications.",
-			"Deployed the platform on AWS using Docker and Kubernetes, which allowed for a scalable and reliable infrastructure. This was a little overkill for the size of the project, but I did it primarily to learn how to use these technologies.",
+			"Drove the development of the full stack of the platform, including the architecture, design, and implementation of the backend and frontend technologies",
+			"Developed a mobile application for iOS and Android using React Native, which included features such as user authentication, push notifications, real-time chat, and video calls, among others",
+			"Developed a web application using React, which included the features of the mobile application",
+			"Developed a backend using NodeJS and MongoDB, to serve the web app, mobile app, and internal services like analytics and management tools. NodeJS was key to iterate quickly and develop new features faster",
+			"Deployed the platform on GCP using Docker and Kubernetes, which allowed for a scalable and reliable infrastructure. This was a little overkill for the size of the project, but I did it primarily in my free time to learn and experiment with new technologies",
 
 		],
   },
@@ -263,9 +263,10 @@ const cards = [
 		badges: ["Python", "Django", "ML", "TensorFlow", "OCR", "AWS", "Git"],
 		role: "Co-Founder & Fullstack Developer",
 		paragraphs: [
-			"Deliver scalable and reliable ML solutions to clients in the fiscal sector, including OCR and data extraction tools. Focused on the development of computer vision and machine learning models.",
-			"Developed a custom OCR solution for a client in the fiscal sector, which included a pipeline for data processing, extraction, and indexing. The solution was able to process and extract data in real time from multiple types of documents, including invoices, receipts, and contracts.",
-			"Worked side by side with clients to understand their needs and requirements, and to deliver a solution that met their expectations.",
+			"Delivered scalable and reliable ML solutions to clients in the fiscal sector, including OCR and data extraction tools. Focused on the development of computer vision models",
+			"Developed a custom OCR solution for a client in the fiscal sector, which included a pipeline for data processing, extraction, and indexing. The solution was able to process and extract data in real time from multiple types of documents, including invoices, receipts, and contracts",
+			"Worked side by side with clients to understand their needs and requirements, and to deliver a solution that met their expectations",
+			"Designed a dynamically scalable system, which allowed us to reduce costs while being able to serve our clients when the demand increased, usually at the end of each quarter",
 		],
   },
 ]
