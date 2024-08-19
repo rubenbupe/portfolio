@@ -94,7 +94,14 @@ const links = [
             "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
         )}
     >
-        <nav class="flex gap-4 items-center">
+        <nav class="relative flex gap-4 items-center">
+            <Anchor
+                href="#main"
+                size="sm"
+                class="absolute left-[-100vw] opacity-0 focus:opacity-100 focus:left-0"
+            >
+                Skip to main content</Anchor
+            >
             <a
                 class="text-lg tracking-tight font-semibold mx-2 text-foreground"
                 href="/#home"
