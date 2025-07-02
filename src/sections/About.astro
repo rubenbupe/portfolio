@@ -1,194 +1,161 @@
 ---
-import Section from "../components/Section.astro";
-import ConicHeader from "../components/ConicHeader.astro";
-import Separator from "../components/Separator.astro";
-import { GridPatternSvg } from "../components/svg/grid-pattern-svg";
-import { Icon } from "astro-icon/components";
-import { Particles } from "../components/Particles";
-import { Image } from "astro:assets";
-import profileImage1 from "../assets/portrait-1.webp";
-import profileImage2 from "../assets/portrait-2.webp";
-import nameToSpeech from "../assets/name-to-speech.mp3";
+import Section from '../components/Section.astro';
+import ConicHeader from '../components/ConicHeader.astro';
+import Separator from '../components/Separator.astro';
+import { GridPatternSvg } from '../components/svg/grid-pattern-svg';
+import { Icon } from 'astro-icon/components';
+import { Particles } from '../components/Particles';
+import { Image } from 'astro:assets';
+import profileImage1 from '../assets/portrait-1.webp';
+import profileImage2 from '../assets/portrait-2.webp';
+import nameToSpeech from '../assets/name-to-speech.mp3';
 ---
 
 <script>
-    const handleParallax = () => {
-        const parallaxTrigger = document.getElementById("pricing-parallax");
-        const parallax = document.getElementById("pricing-parallax-target");
+	const handleParallax = () => {
+		const parallaxTrigger = document.getElementById('pricing-parallax');
+		const parallax = document.getElementById('pricing-parallax-target');
 
-        const onMove = (e: MouseEvent) => {
-            const x = e.clientX / window.innerWidth - 0.5;
-            const y = e.clientY / window.innerHeight;
-            if (parallax)
-                parallax.style.transform = `rotateX(${y * 3}deg) rotateY(${x * 3}deg)`;
-        };
-        parallaxTrigger?.addEventListener("mousemove", onMove);
+		const onMove = (e: MouseEvent) => {
+			const x = e.clientX / window.innerWidth - 0.5;
+			const y = e.clientY / window.innerHeight;
+			if (parallax) parallax.style.transform = `rotateX(${y * 3}deg) rotateY(${x * 3}deg)`;
+		};
+		parallaxTrigger?.addEventListener('mousemove', onMove);
 
-        const onLeave = () => {
-            if (parallax)
-                parallax.style.transform = "rotateX(0deg) rotateY(0deg)";
-        };
-        parallaxTrigger?.addEventListener("mouseleave", onLeave);
+		const onLeave = () => {
+			if (parallax) parallax.style.transform = 'rotateX(0deg) rotateY(0deg)';
+		};
+		parallaxTrigger?.addEventListener('mouseleave', onLeave);
 
-        document.addEventListener("astro:before-swap", () => {
-            parallaxTrigger?.removeEventListener("mousemove", onMove);
-            parallaxTrigger?.removeEventListener("mouseleave", onLeave);
-        });
-    };
+		document.addEventListener('astro:before-swap', () => {
+			parallaxTrigger?.removeEventListener('mousemove', onMove);
+			parallaxTrigger?.removeEventListener('mouseleave', onLeave);
+		});
+	};
 
-    handleParallax();
-    document.addEventListener("astro:after-swap", () => {
-        handleParallax();
-    });
+	handleParallax();
+	document.addEventListener('astro:after-swap', () => {
+		handleParallax();
+	});
 </script>
 
 <div class="relative w-full flex flex-col">
-    <ConicHeader
-        color="rgba(97,106,115,.12)"
-        borderColor="rgba(247,247,247,.22)"
-    />
-    <div
-        class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
-    >
-        <Particles
-            client:visible
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={100}
-            className="w-full h-full"
-            particleColor="#FFFFFF"
-        />
-    </div>
+	<ConicHeader color="rgba(97,106,115,.12)" borderColor="rgba(247,247,247,.22)" />
+	<div
+		class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+	>
+		<Particles
+			client:visible
+			background="transparent"
+			minSize={0.4}
+			maxSize={1}
+			particleDensity={100}
+			className="w-full h-full"
+			particleColor="#FFFFFF"
+		/>
+	</div>
 </div>
 <Section id="about" class="relative py-24 min-h-[90vh]">
-    <div class="grid md:grid-cols-2 gap-12 md:px-12">
-        <div>
-            <div class="flex gap-4">
-                <h2
-                    class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl"
-                >
-                    About me
-                </h2>
-                <Separator
-                    class="inline flex-1 w-fit translate-y-1 border-primary"
-                />
-            </div>
-            <audio id="name-to-speech-audio" src={nameToSpeech} class="hidden"
-            ></audio>
-            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8">
-                Hey there! My name is <button
-                    onclick="document.getElementById('name-to-speech-audio').play()"
-                    class="cursor-pointer hover:text-primary/60 hover:underline"
-                    area-label="Check pronunciation"
-                    ><strong>Rubén Buzón</strong><Icon
-                        name="tabler:volume-2"
-                        class="inline transform -translate-y-1 translate-x-[1px]"
-                    /></button
-                >
+	<div class="grid md:grid-cols-2 gap-12 md:px-12">
+		<div>
+			<div class="flex gap-4">
+				<h2 class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">About me</h2>
+				<Separator class="inline flex-1 w-fit translate-y-1 border-primary" />
+			</div>
+			<audio id="name-to-speech-audio" src={nameToSpeech} class="hidden"></audio>
+			<p class="mt-4 md:max-w-lg leading-normal text-foreground/50 mt-8">
+				Hey there! My name is <button
+					onclick="document.getElementById('name-to-speech-audio').play()"
+					class="cursor-pointer hover:text-primary/60 hover:underline"
+					area-label="Check pronunciation"
+					><strong>Rubén Buzón</strong><Icon
+						name="tabler:volume-2"
+						class="inline transform -translate-y-1 translate-x-[1px]"
+					/></button
+				>
 
-                and I'm a software engineer based in Madrid, Spain. I'm
-                passionate about technology and science in general. I started
-                programming when I was 14 because I've always loved video games
-                and I wanted to know how software was made. Since then, I've
-                been learning and improving my skills to become a better
-                developer.
-            </p>
-            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                I truly believe that technology, specially software, can change
-                the world for the better. That's why I'm always looking for new
-                opportunities to work on projects that can make a difference,
-                and why I put so much effort, care and passion into my work
-                (like this website!).
-            </p>
-            <p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
-                I would describe myself as a full-stack developer with
-                experience in a wide range of technologies, but I'm always
-                looking to learn new things and improve my skills. Some of the
-                things I'm good at are:
-            </p>
-            <ul
-                class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2"
-            >
-                {
-                    [
-                        "Web development",
-                        "Backend development",
-                        "UI/UX design",
-                        "Software architecture",
-                        "Mobile development",
-                        "ML/AI",
-                    ].map((item) => (
-                        <li class="relative group text-primary mt-2 ml-2 flex items-center">
-                            <Icon
-                                name="tabler:arrow-right"
-                                class="absolute left-0 transform -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
-                            />
-                            <Icon
-                                name="tabler:arrow-right"
-                                class="inline opacity-100 group-hover:opacity-0 group-hover:translate-x-8 transition-all duration-300"
-                            />
-                            <span class="ml-2">{item}</span>
-                        </li>
-                    ))
-                }
-            </ul>
-        </div>
-        <div class="relative flex justify-center items-center group w-full">
-            <div id="pricing-parallax" class="h-full w-full absolute">
-                <div
-                    id="pricing-parallax-target"
-                    class="pointer-events-none trasition-transform flex h-full w-full items-center justify-center duration-300 ease-out will-change-transform"
-                    style="transform-style: preserve-3d;"
-                >
-                    <div
-                        class="h-full w-full text-foreground/10"
-                        style="background-position: center center; transform: translateZ(-1000px);"
-                    >
-                        <GridPatternSvg
-                            className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
-                        />
-                    </div>
-                    <div
-                        class="pointer-events-none absolute top-0 left-0 h-full w-full blur-3xl"
-                        style="background-position: center center; transform: translateZ(-500px);"
-                    >
-                        <div
-                            class="h-full w-full bg-gradient-to-br from-gray-800/20 to-primary/30 to-80% from-40% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
-                        >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="flex isolate rounded-lg max-w-64 w-full pointer-events-none transition-all group-hover:[transform:rotateX(15deg)_rotateY(20deg)_rotate(0deg)]"
-            >
-                <div
-                    class="absolute w-64 aspect-square transition-all bg-gradient-to-b from-sky-200 to-sky-700 duration-300 transform rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-8 group-hover:translate-x-8 overflow-hidden"
-                >
-                </div>
-                <div
-                    class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg"
-                >
-                    <Image
-                        src={profileImage2}
-                        alt="Profile"
-                        loading="lazy"
-                        class="rounded-lg shadow-lg filter w-full flex-1"
-                    />
-                </div>
+				and I'm a software engineer based in Madrid, Spain. I'm passionate about technology and science in general. I
+				started programming when I was 14 because I've always loved video games and I wanted to know how software was
+				made. Since then, I've been learning and improving my skills to become a better developer.
+			</p>
+			<p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+				I truly believe that technology, specially software, can change the world for the better. That's why I'm always
+				looking for new opportunities to work on projects that can make a difference, and why I put so much effort, care
+				and passion into my work (like this website!).
+			</p>
+			<p class="mt-4 md:max-w-lg leading-normal text-foreground/50">
+				I would describe myself as a full-stack developer with experience in a wide range of technologies, but I'm
+				always looking to learn new things and improve my skills. Some of the things I'm good at are:
+			</p>
+			<ul class="mt-4 md:max-w-lg leading-normal text-foreground/50 grid grid-cols-2">
+				{
+					[
+						'Web development',
+						'Backend development',
+						'UI/UX design',
+						'Software architecture',
+						'Mobile development',
+						'ML/AI'
+					].map(item => (
+						<li class="relative group text-primary mt-2 ml-2 flex items-center">
+							<Icon
+								name="tabler:arrow-right"
+								class="absolute left-0 transform -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
+							/>
+							<Icon
+								name="tabler:arrow-right"
+								class="inline opacity-100 group-hover:opacity-0 group-hover:translate-x-8 transition-all duration-300"
+							/>
+							<span class="ml-2">{item}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+		<div class="relative flex justify-center items-center group w-full">
+			<div id="pricing-parallax" class="h-full w-full absolute">
+				<div
+					id="pricing-parallax-target"
+					class="pointer-events-none trasition-transform flex h-full w-full items-center justify-center duration-300 ease-out will-change-transform"
+					style="transform-style: preserve-3d;"
+				>
+					<div
+						class="h-full w-full text-foreground/10"
+						style="background-position: center center; transform: translateZ(-1000px);"
+					>
+						<GridPatternSvg
+							className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
+						/>
+					</div>
+					<div
+						class="pointer-events-none absolute top-0 left-0 h-full w-full blur-3xl"
+						style="background-position: center center; transform: translateZ(-500px);"
+					>
+						<div
+							class="h-full w-full bg-gradient-to-br from-gray-800/20 to-primary/30 to-80% from-40% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
+						>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				class="flex isolate rounded-lg max-w-64 w-full pointer-events-none transition-all group-hover:[transform:rotateX(15deg)_rotateY(20deg)_rotate(0deg)]"
+			>
+				<div
+					class="absolute w-64 aspect-square transition-all bg-gradient-to-b from-sky-200 to-sky-700 duration-300 transform rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-8 group-hover:translate-x-8 overflow-hidden"
+				>
+				</div>
+				<div class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg">
+					<Image src={profileImage2} alt="Profile" loading="lazy" class="rounded-lg shadow-lg filter w-full flex-1" />
+				</div>
 
-                <div
-                    class="rounded-lg relative flex w-full transition-all duration-300 group-hover:bg-primary/20 transform group-hover:-translate-y-8 group-hover:-translate-x-8 aspect-square flex-1 group-hover:backdrop-blur"
-                >
-                    <Image
-                        src={profileImage1}
-                        alt="Profile"
-                        loading="lazy"
-                        class="rounded-lg shadow-lg filter w-full flex-1"
-                    />
-                </div>
-            </div>
-        </div>
-    </div>
+				<div
+					class="rounded-lg relative flex w-full transition-all duration-300 group-hover:bg-primary/20 transform group-hover:-translate-y-8 group-hover:-translate-x-8 aspect-square flex-1 group-hover:backdrop-blur"
+				>
+					<Image src={profileImage1} alt="Profile" loading="lazy" class="rounded-lg shadow-lg filter w-full flex-1" />
+				</div>
+			</div>
+		</div>
+	</div>
 </Section>

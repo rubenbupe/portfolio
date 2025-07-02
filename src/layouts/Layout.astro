@@ -1,12 +1,12 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-import Header from "../components/Header.astro";
-import { siteName, siteDescription } from "../constants/site";
-import "../styles/globals.css";
-import Spotlight from "../components/Spotlight.astro";
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import { siteName, siteDescription } from '../constants/site';
+import '../styles/globals.css';
+import Spotlight from '../components/Spotlight.astro';
 
 interface Props {
-    title?: string;
+	title?: string;
 }
 
 const { title } = Astro.props;
@@ -16,69 +16,49 @@ const analyticsId = import.meta.env.GOOGLE_ANALYTICS_ID;
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content={siteDescription} />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="sitemap" href="/sitemap-index.xml" />
-				{!!analyticsId && (
-					<>
-						<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} />
-						<script is:inline define:vars={{analyticsId}}>
-							window.dataLayer = window.dataLayer || [];
-							function gtag(){dataLayer.push(arguments);}
-							gtag('js', new Date());
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={siteDescription} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		{
+			!!analyticsId && (
+				<>
+					<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} />
+					<script is:inline define:vars={{ analyticsId }}>
+						window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)}
+						gtag('js', new Date()); gtag('config', `${analyticsId}`);
+					</script>
+				</>
+			)
+		}
 
-							gtag('config', `${analyticsId}`);
-						</script>
-					</>
-				)}
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+		<meta name="msapplication-TileColor" content="#da532c" />
+		<meta name="theme-color" content="#090a0b" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{siteName}{title && ` | ${title}`}</title>
+		<style>
+			*,
+			html {
+				scroll-behavior: smooth;
+			}
 
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#090a0b" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{siteName}{title && ` | ${title}`}</title>
-        <style>
-            *,
-            html {
-                scroll-behavior: smooth;
-            }
-
-            body {
-                overflow-x: hidden;
-            }
-        </style>
-    </head>
-    <body
-        class="relative w-full flex flex-col selection:bg-foreground selection:text-background"
-    >
-        <Header class="z-[1]" />
-        <main id="main" class="relative w-full flex flex-col items-center">
-            <Spotlight
-                class="left-0 md:left-40 max-w-[90%] top-[30vh] h-[100vh]"
-                fill="#d1d1d1"
-            />
-            <slot />
-        </main>
-    </body>
+			body {
+				overflow-x: hidden;
+			}
+		</style>
+	</head>
+	<body class="relative w-full flex flex-col selection:bg-foreground selection:text-background">
+		<Header class="z-[1]" />
+		<main id="main" class="relative w-full flex flex-col items-center">
+			<Spotlight class="left-0 md:left-40 max-w-[90%] top-[30vh] h-[100vh]" fill="#d1d1d1" />
+			<slot />
+		</main>
+	</body>
 </html>
 <ViewTransitions />

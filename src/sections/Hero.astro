@@ -1,53 +1,40 @@
 ---
-import Section from "../components/Section.astro";
-import HeroAnimation from "../components/MeteorAnimation.astro";
-import { Icon } from "astro-icon/components";
-import { githubUrl, mailUrl } from "../constants/site";
-import Anchor from "../components/Anchor.astro";
+import Section from '../components/Section.astro';
+import HeroAnimation from '../components/MeteorAnimation.astro';
+import { Icon } from 'astro-icon/components';
+import { githubUrl, mailUrl } from '../constants/site';
+import Anchor from '../components/Anchor.astro';
 ---
 
 <div class="relative w-full overflow-hidden flex flex-col">
-    <HeroAnimation number={30} />
-    <Section id="home" class="relative py-24 min-h-[80vh]">
-        <h1
-            class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-        >
-            Rubén Buzón
-        </h1>
-        <p
-            class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl pb-3 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
-        >
-            Full-Stack Engineer
-        </p>
-        <p class="mt-4 max-w-lg leading-normal text-foreground/50 md:text-lg">
-            I'm a Full-Stack engineer with a passion for building high-quality
-            and scalable software. I have experience in both frontend and
-            backend technologies, and I'm always looking for new challenges.
-        </p>
-        <div class="flex gap-4 mt-8">
-            <Anchor size="default" href={mailUrl} target="_blank">
-                Get in touch
-            </Anchor>
-            <Anchor
-                size="default"
-                variant="outline"
-                href={githubUrl}
-                target="_blank"
-            >
-                <Icon name="tabler:brand-github-filled" class="mr-2" />
-                Github
-            </Anchor>
-        </div>
-    </Section>
-    <div class="absolute bottom-4 left-0 right-0 mx-auto flex justify-center">
-        <Anchor
-            href="#about"
-            size="default"
-            variant="outline"
-            class="rounded-full p-2 animate-bounce"
-        >
-            <Icon name="tabler:arrow-down" size={18} />
-            <span class="sr-only">Scroll down</span>
-        </Anchor>
-    </div>
+	<HeroAnimation number={30} />
+	<Section id="home" class="relative py-24 min-h-[80vh]">
+		<h1
+			class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl bg-gradient-to-b from-50% to-100% from-white to-gray-400 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+		>
+			Rubén Buzón
+		</h1>
+		<p
+			class="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl pb-3 mt-3 bg-gradient-to-b from-50% to-100% from-white/50 to-gray-400/50 text-transparent bg-clip-text [text-shadow:_0_1px_5px_rgb(0_0_0_/_20%)]"
+		>
+			Full-Stack Engineer
+		</p>
+		<p class="mt-4 max-w-lg leading-normal text-foreground/50 md:text-lg">
+			I'm a Full-Stack engineer with a passion for building high-quality and scalable software. I have experience in
+			both frontend and backend technologies, and I'm always looking for new challenges.
+		</p>
+		<div class="flex gap-4 mt-8">
+			<Anchor size="default" href={mailUrl} target="_blank"> Get in touch </Anchor>
+			<Anchor size="default" variant="outline" href={githubUrl} target="_blank">
+				<Icon name="tabler:brand-github-filled" class="mr-2" />
+				Github
+			</Anchor>
+		</div>
+	</Section>
+	<div class="absolute bottom-4 left-0 right-0 mx-auto flex justify-center">
+		<Anchor href="#about" size="default" variant="outline" class="rounded-full p-2 animate-bounce">
+			<Icon name="tabler:arrow-down" size={18} />
+			<span class="sr-only">Scroll down</span>
+		</Anchor>
+	</div>
 </div>

@@ -1,81 +1,75 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../lib/utils";
-import { Image } from "astro:assets";
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../lib/utils';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
-    const posts = await getCollection("blog");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: post,
-    }));
+	const posts = await getCollection('blog');
+	return posts.map(post => ({
+		params: { slug: post.slug },
+		props: post
+	}));
 }
 
-type Props = CollectionEntry<"blog">;
+type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const slug = Astro.params.slug;
 const { Content } = await post.render();
 
 if (!slug || !post) {
-    return new Response(null, {
-        status: 404,
-        statusText: "Not found",
-    });
+	return new Response(null, {
+		status: 404,
+		statusText: 'Not found'
+	});
 }
 
-const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } =
-    Astro.props.data;
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props.data;
 ---
 
 <Layout title={title}>
-    <div class="relative container max-w-screen-md py-10">
-        <article class="max-w-none">
-            <div class="flex items-center justify-center w-full">
-                <span
-                    class="mt-6 text-center text-sm leading-[1.6] text-foreground/50 font-normal"
-                    transition:name={`date-${slug}`}
-                >
-                    <time datetime={pubDate.toDateString()}>
-                        {formatDate(pubDate)}
-                    </time>
-                    {
-                        updatedDate && (
-                            <span>
-                                - Last updated on{" "}
-                                <time datetime={updatedDate.toDateString()}>
-                                    {formatDate(updatedDate)}
-                                </time>
-                            </span>
-                        )
-                    }
-                </span>
-            </div>
-            <h2
-                class="mt-4 text-center text-3xl md:text-6xl tracking-tight leading-[120%] font-gradient"
-                transition:name={`title-${slug}`}
-            >
-                {title}
-            </h2>
-            <p
-                class="text-center text-lg md:text-xl leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-2"
-            >
-                {description}
-            </p>
+	<div class="relative container max-w-screen-md py-10">
+		<article class="max-w-none">
+			<div class="flex items-center justify-center w-full">
+				<span
+					class="mt-6 text-center text-sm leading-[1.6] text-foreground/50 font-normal"
+					transition:name={`date-${slug}`}
+				>
+					<time datetime={pubDate.toDateString()}>
+						{formatDate(pubDate)}
+					</time>
+					{
+						updatedDate && (
+							<span>
+								- Last updated on <time datetime={updatedDate.toDateString()}>{formatDate(updatedDate)}</time>
+							</span>
+						)
+					}
+				</span>
+			</div>
+			<h2
+				class="mt-4 text-center text-3xl md:text-6xl tracking-tight leading-[120%] font-gradient"
+				transition:name={`title-${slug}`}
+			>
+				{title}
+			</h2>
+			<p class="text-center text-lg md:text-xl leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-2">
+				{description}
+			</p>
 
-            <Image
-                loading="eager"
-                class="w-full h-full object-cover rounded-md overflow-hidden aspect-video border mt-12 mb-12"
-                width={720}
-                height={360}
-                src={heroImage}
-                alt={heroImageAlt}
-                transition:name={`img-${post.slug}`}
-            />
-            <div class="prose prose-invert">
-                <Content />
-            </div>
-        </article>
-    </div>
+			<Image
+				loading="eager"
+				class="w-full h-full object-cover rounded-md overflow-hidden aspect-video border mt-12 mb-12"
+				width={720}
+				height={360}
+				src={heroImage}
+				alt={heroImageAlt}
+				transition:name={`img-${post.slug}`}
+			/>
+			<div class="prose prose-invert">
+				<Content />
+			</div>
+		</article>
+	</div>
 </Layout>

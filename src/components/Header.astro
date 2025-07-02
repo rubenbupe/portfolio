@@ -1,259 +1,189 @@
 ---
-import { cn } from "../lib/utils";
-import Button from "./Button.astro";
-import { Icon } from "astro-icon/components";
-import { mailUrl, githubUrl, linkedinUrl } from "../constants/site";
-import Anchor from "./Anchor.astro";
+import { cn } from '../lib/utils';
+import Button from './Button.astro';
+import { Icon } from 'astro-icon/components';
+import { mailUrl, githubUrl, linkedinUrl } from '../constants/site';
+import Anchor from './Anchor.astro';
 
 type Props = {
-    class?: string;
+	class?: string;
 };
 
 const { class: className } = Astro.props;
 
 const links = [
-    { href: "/#about", text: "About" },
-    { href: "/#jobs", text: "Experience" },
-    { href: "/#projects", text: "Work" },
-    // { href: "/blog", text: "Blog" },
-    { href: "/resume.pdf", text: "Resume", external: true },
+	{ href: '/#about', text: 'About' },
+	{ href: '/#jobs', text: 'Experience' },
+	{ href: '/#projects', text: 'Work' },
+	// { href: "/blog", text: "Blog" },
+	{ href: '/resume.pdf', text: 'Resume', external: true }
 ];
 ---
 
 <script>
-    // Scroll events can be expensive, it is recommended to change them once
-    // scroll css animations are supported for most users.
-    // https://caniuse.com/mdn-css_properties_animation-timeline_scroll
+	// Scroll events can be expensive, it is recommended to change them once
+	// scroll css animations are supported for most users.
+	// https://caniuse.com/mdn-css_properties_animation-timeline_scroll
 
-    const setupHandler = () => {
-        let isSticky = false;
-        const headerContainerClasses = ["top-4"];
-        const headerScrolledClasses = [
-            "bg-card/60",
-            "shadow-lg",
-            "!border-t-border",
-            "!border-x-border",
-            "!md:mx-8",
-            "!mx-8",
-            "!px-4",
-            "!rounded-2xl",
-            "![mask-image:none]",
-        ];
-        const header = document.querySelector("header");
-        const headerContainer = document.querySelector("#header-container");
-        const handleScroll = () => {
-            if (window.scrollY > 50) {
-                if (isSticky) return;
-                header?.classList.add(...headerScrolledClasses);
-                headerContainer?.classList.add(...headerContainerClasses);
-                isSticky = true;
-            } else {
-                if (!isSticky) return;
-                header?.classList.remove(...headerScrolledClasses);
-                headerContainer?.classList.remove(...headerContainerClasses);
-                isSticky = false;
-            }
-        };
-        window.addEventListener("scroll", handleScroll);
-    };
-    document.addEventListener("astro:page-load", () => {
-        setupHandler();
-    });
+	const setupHandler = () => {
+		let isSticky = false;
+		const headerContainerClasses = ['top-4'];
+		const headerScrolledClasses = [
+			'bg-card/60',
+			'shadow-lg',
+			'!border-t-border',
+			'!border-x-border',
+			'!md:mx-8',
+			'!mx-8',
+			'!px-4',
+			'!rounded-2xl',
+			'![mask-image:none]'
+		];
+		const header = document.querySelector('header');
+		const headerContainer = document.querySelector('#header-container');
+		const handleScroll = () => {
+			if (window.scrollY > 50) {
+				if (isSticky) return;
+				header?.classList.add(...headerScrolledClasses);
+				headerContainer?.classList.add(...headerContainerClasses);
+				isSticky = true;
+			} else {
+				if (!isSticky) return;
+				header?.classList.remove(...headerScrolledClasses);
+				headerContainer?.classList.remove(...headerContainerClasses);
+				isSticky = false;
+			}
+		};
+		window.addEventListener('scroll', handleScroll);
+	};
+	document.addEventListener('astro:page-load', () => {
+		setupHandler();
+	});
 </script>
 <script>
-    document.addEventListener("astro:page-load", () => {
-        function toggleMobileNavbar() {
-            document
-                .getElementById("mobile-navbar")
-                ?.classList.toggle("hidden");
-        }
+	document.addEventListener('astro:page-load', () => {
+		function toggleMobileNavbar() {
+			document.getElementById('mobile-navbar')?.classList.toggle('hidden');
+		}
 
-        const navLinks = document.querySelectorAll("#mobile-navbar a");
-        navLinks.forEach((link) => {
-            link.addEventListener("click", () => {
-                toggleMobileNavbar();
-            });
-        });
+		const navLinks = document.querySelectorAll('#mobile-navbar a');
+		navLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				toggleMobileNavbar();
+			});
+		});
 
-        const navbarToggle = document.getElementById("mobile-navbar-toggle");
-        navbarToggle?.addEventListener("click", () => {
-            toggleMobileNavbar();
-        });
-    });
+		const navbarToggle = document.getElementById('mobile-navbar-toggle');
+		navbarToggle?.addEventListener('click', () => {
+			toggleMobileNavbar();
+		});
+	});
 </script>
 <div
-    id="header-container"
-    class={cn(
-        "max-w-6xl w-full sticky top-4 self-center flex flex-col top-0 transition-all duration-300 ease-in-out",
-        className
-    )}
+	id="header-container"
+	class={cn(
+		'max-w-6xl w-full sticky top-4 self-center flex flex-col top-0 transition-all duration-300 ease-in-out',
+		className
+	)}
 >
-    <header
-        class={cn(
-            "border border-t-transparent border-x-transparent outline outline-[1px] outline-black mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]",
-            "transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg"
-        )}
-    >
-        <nav class="relative flex gap-4 items-center">
-            <Anchor
-                href="#main"
-                size="sm"
-                class="absolute left-[-100vw] opacity-0 focus:opacity-100 focus:left-0"
-            >
-                Skip to main content</Anchor
-            >
-            <a
-                class="text-lg tracking-tight font-semibold mx-2 text-foreground"
-                href="/#home"
-            >
-                <span class="text-foreground/70 mr-1 font-light">/</span
-                >rubenbupe
-            </a>
-            <div class="gap-4 ml-auto items-center hidden md:flex">
-                {
-                    [...links].map((link) => (
-                        <a
-                            class="text-sm font-medium mx-2 text-foreground hover:underline whitespace-nowrap"
-                            href={link.href}
-                            target={link.external ? "_blank" : "_self"}
-                        >
-                            {link.text}
-                            {!!link.external && (
-                                <Icon
-                                    name="tabler:external-link"
-                                    size={12}
-                                    class="inline align-top"
-                                />
-                            )}
-                        </a>
-                    ))
-                }
+	<header
+		class={cn(
+			'border border-t-transparent border-x-transparent outline outline-[1px] outline-black mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]',
+			'transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg'
+		)}
+	>
+		<nav class="relative flex gap-4 items-center">
+			<Anchor href="#main" size="sm" class="absolute left-[-100vw] opacity-0 focus:opacity-100 focus:left-0">
+				Skip to main content</Anchor
+			>
+			<a class="text-lg tracking-tight font-semibold mx-2 text-foreground" href="/#home">
+				<span class="text-foreground/70 mr-1 font-light">/</span>rubenbupe
+			</a>
+			<div class="gap-4 ml-auto items-center hidden md:flex">
+				{
+					[...links].map(link => (
+						<a
+							class="text-sm font-medium mx-2 text-foreground hover:underline whitespace-nowrap"
+							href={link.href}
+							target={link.external ? '_blank' : '_self'}
+						>
+							{link.text}
+							{!!link.external && <Icon name="tabler:external-link" size={12} class="inline align-top" />}
+						</a>
+					))
+				}
 
-                <div class="flex gap-2">
-                    <Anchor
-                        class="p-2"
-                        size="sm"
-                        variant="outline"
-                        href={linkedinUrl}
-                        target="_blank"
-                        aria-label="LinkedIn"
-                        ><Icon name="tabler:brand-linkedin" size={18} />
+				<div class="flex gap-2">
+					<Anchor class="p-2" size="sm" variant="outline" href={linkedinUrl} target="_blank" aria-label="LinkedIn"
+						><Icon name="tabler:brand-linkedin" size={18} />
 
-                        <span class="sr-only">LinkedIn</span>
-                    </Anchor>
+						<span class="sr-only">LinkedIn</span>
+					</Anchor>
 
-                    <Anchor
-                        class="p-2"
-                        size="sm"
-                        variant="outline"
-                        href={githubUrl}
-                        target="_blank"
-                        aria-label="Github"
-                        ><Icon name="tabler:brand-github" size={18} />
-                        <span class="sr-only">Github</span>
-                    </Anchor>
+					<Anchor class="p-2" size="sm" variant="outline" href={githubUrl} target="_blank" aria-label="Github"
+						><Icon name="tabler:brand-github" size={18} />
+						<span class="sr-only">Github</span>
+					</Anchor>
 
-                    <Anchor
-                        class="p-2"
-                        size="sm"
-                        href={mailUrl}
-                        target="_blank"
-                        aria-label="Mail"
-                    >
-                        <Icon
-                            name="tabler:mail"
-                            size={18}
-                            class="block lg:hidden"
-                        />
-                        <span class="hidden lg:block">Contact</span>
-                    </Anchor>
-                </div>
-            </div>
-            <Button
-                id="mobile-navbar-toggle"
-                class="flex ml-auto md:hidden p-2"
-                aria-label="Open mobile navigation"
-                size="sm"
-                variant="outline"><Icon name="tabler:menu" size={18} /></Button
-            >
-        </nav>
-    </header>
-    <nav
-        id="mobile-navbar"
-        class="fixed hidden md:!hidden inset-0 backdrop-blur-xl flex flex-col"
-    >
-        <div
-            class="my-4 mx-8 outline rounded-2xl outline-[1px] outline-card border bg-card/60 p-3 px-4 flex flex-col gap-4"
-        >
-            <div class="flex items-center">
-                <a
-                    class="text-lg tracking-tight font-semibold mx-2 text-foreground"
-                    href="/#home"
-                >
-                    <span class="text-foreground/70 mr-1 font-light">/</span
-                    >rubenbupe
-                </a>
-                <Button
-                    class="p-2 ml-auto self-start"
-                    size="sm"
-                    variant="outline"
-                    onclick="document.getElementById('mobile-navbar').classList.toggle('hidden')"
-                    aria-label="Close mobile navigation"
-                    aria-controls="mobile-navbar"
-                >
-                    <Icon name="tabler:x" size={18} />
-                </Button>
-            </div>
-            {
-                [...links].map((link) => (
-                    <a
-                        class="text-lg font-medium text-foreground hover:underline mx-8 mt-2"
-                        href={link.href}
-                        target={link.external ? "_blank" : "_self"}
-                    >
-                        {link.text}
-                        {!!link.external && (
-                            <Icon
-                                name="tabler:external-link"
-                                size={12}
-                                class="inline-block align-top"
-                            />
-                        )}
-                    </a>
-                ))
-            }
-            <div class="flex gap-2 mt-4 self-end">
-                <Anchor
-                    class="p-2"
-                    size="sm"
-                    variant="outline"
-                    href={linkedinUrl}
-                    target="_blank"
-                    aria-label="LinkedIn"
-                    ><Icon name="tabler:brand-linkedin" size={18} />
-                </Anchor>
+					<Anchor class="p-2" size="sm" href={mailUrl} target="_blank" aria-label="Mail">
+						<Icon name="tabler:mail" size={18} class="block lg:hidden" />
+						<span class="hidden lg:block">Contact</span>
+					</Anchor>
+				</div>
+			</div>
+			<Button
+				id="mobile-navbar-toggle"
+				class="flex ml-auto md:hidden p-2"
+				aria-label="Open mobile navigation"
+				size="sm"
+				variant="outline"><Icon name="tabler:menu" size={18} /></Button
+			>
+		</nav>
+	</header>
+	<nav id="mobile-navbar" class="fixed hidden md:!hidden inset-0 backdrop-blur-xl flex flex-col">
+		<div
+			class="my-4 mx-8 outline rounded-2xl outline-[1px] outline-card border bg-card/60 p-3 px-4 flex flex-col gap-4"
+		>
+			<div class="flex items-center">
+				<a class="text-lg tracking-tight font-semibold mx-2 text-foreground" href="/#home">
+					<span class="text-foreground/70 mr-1 font-light">/</span>rubenbupe
+				</a>
+				<Button
+					class="p-2 ml-auto self-start"
+					size="sm"
+					variant="outline"
+					onclick="document.getElementById('mobile-navbar').classList.toggle('hidden')"
+					aria-label="Close mobile navigation"
+					aria-controls="mobile-navbar"
+				>
+					<Icon name="tabler:x" size={18} />
+				</Button>
+			</div>
+			{
+				[...links].map(link => (
+					<a
+						class="text-lg font-medium text-foreground hover:underline mx-8 mt-2"
+						href={link.href}
+						target={link.external ? '_blank' : '_self'}
+					>
+						{link.text}
+						{!!link.external && <Icon name="tabler:external-link" size={12} class="inline-block align-top" />}
+					</a>
+				))
+			}
+			<div class="flex gap-2 mt-4 self-end">
+				<Anchor class="p-2" size="sm" variant="outline" href={linkedinUrl} target="_blank" aria-label="LinkedIn"
+					><Icon name="tabler:brand-linkedin" size={18} />
+				</Anchor>
 
-                <Anchor
-                    class="p-2"
-                    size="sm"
-                    variant="outline"
-                    href={githubUrl}
-                    target="_blank"
-                    aria-label="Github"
-                    ><Icon name="tabler:brand-github" size={18} /></Anchor
-                >
+				<Anchor class="p-2" size="sm" variant="outline" href={githubUrl} target="_blank" aria-label="Github"
+					><Icon name="tabler:brand-github" size={18} /></Anchor
+				>
 
-                <Anchor
-                    class="p-2"
-                    size="sm"
-                    variant="outline"
-                    href={mailUrl}
-                    target="_blank"
-                    aria-label="Mail"
-                >
-                    <Icon name="tabler:mail" size={18} />
-                </Anchor>
-            </div>
-        </div>
-    </nav>
+				<Anchor class="p-2" size="sm" variant="outline" href={mailUrl} target="_blank" aria-label="Mail">
+					<Icon name="tabler:mail" size={18} />
+				</Anchor>
+			</div>
+		</div>
+	</nav>
 </div>

@@ -1,47 +1,32 @@
 ---
-import Anchor from "../components/Anchor.astro";
-import BackgroundRetroGrid from "../components/BackgroundRetroGrid.astro";
-import { FlipWords } from "../components/FlipWords";
-import Section from "../components/Section.astro";
-import { mailUrl } from "../constants/site";
+import Anchor from '../components/Anchor.astro';
+import BackgroundRetroGrid from '../components/BackgroundRetroGrid.astro';
+import { FlipWords } from '../components/FlipWords';
+import Section from '../components/Section.astro';
+import { mailUrl } from '../constants/site';
 ---
 
 <div class="relative w-full flex flex-col h-[80vh] overflow-hidden">
-    <BackgroundRetroGrid />
+	<BackgroundRetroGrid />
 
-    <Section
-        id="jobs"
-        class="py-24 h-full flex flex-col justify-center items-center"
-    >
-        <h2
-            class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-center"
-        >
-            <span aria-hidden="false" class="visually-hidden"
-                >Let's build the future together</span
-            >
-            <span aria-hidden="true">
-                Let's build<FlipWords
-                    words={["together", "the future"]}
-                    client:load
-                />
-            </span>
-        </h2>
-        <p
-            class="relative mt-4 max-w-lg leading-normal text-foreground/80 md:text-lg text-center"
-        >
-            My inbox is always open. Whether you have an opportunity, a project
-            you'd like to discuss, or a question, I'll try my best to get back
-            to you!
-        </p>
-        <Anchor size="default" href={mailUrl} target="_blank" class="mt-8">
-            Get in touch
-        </Anchor>
-        <div
-            class="absolute inset-0 w-full h-full bg-background [mask-image:radial-gradient(transparent,white)] pointer-events-none"
-        >
-        </div>
-    </Section>
-    <p class="relative mt-auto mb-2 text-center text-foreground/80 text-xs">
-        © {new Date().getFullYear()} Rubén Buzón.
-    </p>
+	<Section id="jobs" class="py-24 h-full flex flex-col justify-center items-center">
+		<h2 class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-center">
+			<span aria-hidden="false" class="visually-hidden">Let's build the future together</span>
+			<span aria-hidden="true">
+				Let's build<FlipWords words={['together', 'the future']} client:load />
+			</span>
+		</h2>
+		<p class="relative mt-4 max-w-lg leading-normal text-foreground/80 md:text-lg text-center">
+			My inbox is always open. Whether you have an opportunity, a project you'd like to discuss, or a question, I'll try
+			my best to get back to you!
+		</p>
+		<Anchor size="default" href={mailUrl} target="_blank" class="mt-8"> Get in touch </Anchor>
+		<div
+			class="absolute inset-0 w-full h-full bg-background [mask-image:radial-gradient(transparent,white)] pointer-events-none"
+		>
+		</div>
+	</Section>
+	<p class="relative mt-auto mb-2 text-center text-foreground/80 text-xs">
+		© {new Date().getFullYear()} Rubén Buzón.
+	</p>
 </div>
