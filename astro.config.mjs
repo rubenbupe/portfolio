@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import icon from "astro-icon";
 import mdx from '@astrojs/mdx';
-
+import rehypeExternalLinks from 'rehype-external-links';
 import sitemap from "@astrojs/sitemap";
 import { site } from './src/constants/site';
 
@@ -35,5 +35,15 @@ export default defineConfig({
     include: {
       tabler: ['*']
     }
-  }), sitemap()]
+  }), sitemap()],
+	markdown: {
+		rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        {
+          target: '_blank',
+        }
+      ],
+    ],
+	}
 });
