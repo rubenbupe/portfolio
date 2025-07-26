@@ -1,6 +1,6 @@
 ---
-title: 'How a simple Adif QR code sparked it all (and how I built my own configurator)'
-description: 'What began by scanning a simple station QR turned into building a visual configurator for real-time train panels. A mix of reverse engineering, hidden parameters, and modern frontend to reimagine a semi-closed public system.'
+title: 'From Adif’s QR to a Tool for Customizing Station Displays'
+description: 'An experiment that started by scanning a station QR code and ended with the creation of a visual configurator for real-time train boards. Reverse engineering, hidden parameters, and a bit of frontend work to make life easier for users.'
 pubDate: 'Jul 15 2025'
 heroImage: '/blog/lo-que-un-qr-de-adif-desato/hero.webp'
 heroImageAlt: 'Adif Logo'

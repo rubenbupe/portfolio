@@ -1,6 +1,6 @@
 ---
-title: 'Lo que un simple QR de Adif desató (y cómo monté mi propio configurador)'
-description: 'Un experimento que empezó escaneando un QR de estación y terminó en la creación de un configurador visual para paneles de tren en tiempo real. Ingeniería inversa, parámetros ocultos y un toque de frontend moderno para reinventar un sistema público semi-cerrado.'
+title: 'Del QR de Adif a una herramienta para personalizar paneles de estaciones'
+description: 'Un experimento que empezó escaneando un QR de estación y terminó en la creación de un configurador visual para paneles de tren en tiempo real. Ingeniería inversa, parámetros ocultos y un toque de frontend para facilitar la vida a los usuarios.'
 pubDate: 'Jul 15 2025'
 heroImage: '/blog/lo-que-un-qr-de-adif-desato/hero.webp'
 heroImageAlt: 'Logo de Adif'
