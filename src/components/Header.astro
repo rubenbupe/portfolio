@@ -15,7 +15,7 @@ const links = [
 	{ href: '/#about', text: 'About' },
 	{ href: '/#jobs', text: 'Experience' },
 	{ href: '/#projects', text: 'Work' },
-	{ href: "/blog", text: "Blog" },
+	{ href: '/blog', text: 'Blog' },
 	{ href: '/resume.pdf', text: 'Resume', external: true }
 ];
 ---
@@ -99,11 +99,11 @@ const links = [
 			<a class="text-lg tracking-tight font-semibold mx-2 text-foreground" href="/#home">
 				<span class="text-foreground/70 mr-1 font-light">/</span>rubenbupe
 			</a>
-			<div class="gap-4 ml-auto items-center hidden md:flex">
+			<div class="gap-2 ml-auto items-center hidden md:flex">
 				{
 					[...links].map(link => (
 						<a
-							class="text-sm font-medium mx-2 text-foreground hover:underline whitespace-nowrap"
+							class="text-sm font-medium mx-2 text-foreground px-2 py-1 rounded-lg hover:bg-primary/20 whitespace-nowrap"
 							href={link.href}
 							target={link.external ? '_blank' : '_self'}
 						>
