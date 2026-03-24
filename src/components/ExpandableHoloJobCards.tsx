@@ -268,7 +268,7 @@ const cards = [
 			'Developed key features for the main platform, working on both backend and frontend for thousands of users.',
 			'Collaborated with the product team to understand user needs and deliver features that matched expectations.',
 			'Led the migration from a monolithic to a microservices architecture, implementing event-driven design, CQRS, and DDD to improve scalability and development speed.',
-			"Spearheaded the development of Me Asesoran Rentas, integrating with Spain's government APIs and authentication for seamless tax return submissions."
+			"Led the development of Me Asesoran Rentas, integrating with Spain's government APIs and authentication for seamless tax return submissions."
 		]
 	},
 	{
@@ -300,7 +300,7 @@ const cards = [
 	{
 		id: 4,
 		title: 'Nodelix',
-		timePeriod: '2019 - present',
+		timePeriod: '2019 - 2024',
 		svg: nodelixSvg,
 		badges: ['Python', 'Django', 'ML', 'TensorFlow', 'OCR', 'AWS', 'Git'],
 		role: 'Co-Founder & Fullstack Developer',

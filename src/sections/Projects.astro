@@ -7,10 +7,12 @@ import GridIcon from '../components/GridIcon.astro';
 import { cn } from '../lib/utils';
 import projectGabinsoftDashboard from '../assets/project-gabinsoft-dashboard.webp';
 import projectMeAsesoranRentas from '../assets/project-measesoran-rentas.webp';
+import projectSeniorLauncher from '../assets/project-senior-launcher.webp';
 import projectBuildingRoofDetection from '../assets/project-building-roof-detection.webp';
 import projectGabinsoftLanding from '../assets/project-gabinsoft-landing.webp';
 import projectFacialExpressionRecognition from '../assets/project-facial-expression-recognition.webp';
-import projectOpenSource from '../assets/project-open-source.webp';
+import projectRecipeAIVideoParser from '../assets/project-recipe-ai-video-parser.webp';
+import projectOpenSource from '../assets/project-github.webp';
 import { Image } from 'astro:assets';
 
 const projects = [
@@ -37,14 +39,15 @@ const projects = [
 		feature: false
 	},
 	{
-		title: 'Open Source contributions',
+		title: 'Senior Android Launcher',
 		paragraphs: [
-			"I've contributed to the open source community by releasing several of my own projects and plan to continue doing so. I believe open source is the future of software development and it's important to give back to the community.",
-			'Some of my projects include React Navigation components, machine learning projects, and a Twitter client for bash.'
+			'Senior Launcher is an Android launcher app designed for older users, with a simplified interface, visual accessibility, and optional remote control through a backend.',
+			'It is ideated as an Android-first experience inspired by the iPhone Guided Access mode, focused on reducing distractions and making daily use easier for seniors.',
+			"I developed it for my grandmother and some of my friends' grandmothers, who use it daily."
 		],
-		badges: ['TypeScript', 'React Native', 'Python', 'Bash'],
-		url: 'https://github.com/rubenbupe',
-		image: projectOpenSource,
+		badges: ['Kotlin', 'Android', 'Jetpack Compose', 'AI Assisted'],
+		url: 'https://github.com/rubenbupe/senior-launcher',
+		image: projectSeniorLauncher,
 		feature: true
 	},
 	{
@@ -72,6 +75,17 @@ const projects = [
 		feature: false
 	},
 	{
+		title: 'Recipe AI video parser',
+		paragraphs: [
+			'An API that parses cooking videos to extract structured recipe data, including ingredients, quantities, and step-by-step instructions.',
+			'I use it in combination with iOS Shortcuts to automatically save recipes from social media videos to my recipe manager app.'
+		],
+		badges: ['Golang', 'Typescript', 'AI', 'Gemini'],
+		url: 'https://github.com/rubenbupe/recipe-video-parser',
+		image: projectRecipeAIVideoParser,
+		feature: false
+	},
+	{
 		title: 'Building roof detection',
 		paragraphs: [
 			'This was also one of my final university projects. We built a system that detects building roofs in satellite images.',
@@ -81,6 +95,17 @@ const projects = [
 		badges: ['Python', 'React', 'Docker', 'Kubernetes', 'MongoDB', 'TensorFlow', 'Github Actions'],
 		url: 'https://github.com/rubenbupe/building-roof-detection',
 		image: projectBuildingRoofDetection,
+		feature: false
+	},
+	{
+		title: 'Other projects',
+		paragraphs: [
+			"I've shared several open-source and side projects over the years, and I plan to keep building in public.",
+			'Some examples include some utilities that I built for myself, React Navigation utilities, ML/AI experiments, and a Twitter client for Bash.'
+		],
+		badges: ['TypeScript', 'React Native', 'Python', 'Bash', 'AI', 'ML'],
+		url: 'https://github.com/rubenbupe',
+		image: projectOpenSource,
 		feature: true
 	}
 ];
