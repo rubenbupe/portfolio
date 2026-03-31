@@ -14,6 +14,8 @@ const { class: className, zoomEffect, ...rest } = Astro.props;
 </section>
 
 <script>
+	const LEAVE_THRESHOLD = 0.5;
+
 	const setupSectionEffects = () => {
 		const sections = document.querySelectorAll('.section-zoom') as unknown as HTMLElement[];
 
@@ -27,10 +29,8 @@ const { class: className, zoomEffect, ...rest } = Astro.props;
 
 			sections.forEach((section, index) => {
 				const rect = section.getBoundingClientRect();
-				const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-				const visiblePercentage = (visibleHeight / rect.height) * 100;
+				const visibleHeight = Math.max(0, Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0));
 
-				// First section
 				if (index === 0) {
 					const isEnteringFromBottom = rect.top > 0 && rect.top < windowHeight;
 					const distanceFromBottom = windowHeight - rect.top;
@@ -40,15 +40,18 @@ const { class: className, zoomEffect, ...rest } = Astro.props;
 						const scale = 0.85 + entryProgress * 0.15;
 						section.style.transform = `scale(${scale})`;
 						section.style.filter = '';
-						return;
+					} else {
+						section.style.filter = '';
+						section.style.transform = '';
 					}
+
+					return;
 				}
 
-				// Other sections
-				const isLeavingTop = rect.top < 0 && visiblePercentage < 30 && visiblePercentage > 0;
+				const isLeavingTop = rect.top < 0 && rect.bottom > 0 && visibleHeight < windowHeight * LEAVE_THRESHOLD;
 
 				if (isLeavingTop) {
-					const intensity = 1 - visiblePercentage / 30;
+					const intensity = Math.max(0, Math.min(1, 1 - visibleHeight / (windowHeight * LEAVE_THRESHOLD)));
 					const blurAmount = intensity * 8;
 					const scaleAmount = 1 + intensity * 0.1;
 					const translateY = intensity * 50;
