@@ -88,6 +88,10 @@ export default {
             opacity: 0,
           },
         },
+				"meteor-trail": {
+					"0%": { width: "30px" },
+					"100%": { width: "80px" },
+				},
 				grid: {
           "0%": { transform: "translateY(-50%)" },
           "100%": { transform: "translateY(0)" },
@@ -98,6 +102,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
 				spotlight: "spotlight 2s ease .75s 1 forwards",
 				meteor: "meteor 5s linear infinite",
+				"meteor-trail": "meteor-trail 5s linear infinite",
 				grid: "grid 30s linear infinite",
       },
     },
