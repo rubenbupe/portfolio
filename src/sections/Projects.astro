@@ -144,19 +144,11 @@ const projects = [
 	});
 </script>
 <div class="relative w-full flex flex-col overflow-hidden">
-	<ConicHeader color="rgba(97,106,115,.12)" borderColor="rgba(247,247,247,.22)" />
+	<ConicHeader color="hsla(var(--conic-background))" borderColor="hsla(var(--conic-border))" />
 	<div
 		class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
 	>
-		<Particles
-			client:visible
-			background="transparent"
-			minSize={0.4}
-			maxSize={1}
-			particleDensity={100}
-			className="w-full h-full"
-			particleColor="#FFFFFF"
-		/>
+		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
 	<Section id="projects" class="relative py-24 min-h-[90vh] flex flex-col" zoomEffect>
 		<div class="grid md:grid-cols-2 gap-12 px-4 md:px-12">
@@ -168,7 +160,7 @@ const projects = [
 
 		<div
 			id="projects-grid"
-			class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-gradient-to-b from-foreground/10 [box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)]"
+			class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-gradient-to-b from-foreground/5 dark:from-foreground/10 dark:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)] [box-shadow:inset_0_0_10px_0_rgba(0,0,0,0.1)]"
 		>
 			<div class="absolute w-full h-full overflow-hidden pointer-events-none">
 				<div

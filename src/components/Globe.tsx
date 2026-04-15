@@ -28,7 +28,7 @@ export function Globe() {
 			mapBrightness: 6,
 			baseColor: [0.3, 0.3, 0.3],
 			markerColor: [1, 1, 1],
-			glowColor: [1, 1, 1],
+			glowColor: [0.65, 0.65, 0.65],
 			markers: [
 				{ location: [37.7595, -122.4367], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize },
 				{ location: [40.7128, -74.006], size: Math.random() * (maxMarkerSize - minMarkerSize) + minMarkerSize },
@@ -87,7 +87,7 @@ export function Globe() {
 		<div className="w-full max-w-full flex justify-center">
 			<canvas
 				ref={canvasRef}
-				className="bg-transparent"
+				className="bg-transparent invert dark:invert-0"
 				style={{
 					width: size,
 					height: size,

@@ -41,19 +41,11 @@ import nameToSpeech from '../assets/name-to-speech.mp3';
 </script>
 
 <div class="relative w-full flex flex-col">
-	<ConicHeader color="rgba(97,106,115,.12)" borderColor="rgba(247,247,247,.22)" />
+	<ConicHeader color="hsla(var(--conic-background))" borderColor="hsla(var(--conic-border))" />
 	<div
 		class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
 	>
-		<Particles
-			client:visible
-			background="transparent"
-			minSize={0.4}
-			maxSize={1}
-			particleDensity={100}
-			className="w-full h-full"
-			particleColor="#FFFFFF"
-		/>
+		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
 </div>
 <Section id="about" class="relative py-24 min-h-[90vh]" zoomEffect>

@@ -58,7 +58,7 @@ export function ExpandableHoloJobCards({
 						<motion.div
 							layoutId={`card-${active.id}-${id}`}
 							ref={ref}
-							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline outline-[1px] outline-black"
+							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline outline-[1px] outline-background"
 						>
 							{animation}
 							<motion.button
@@ -76,7 +76,7 @@ export function ExpandableHoloJobCards({
 										duration: 0.05
 									}
 								}}
-								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline outline-[1px] outline-black border"
+								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline outline-[1px] outline-background border"
 								onClick={() => setActive(null)}
 							>
 								<CloseIcon />
@@ -85,7 +85,7 @@ export function ExpandableHoloJobCards({
 							<div className="w-full max-h-64 p-12 flex items-center justify-center">
 								<motion.div
 									layoutId={`image-${active.id}-${id}`}
-									className="w-24"
+									className="w-24 invert dark:invert-0"
 									dangerouslySetInnerHTML={{ __html: active.svg }}
 								/>
 							</div>
@@ -164,7 +164,7 @@ export function ExpandableHoloJobCards({
 									{card.title}
 								</motion.p>
 								<motion.p
-									className="absolute bottom-4 text-foreground/50 text-xs"
+									className="absolute bottom-4 text-white/50 text-xs"
 									layoutId={`timeperiod-${card.id}-${id}`}
 								>
 									{card.timePeriod}
@@ -205,7 +205,7 @@ export const CloseIcon = () => {
 			strokeWidth="2"
 			strokeLinecap="round"
 			strokeLinejoin="round"
-			className="h-4 w-4 text-white"
+			className="h-4 w-4 text-foreground"
 		>
 			<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 			<path d="M18 6l-12 12" />

@@ -54,7 +54,7 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = As
 			>
 				{title}
 			</h2>
-			<p class="text-center text-md md:text-lg leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-2">
+			<p class="text-center text-md md:text-lg leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-4">
 				{description}
 			</p>
 
@@ -67,7 +67,7 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = As
 				alt={heroImageAlt}
 				transition:name={`img-${post.slug}`}
 			/>
-			<div class="prose prose-invert">
+			<div class="prose dark:prose-invert">
 				<Content />
 			</div>
 		</article>

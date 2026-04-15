@@ -1,7 +1,9 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/Header.astro';
+import ThemeSwitch from '../components/ThemeSwitch.astro';
 import { siteName, siteDescription } from '../constants/site';
+import { createThemeInitScript } from '../lib/theme';
 import '../styles/globals.css';
 import Spotlight from '../components/Spotlight.astro';
 
@@ -12,11 +14,14 @@ interface Props {
 const { title } = Astro.props;
 
 const analyticsId = import.meta.env.GOOGLE_ANALYTICS_ID;
+const themeInitScript = createThemeInitScript();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
+		<ViewTransitions />
+		<script is:inline set:html={themeInitScript} />
 		<meta charset="UTF-8" />
 		<meta name="description" content={siteDescription} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,10 +60,10 @@ const analyticsId = import.meta.env.GOOGLE_ANALYTICS_ID;
 	</head>
 	<body class="relative w-full flex flex-col selection:bg-foreground selection:text-background">
 		<Header class="z-[1]" />
+		<ThemeSwitch />
 		<main id="main" class="relative w-full flex flex-col items-center">
 			<Spotlight class="left-0 md:left-40 max-w-[90%] top-[30vh] h-[100vh]" fill="#d1d1d1" />
 			<slot />
 		</main>
 	</body>
 </html>
-<ViewTransitions />

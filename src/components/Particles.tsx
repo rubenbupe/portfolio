@@ -10,17 +10,85 @@ import { motion, useAnimation } from 'framer-motion';
 type ParticlesProps = {
 	id?: string;
 	className?: string;
-	background?: string;
+	theme?: 'dark' | 'light' | 'auto';
 	particleSize?: number;
 	minSize?: number;
 	maxSize?: number;
 	speed?: number;
-	particleColor?: string;
 	particleDensity?: number;
 };
+
+const PARTICLE_THEME_OPTIONS = {
+	dark: {
+		background: 'transparent',
+		particle: '#ffffff'
+	},
+	light: {
+		background: 'transparent',
+		particle: '#000000'
+	}
+} as const;
+
 export const Particles = (props: ParticlesProps) => {
-	const { id, className, background, minSize, maxSize, speed, particleColor, particleDensity } = props;
+	const { id, className, theme = 'auto', minSize, maxSize, speed, particleDensity } = props;
+	const [effectiveTheme, setEffectiveTheme] = useState<'dark' | 'light'>(() => {
+		if (theme !== 'auto') return theme;
+		return 'dark';
+	});
 	const [init, setInit] = useState(false);
+
+	useEffect(() => {
+		if (theme !== 'auto') {
+			setEffectiveTheme(theme);
+			return;
+		}
+
+		if (typeof document === 'undefined' || typeof window === 'undefined') return;
+
+		const root = document.documentElement;
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+		const resolveTheme = (): 'dark' | 'light' => {
+			if (root.classList.contains('light')) return 'light';
+			if (root.classList.contains('dark')) return 'dark';
+			return mediaQuery.matches ? 'dark' : 'light';
+		};
+
+		const updateTheme = () => {
+			setEffectiveTheme(resolveTheme());
+		};
+
+		updateTheme();
+
+		const observer = new MutationObserver(updateTheme);
+		observer.observe(root, {
+			attributes: true,
+			attributeFilter: ['class']
+		});
+
+		const handleMediaChange = () => {
+			if (root.classList.contains('light') || root.classList.contains('dark')) return;
+			updateTheme();
+		};
+
+		if (typeof mediaQuery.addEventListener === 'function') {
+			mediaQuery.addEventListener('change', handleMediaChange);
+		} else {
+			mediaQuery.addListener(handleMediaChange);
+		}
+
+		return () => {
+			observer.disconnect();
+			if (typeof mediaQuery.removeEventListener === 'function') {
+				mediaQuery.removeEventListener('change', handleMediaChange);
+			} else {
+				mediaQuery.removeListener(handleMediaChange);
+			}
+		};
+	}, [theme]);
+
+	const colors = PARTICLE_THEME_OPTIONS[effectiveTheme];
+
 	useEffect(() => {
 		initParticlesEngine(async engine => {
 			await loadSlim(engine);
@@ -46,13 +114,14 @@ export const Particles = (props: ParticlesProps) => {
 		<motion.div animate={controls} className={cn('opacity-0', className)}>
 			{init && (
 				<TsParticles
+					key={`${id || generatedId}-${effectiveTheme}`}
 					id={id || generatedId}
 					className={cn('h-full w-full')}
 					particlesLoaded={particlesLoaded}
 					options={{
 						background: {
 							color: {
-								value: background || '#0d47a1'
+								value: colors.background
 							}
 						},
 						fullScreen: {
@@ -113,7 +182,7 @@ export const Particles = (props: ParticlesProps) => {
 								}
 							},
 							color: {
-								value: particleColor || '#ffffff',
+								value: colors.particle,
 								animation: {
 									h: {
 										count: 0,

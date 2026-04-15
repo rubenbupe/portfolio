@@ -32,7 +32,43 @@
 		--input: 0 0% 14.9%;
 		--ring: 0 0% 83.1%;
 
+		--conic-background: 210 8.491% 41.569% / 0.12;
+		--conic-border: 0 0% 96.863% / 0.22;
+
 		--radius: 0.5rem;
+	}
+
+	:root.light {
+		--background: 0 0% 98%;
+		--foreground: 210 11% 10%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 210 11% 10%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 210 11% 10%;
+
+		--primary: 210 11% 10%;
+		--primary-foreground: 0 0% 98%;
+
+		--muted: 210 17% 93%;
+		--muted-foreground: 217 10% 40%;
+
+		--destructive: 0 72% 52%;
+		--destructive-foreground: 0 0% 98%;
+
+		--chat-received: 210, 17%, 95%;
+		--chat-received-foreground: 217 12% 23%;
+
+		--chat-sent: 168, 52%, 92%;
+		--chat-sent-foreground: 168 47% 24%;
+
+		--border: 0 0% 82%;
+		--input: 0 0% 90%;
+		--ring: 0 0% 25%;
+
+		--conic-background: 210 8.491% 68.431% / 0.12;
+		--conic-border: 0 0% 2.745% / 0.22;
 	}
 }
 
@@ -71,7 +107,31 @@
 
 html {
 	font-family: system-ui, sans-serif;
+	color-scheme: dark;
 }
+
+html.dark {
+	color-scheme: dark;
+}
+
+html.light {
+	color-scheme: light;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+h1 {
+	font-family: "Cal Sans", sans-serif;
+}
+
+h3, h4, h5, h6, p, span, a, li {
+	font-family: "Cal Sans UI", sans-serif;
+}
+
 code {
 	font-family:
 		Menlo,
@@ -84,7 +144,7 @@ code {
 		monospace;
 }
 
-h2 {
+h2, h2 span {
 	font-family: "InstrumentSerif", serif;
 }
 
@@ -102,4 +162,33 @@ h2 {
 	font-weight: normal;
 	font-style: italic;
 	font-display: swap;
+}
+
+@font-face {
+	font-family: "Cal Sans";
+	src: url("/fonts/CalSans-Regular.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+  font-family: "Cal Sans UI";
+  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
+  font-weight: 300 700;
+  font-variation-settings: "GEOM" 0;
+}
+
+@font-face {
+  font-family: "Cal Sans Text";
+  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
+  font-weight: 300 700;
+  font-variation-settings: "GEOM" 50;
+}
+
+@font-face {
+  font-family: "Cal Sans Geo";
+  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
+  font-weight: 300 700;
+  font-variation-settings: "GEOM" 100;
 }

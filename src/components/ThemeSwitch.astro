@@ -1,0 +1,161 @@
+---
+import Button from './Button.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<script>
+	const themeStorageKey = 'theme';
+	type ThemePreference = 'system' | 'light' | 'dark';
+	type ResolvedTheme = 'light' | 'dark';
+	const root = document.documentElement;
+	const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+	const getSystemTheme = (): ResolvedTheme => {
+		return systemQuery.matches ? 'dark' : 'light';
+	};
+
+	const getStoredThemePreference = (): ThemePreference => {
+		const value = localStorage.getItem(themeStorageKey);
+		if (value === 'light' || value === 'dark' || value === 'system') {
+			return value;
+		}
+		return 'system';
+	};
+
+	const resolveThemePreference = (themePreference: ThemePreference): ResolvedTheme => {
+		if (themePreference !== 'system') return themePreference;
+		return getSystemTheme();
+	};
+
+	const applyResolvedTheme = (resolvedTheme: ResolvedTheme) => {
+		const isLight = resolvedTheme === 'light';
+		document.documentElement.classList.toggle('light', isLight);
+		document.documentElement.classList.toggle('dark', !isLight);
+	};
+
+	const persistThemePreference = (resolvedTheme: ResolvedTheme) => {
+		const canonicalPreference: ThemePreference = resolvedTheme === getSystemTheme() ? 'system' : resolvedTheme;
+		localStorage.setItem(themeStorageKey, canonicalPreference);
+	};
+
+	const getResolvedTheme = (): ResolvedTheme => {
+		const storedPreference = getStoredThemePreference();
+		return resolveThemePreference(storedPreference);
+	};
+
+	const syncTheme = (): ResolvedTheme => {
+		const resolvedTheme = getResolvedTheme();
+		persistThemePreference(resolvedTheme);
+		applyResolvedTheme(resolvedTheme);
+		return resolvedTheme;
+	};
+
+	const updateThemeToggleButtons = () => {
+		const currentResolvedTheme = root.classList.contains('light') ? 'light' : 'dark';
+		const storedPreference = getStoredThemePreference();
+		document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach(button => {
+			button.setAttribute(
+				'aria-label',
+				`Cambiar tema. Modo guardado: ${storedPreference}. Tema aplicado: ${currentResolvedTheme === 'light' ? 'claro' : 'oscuro'}.`
+			);
+			const sunIcon = button.querySelector('[data-theme-icon="sun"]');
+			const moonIcon = button.querySelector('[data-theme-icon="moon"]');
+			sunIcon?.classList.toggle('hidden', currentResolvedTheme !== 'light');
+			moonIcon?.classList.toggle('hidden', currentResolvedTheme !== 'dark');
+		});
+	};
+
+	const applyResolvedThemeWithAnimation = async (resolvedTheme: ResolvedTheme, originElement: Element) => {
+		const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const documentWithTransition = document as Document & {
+			startViewTransition?: (updateCallback: () => void) => { ready: Promise<void> };
+		};
+
+		if (!documentWithTransition.startViewTransition || shouldReduceMotion) {
+			persistThemePreference(resolvedTheme);
+			applyResolvedTheme(resolvedTheme);
+			updateThemeToggleButtons();
+			return;
+		}
+
+		const transition = documentWithTransition.startViewTransition(() => {
+			persistThemePreference(resolvedTheme);
+			applyResolvedTheme(resolvedTheme);
+			updateThemeToggleButtons();
+		});
+
+		await transition.ready;
+
+		const { left, top, width, height } = originElement.getBoundingClientRect();
+		const x = left + width / 2;
+		const y = top + height / 2;
+		const maxRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+
+		root.animate(
+			{
+				clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`]
+			},
+			{
+				duration: 500,
+				easing: 'ease-in-out',
+				pseudoElement: '::view-transition-new(root)'
+			}
+		);
+	};
+
+	const setupThemeToggle = () => {
+		document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach(button => {
+			if (button.getAttribute('data-theme-bound') === 'true') return;
+
+			button.addEventListener('click', async event => {
+				const currentResolvedTheme = root.classList.contains('light') ? 'light' : 'dark';
+				const nextResolvedTheme: ResolvedTheme = currentResolvedTheme === 'light' ? 'dark' : 'light';
+				await applyResolvedThemeWithAnimation(nextResolvedTheme, event.currentTarget as Element);
+			});
+
+			button.setAttribute('data-theme-bound', 'true');
+		});
+
+		syncTheme();
+		updateThemeToggleButtons();
+
+		if (root.getAttribute('data-system-theme-bound') !== 'true') {
+			systemQuery.addEventListener('change', () => {
+				syncTheme();
+				updateThemeToggleButtons();
+			});
+			root.setAttribute('data-system-theme-bound', 'true');
+		}
+
+		if (root.getAttribute('data-theme-swap-bound') !== 'true') {
+			document.addEventListener('astro:before-swap', event => {
+				const swapEvent = event as Event & { newDocument?: Document };
+				const nextDocument = swapEvent.newDocument;
+				if (!nextDocument) return;
+
+				const resolvedTheme = getResolvedTheme();
+				nextDocument.documentElement.classList.toggle('light', resolvedTheme === 'light');
+				nextDocument.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+			});
+			root.setAttribute('data-theme-swap-bound', 'true');
+		}
+	};
+
+	setupThemeToggle();
+	document.addEventListener('astro:page-load', () => {
+		setupThemeToggle();
+	});
+</script>
+
+<div class="fixed bottom-4 right-4 z-[60] md:bottom-6 md:right-6">
+	<Button
+		class="p-2.5 shadow-lg aspect-square h-auto !rounded-full"
+		size="sm"
+		variant="outline"
+		data-theme-toggle
+		aria-label="Cambiar tema"
+	>
+		<Icon data-theme-icon="sun" name="tabler:sun" size={18} class="hidden" />
+		<Icon data-theme-icon="moon" name="tabler:moon" size={18} />
+	</Button>
+</div>
