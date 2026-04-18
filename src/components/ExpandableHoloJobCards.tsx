@@ -48,17 +48,17 @@ export function ExpandableHoloJobCards({
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className="fixed inset-0 bg-card/20 h-full w-full z-[1] backdrop-blur-md"
+						className="fixed inset-0 bg-card/20 h-full w-full z-1 backdrop-blur-md"
 					/>
 				)}
 			</AnimatePresence>
 			<AnimatePresence>
 				{active && typeof active === 'object' ? (
-					<div className="fixed inset-0  grid place-items-center z-[1]">
+					<div className="fixed inset-0  grid place-items-center z-1">
 						<motion.div
 							layoutId={`card-${active.id}-${id}`}
 							ref={ref}
-							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline outline-[1px] outline-background"
+							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline-solid outline-[1px] outline-background"
 						>
 							{animation}
 							<motion.button
@@ -76,7 +76,7 @@ export function ExpandableHoloJobCards({
 										duration: 0.05
 									}
 								}}
-								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline outline-[1px] outline-background border"
+								className="flex absolute top-6 left-6 items-center justify-center bg-card rounded-full h-6 w-6 outline-solid outline-[1px] outline-background border"
 								onClick={() => setActive(null)}
 							>
 								<CloseIcon />

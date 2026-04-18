@@ -1,16 +1,16 @@
 import { defineConfig } from 'astro/config';
-import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import icon from "astro-icon";
 import mdx from '@astrojs/mdx';
 import rehypeExternalLinks from 'rehype-external-links';
 import sitemap from "@astrojs/sitemap";
 import { site } from './src/constants/site';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
 	site,
-  integrations: [mdx(), tailwind(), react(), icon({
+  integrations: [mdx(), react(), icon({
     svgoOptions: {
       multipass: true,
       plugins: ['preset-default',
@@ -45,5 +45,8 @@ export default defineConfig({
         }
       ],
     ],
+	},
+	vite: {
+		plugins: [tailwindcss()]
 	}
 });

@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate } from '../../lib/utils';
 import { Image } from 'astro:assets';
@@ -7,7 +7,7 @@ import { Image } from 'astro:assets';
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map(post => ({
-		params: { slug: post.slug },
+		params: { slug: post.id }, // ✅ post.slug → post.id
 		props: post
 	}));
 }
@@ -16,20 +16,17 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const slug = Astro.params.slug;
-const { Content } = await post.render();
+const { Content } = await render(post); // ✅ post.render() → render(post)
 
 if (!slug || !post) {
-	return new Response(null, {
-		status: 404,
-		statusText: 'Not found'
-	});
+	return new Response(null, { status: 404, statusText: 'Not found' });
 }
 
 const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props.data;
 ---
 
 <Layout title={title}>
-	<div class="relative container max-w-screen-md py-10">
+	<div class="relative container max-w-(--breakpoint-md) py-10">
 		<article class="max-w-none">
 			<div class="flex items-center justify-center w-full">
 				<span
@@ -54,7 +51,7 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = As
 			>
 				{title}
 			</h2>
-			<p class="text-center text-md md:text-lg leading-[1.6] text-foreground/50 font-normal md:leading-[1.5] mt-4">
+			<p class="text-center text-md md:text-lg leading-[1.6] text-foreground/50 font-normal md:leading-normal mt-4">
 				{description}
 			</p>
 
@@ -65,7 +62,11 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = As
 				height={360}
 				src={heroImage}
 				alt={heroImageAlt}
-				transition:name={`img-${post.slug}`}
+				transition:name={`img-${post.id}`}
+				✅
+				post.slug
+				→
+				post.id
 			/>
 			<div class="prose dark:prose-invert">
 				<Content />

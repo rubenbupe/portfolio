@@ -1,11 +1,11 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import ThemeSwitch from '../components/ThemeSwitch.astro';
 import { siteName, siteDescription } from '../constants/site';
 import { createThemeInitScript } from '../lib/theme';
 import '../styles/globals.css';
 import Spotlight from '../components/Spotlight.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title?: string;
@@ -20,7 +20,7 @@ const themeInitScript = createThemeInitScript();
 <!doctype html>
 <html lang="en">
 	<head>
-		<ViewTransitions />
+		<ClientRouter />
 		<script is:inline set:html={themeInitScript} />
 		<meta charset="UTF-8" />
 		<meta name="description" content={siteDescription} />
@@ -59,10 +59,10 @@ const themeInitScript = createThemeInitScript();
 		</style>
 	</head>
 	<body class="relative w-full flex flex-col selection:bg-foreground selection:text-background">
-		<Header class="z-[1]" />
+		<Header class="z-1" />
 		<ThemeSwitch />
 		<main id="main" class="relative w-full flex flex-col items-center">
-			<Spotlight class="left-0 md:left-40 max-w-[90%] top-[30vh] h-[100vh]" fill="#d1d1d1" />
+			<Spotlight class="left-0 md:left-40 max-w-[90%] top-[30vh] h-screen" fill="#d1d1d1" />
 			<slot />
 		</main>
 	</body>

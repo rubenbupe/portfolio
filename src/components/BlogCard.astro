@@ -11,9 +11,9 @@ const post = Astro.props;
 
 <Pin3d
 	title="Click to read more"
-	href={`/blog/${post.slug}/`}
+	href={`/blog/${post.id}/`}
 	containerClassName="w-full"
-	className="w-full p-4 rounded-2xl border border-transparent group-hover/pin:border-border outline outline-transparent group-hover/pin:outline-background outline-[1px] transition-all"
+	className="w-full p-4 rounded-2xl border border-transparent group-hover/pin:border-border outline-solid outline-transparent group-hover/pin:outline-background outline-[1px] transition-all"
 >
 	<article class="w-full">
 		<Image
@@ -23,25 +23,25 @@ const post = Astro.props;
 			height={360}
 			src={post.data.heroImage}
 			alt={post.data.heroImageAlt}
-			transition:name={`img-${post.slug}`}
+			transition:name={`img-${post.id}`}
 		/>
 
 		<div>
 			<h2
 				class="text-lg md:text-xl leading-tight line-clamp-3 mt-4 text-balance"
-				transition:name={'title-' + post.slug}
+				transition:name={'title-' + post.id}
 			>
 				{post.data.title}
 			</h2>
 		</div>
 		<div class="flex items-center justify-between mt-2">
-			<span class="font-medium text-foreground/50 text-sm" transition:name={'date-' + post.slug}>
+			<span class="font-medium text-foreground/50 text-sm" transition:name={'date-' + post.id}>
 				{formatDate(post.data.pubDate)}
 			</span>
 		</div>
 	</article>
 	<div
-		class="absolute -inset-2 pointer-evnets-none rounded-2xl group-hover/pin:backdrop-blur transition-all duration-500 [mask-image:linear-gradient(to_top,transparent,black)]"
+		class="absolute -inset-2 pointer-evnets-none rounded-2xl group-hover/pin:backdrop-blur-sm transition-all duration-500 mask-[linear-gradient(to_top,transparent,black)]"
 	>
 	</div>
 </Pin3d>

@@ -31,13 +31,13 @@ const links = [
 		const headerScrolledClasses = [
 			'bg-card/60',
 			'shadow-lg',
-			'!border-t-border',
-			'!border-x-border',
+			'border-t-border!',
+			'border-x-border!',
 			'!md:mx-8',
-			'!mx-8',
-			'!px-4',
-			'!rounded-2xl',
-			'![mask-image:none]'
+			'mx-8!',
+			'px-4!',
+			'rounded-2xl!',
+			'mask-none!'
 		];
 		const header = document.querySelector('header');
 		const headerContainer = document.querySelector('#header-container');
@@ -88,7 +88,7 @@ const links = [
 >
 	<header
 		class={cn(
-			'border border-t-transparent border-x-transparent outline outline-[1px] outline-background/80 mx-0 [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%_-_40px),transparent)]',
+			'border border-t-transparent border-x-transparent outline-solid outline-[1px] outline-background/80 mx-0 mask-[linear-gradient(to_right,transparent,black_40px,black_calc(100%-40px),transparent)]',
 			'transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg'
 		)}
 	>
@@ -140,9 +140,9 @@ const links = [
 			>
 		</nav>
 	</header>
-	<nav id="mobile-navbar" class="fixed hidden md:!hidden inset-0 backdrop-blur-xl flex flex-col">
+	<nav id="mobile-navbar" class="fixed hidden md:hidden! inset-0 backdrop-blur-xl flex flex-col">
 		<div
-			class="my-4 mx-8 outline rounded-2xl outline-[1px] outline-card border bg-card/60 p-3 px-4 flex flex-col gap-4"
+			class="my-4 mx-8 outline-solid rounded-2xl outline-[1px] outline-card border bg-card/60 p-3 px-4 flex flex-col gap-4"
 		>
 			<div class="flex items-center">
 				<a class="text-lg tracking-tight font-semibold mx-2 text-foreground" href="/#home">

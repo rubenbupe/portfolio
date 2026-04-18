@@ -43,7 +43,7 @@ import nameToSpeech from '../assets/name-to-speech.mp3';
 <div class="relative w-full flex flex-col">
 	<ConicHeader color="hsla(var(--conic-background))" borderColor="hsla(var(--conic-border))" />
 	<div
-		class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+		class="w-full max-w-160 h-40 relative self-center mask-[radial-gradient(350px_200px_at_top,white_20%,transparent)]"
 	>
 		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
@@ -63,7 +63,7 @@ import nameToSpeech from '../assets/name-to-speech.mp3';
 					area-label="Check pronunciation"
 					><strong>Rubén Buzón</strong><Icon
 						name="tabler:volume-2"
-						class="inline transform -translate-y-1 translate-x-[1px]"
+						class="inline transform -translate-y-1 translate-x-px"
 					/></button
 				>
 
@@ -117,7 +117,7 @@ import nameToSpeech from '../assets/name-to-speech.mp3';
 						style="background-position: center center; transform: translateZ(-1000px);"
 					>
 						<GridPatternSvg
-							className="absolute top-0 left-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
+							className="absolute top-0 left-0 h-full w-full mask-[radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_80%)]"
 						/>
 					</div>
 					<div
@@ -125,25 +125,25 @@ import nameToSpeech from '../assets/name-to-speech.mp3';
 						style="background-position: center center; transform: translateZ(-500px);"
 					>
 						<div
-							class="h-full w-full bg-gradient-to-br from-gray-800/20 to-primary/30 to-80% from-40% [mask-image:radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
+							class="h-full w-full bg-linear-to-br from-gray-800/20 to-primary/30 to-80% from-40% mask-[radial-gradient(ellipse_at_center,white_0%,white_40%,transparent_70%)]"
 						>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div
-				class="flex isolate rounded-lg max-w-64 w-full pointer-events-none transition-all group-hover:[transform:rotateX(15deg)_rotateY(20deg)_rotate(0deg)]"
+				class="flex isolate rounded-lg max-w-64 w-full pointer-events-none transition-all group-hover:transform-[rotateX(15deg)_rotateY(20deg)_rotate(0deg)]"
 			>
 				<div
-					class="absolute w-64 aspect-square transition-all bg-gradient-to-b from-sky-200 to-sky-700 duration-300 transform rounded-lg backdrop-blur group-hover:shadow-lg group-hover:translate-y-8 group-hover:translate-x-8 overflow-hidden"
+					class="absolute w-64 aspect-square transition-all bg-linear-to-b from-sky-200 to-sky-700 duration-300 transform rounded-lg backdrop-blur-sm group-hover:shadow-lg group-hover:translate-y-8 group-hover:translate-x-8 overflow-hidden"
 				>
 				</div>
-				<div class="absolute w-64 aspect-square rounded-lg backdrop-blur group-hover:shadow-lg">
+				<div class="absolute w-64 aspect-square rounded-lg backdrop-blur-sm group-hover:shadow-lg">
 					<Image src={profileImage2} alt="Profile" loading="lazy" class="rounded-lg shadow-lg filter w-full flex-1" />
 				</div>
 
 				<div
-					class="rounded-lg relative flex w-full transition-all duration-300 group-hover:bg-primary/20 transform group-hover:-translate-y-8 group-hover:-translate-x-8 aspect-square flex-1 group-hover:backdrop-blur"
+					class="rounded-lg relative flex w-full transition-all duration-300 group-hover:bg-primary/20 transform group-hover:-translate-y-8 group-hover:-translate-x-8 aspect-square flex-1 group-hover:backdrop-blur-sm"
 				>
 					<Image src={profileImage1} alt="Profile" loading="lazy" class="rounded-lg shadow-lg filter w-full flex-1" />
 				</div>

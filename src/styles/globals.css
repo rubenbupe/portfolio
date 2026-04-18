@@ -1,6 +1,156 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+	margin-inline: auto;
+	padding-inline: 2rem;
+	@media (width >= --theme(--breakpoint-sm)) {
+		max-width: none;
+	}
+	@media (width >= 1096px) {
+		max-width: 1096px;
+	}
+}
+
+@theme {
+	--color-border: hsl(var(--border));
+	--color-inner-border: hsl(var(--inner-border));
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+
+	--color-primary: hsl(var(--primary));
+	--color-primary-foreground: hsl(var(--primary-foreground));
+
+	--color-destructive: hsl(var(--destructive));
+	--color-destructive-foreground: hsl(var(--destructive-foreground));
+
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+
+	--color-popover: hsl(var(--popover));
+	--color-popover-foreground: hsl(var(--popover-foreground));
+
+	--color-card: hsl(var(--card));
+	--color-card-foreground: hsl(var(--card-foreground));
+
+	--color-chat-sent: hsl(var(--chat-sent));
+	--color-chat-sent-foreground: hsl(var(--chat-sent-foreground));
+
+	--color-chat-received: hsl(var(--chat-received));
+	--color-chat-received-foreground: hsl(var(--chat-received-foreground));
+
+	--radius-lg: var(--radius);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-sm: calc(var(--radius) - 4px);
+
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+	--animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+	--animate-meteor: meteor 5s linear infinite;
+	--animate-meteor-trail: meteor-trail 5s linear infinite;
+	--animate-grid: grid 30s linear infinite;
+
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+	@keyframes spotlight {
+		0% {
+			opacity: 0;
+			transform: translate(-72%, -62%) scale(0.5);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(-50%, -40%) scale(1);
+		}
+	}
+	@keyframes meteor {
+		0% {
+			transform: rotate(215deg) translateX(0);
+			opacity: 1;
+		}
+		70% {
+			opacity: 1;
+		}
+		100% {
+			transform: rotate(215deg) translateX(-100vh);
+			opacity: 0;
+		}
+	}
+	@keyframes meteor-trail {
+		0% {
+			width: 30px;
+		}
+		100% {
+			width: 80px;
+		}
+	}
+	@keyframes grid {
+		0% {
+			transform: translateY(-50%);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	}
+}
+
+@utility visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+@utility animate-in-blur {
+	filter: blur(2px);
+	opacity: 0.95;
+	transition: all 0.5s ease;
+}
+
+@utility animate-out-blur {
+	transition: all 0.5s ease;
+}
 
 @layer base {
 	:root {
@@ -81,30 +231,6 @@
 	}
 }
 
-@layer components {
-	.visually-hidden {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border-width: 0;
-	}
-
-	.animate-in-blur {
-		filter: blur(2px);
-		opacity: 0.95;
-		transition: all 0.5s ease;
-	}
-
-	.animate-out-blur {
-		transition: all 0.5s ease;
-	}
-}
-
 html {
 	font-family: system-ui, sans-serif;
 	color-scheme: dark;
@@ -125,11 +251,18 @@ html.light {
 }
 
 h1 {
-	font-family: "Cal Sans", sans-serif;
+	font-family: 'Cal Sans', sans-serif;
 }
 
-h3, h4, h5, h6, p, span, a, li {
-	font-family: "Cal Sans UI", sans-serif;
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+li {
+	font-family: 'Cal Sans UI', sans-serif;
 }
 
 code {
@@ -144,51 +277,52 @@ code {
 		monospace;
 }
 
-h2, h2 span {
-	font-family: "InstrumentSerif", serif;
+h2,
+h2 span {
+	font-family: 'InstrumentSerif', serif;
 }
 
 @font-face {
-	font-family: "InstrumentSerif";
-	src: url("/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+	font-family: 'InstrumentSerif';
+	src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
 
 @font-face {
-	font-family: "InstrumentSerif";
-	src: url("/fonts/InstrumentSerif-Italic.ttf") format("truetype");
+	font-family: 'InstrumentSerif';
+	src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype');
 	font-weight: normal;
 	font-style: italic;
 	font-display: swap;
 }
 
 @font-face {
-	font-family: "Cal Sans";
-	src: url("/fonts/CalSans-Regular.ttf") format("truetype");
+	font-family: 'Cal Sans';
+	src: url('/fonts/CalSans-Regular.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
 
 @font-face {
-  font-family: "Cal Sans UI";
-  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
-  font-weight: 300 700;
-  font-variation-settings: "GEOM" 0;
+	font-family: 'Cal Sans UI';
+	src: url('/fonts/CalSansUI.wght.GEOM.ttf') format('truetype');
+	font-weight: 300 700;
+	font-variation-settings: 'GEOM' 0;
 }
 
 @font-face {
-  font-family: "Cal Sans Text";
-  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
-  font-weight: 300 700;
-  font-variation-settings: "GEOM" 50;
+	font-family: 'Cal Sans Text';
+	src: url('/fonts/CalSansUI.wght.GEOM.ttf') format('truetype');
+	font-weight: 300 700;
+	font-variation-settings: 'GEOM' 50;
 }
 
 @font-face {
-  font-family: "Cal Sans Geo";
-  src: url("./fonts/CalSansUI.wght.GEOM.ttf") format("truetype");
-  font-weight: 300 700;
-  font-variation-settings: "GEOM" 100;
+	font-family: 'Cal Sans Geo';
+	src: url('/fonts/CalSansUI.wght.GEOM.ttf') format('truetype');
+	font-weight: 300 700;
+	font-variation-settings: 'GEOM' 100;
 }

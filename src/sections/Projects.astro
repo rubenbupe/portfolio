@@ -146,7 +146,7 @@ const projects = [
 <div class="relative w-full flex flex-col overflow-hidden">
 	<ConicHeader color="hsla(var(--conic-background))" borderColor="hsla(var(--conic-border))" />
 	<div
-		class="w-full max-w-[40rem] h-40 relative self-center [mask-image:radial-gradient(350px_200px_at_top,white_20%,transparent)]"
+		class="w-full max-w-160 h-40 relative self-center mask-[radial-gradient(350px_200px_at_top,white_20%,transparent)]"
 	>
 		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
@@ -160,12 +160,12 @@ const projects = [
 
 		<div
 			id="projects-grid"
-			class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-gradient-to-b from-foreground/5 dark:from-foreground/10 dark:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)] [box-shadow:inset_0_0_10px_0_rgba(0,0,0,0.1)]"
+			class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-linear-to-b from-foreground/5 dark:from-foreground/10 dark:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)] [box-shadow:inset_0_0_10px_0_rgba(0,0,0,0.1)]"
 		>
 			<div class="absolute w-full h-full overflow-hidden pointer-events-none">
 				<div
 					id="cursor-glow"
-					class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none opacity-0 transition-opacity duration-300 ease-in-out blur-[150px] [will-change:filter]"
+					class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none opacity-0 transition-opacity duration-300 ease-in-out blur-[150px] will-change-[filter]"
 				>
 				</div>
 			</div>
@@ -178,7 +178,7 @@ const projects = [
 					border-b
 					border-r
 					border-dashed
-					[mask-image:linear-gradient(to_bottom_right,transparent_50%,black)]"
+					mask-[linear-gradient(to_bottom_right,transparent_50%,black)]"
 			>
 			</div>
 
@@ -191,7 +191,7 @@ const projects = [
 							border-t
 							border-l
 							border-dashed
-							[mask-image:linear-gradient(to_top_left,transparent_50%,black)]"
+							mask-[linear-gradient(to_top_left,transparent_50%,black)]"
 			>
 			</div>
 			<div
@@ -203,7 +203,7 @@ const projects = [
 							border-b
 							border-l
 							border-dashed
-							[mask-image:linear-gradient(to_bottom_left,transparent_50%,black)]"
+							mask-[linear-gradient(to_bottom_left,transparent_50%,black)]"
 			>
 			</div>
 			<div
@@ -215,7 +215,7 @@ const projects = [
 							border-t
 							border-r
 							border-dashed
-							[mask-image:linear-gradient(to_top_right,transparent_50%,black)]"
+							mask-[linear-gradient(to_top_right,transparent_50%,black)]"
 			>
 			</div>
 			<GridIcon class="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-foreground" />
@@ -259,7 +259,7 @@ const projects = [
 							<Image
 								src={project.image}
 								alt="Project 1"
-								class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow object-cover"
+								class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow-sm object-cover"
 							/>
 						</div>
 					</a>
