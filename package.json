@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"clean": "rm -rf dist",
-		"build": "npm run clean && astro check && astro build",
+		"build": "bun run clean && astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"lint:check": "prettier --check **/*.{ts,tsx,astro}",
