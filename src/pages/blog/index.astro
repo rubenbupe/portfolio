@@ -14,7 +14,7 @@ const featuredPosts = await getFeaturedPosts();
 		{
 			featuredPosts.length > 0 && (
 				<>
-					<h1 class="text-4xl font-bold sm:text-5xl md:text-7xl pb-2 bg-linear-to-b from-20% dark:from-50% to-100% from-[#808080] to-black dark:from-white dark:to-gray-400 text-transparent bg-clip-text dark:[text-shadow:0_1px_5px_rgb(0_0_0/20%)] [text-shadow:0_0_4px_rgb(0_0_0/30%)]">
+					<h1 class="text-4xl font-bold sm:text-5xl md:text-7xl pb-2 bg-linear-to-b from-20% dark:from-50% to-100% from-[#808080] to-black dark:from-white dark:to-gray-400 text-transparent bg-clip-text dark:[text-shadow:0_1px_5px_rgb(0_0_0/20%)] [text-shadow:0_0_4px_rgb(0_0_0/20%)]">
 						Blog
 					</h1>
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8 -mx-4">
@@ -40,9 +40,7 @@ const featuredPosts = await getFeaturedPosts();
 			)
 		}
 	</Section>
-	<div
-		class="w-full max-w-160 h-40 relative self-center mask-[radial-gradient(at_bottom,white_20%,transparent)]"
-	>
+	<div class="w-full max-w-160 h-40 relative self-center mask-[radial-gradient(at_bottom,white_20%,transparent)]">
 		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
 </Layout>
