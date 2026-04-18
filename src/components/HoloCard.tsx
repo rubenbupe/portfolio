@@ -121,13 +121,13 @@ export const HoloCard = ({
 				}
 			}}
 		>
-			<div className="h-full grid will-change-transform origin-center transition-transform duration-(--duration) ease-(--easing) delay-(--delay) transform-[rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-(--radius) border outline-solid outline-[1px] outline-black hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden opacity-95 hover:opacity-100">
-				<div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
+			<div className="h-full grid will-change-transform origin-center transition-transform duration-(--duration) ease-(--easing) delay-(--delay) transform-[rotateY(var(--r-x))_rotateX(var(--r-y))] corner-superellipse-[1.4] rounded-(--radius) border outline-solid outline-[1px] outline-black hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden opacity-95 hover:opacity-100">
+				<div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light ">
 					<div className={cn('h-full w-full bg-[hsl(0_0%3.9%)]', className)}>{children}</div>
 				</div>
-				<div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_1px_0_round_var(--radius))] opacity-(--opacity) transition-opacity transition-background duration-(--duration) ease-(--easing) delay-(--delay) will-change-background [background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),rgba(255,255,255,0.8)_10%,rgba(255,255,255,0.65)_20%,rgba(255,255,255,0)_90%)]" />
+				<div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light opacity-(--opacity) transition-opacity transition-background duration-(--duration) ease-(--easing) delay-(--delay) will-change-background [background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),rgba(255,255,255,0.8)_10%,rgba(255,255,255,0.65)_20%,rgba(255,255,255,0)_90%)]" />
 				<div
-					className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-(--opacity) will-change-background transition-opacity [clip-path:inset(0_0_1px_0_round_var(--radius))] [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),var(--logo-pattern),var(--rainbow),var(--diagonal),var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-inherit after:mix-blend-exclusion after:bg-size-[var(--foil-size),200%_400%,800%,200%] after:bg-position-[center,0%_var(--bg-y),calc(var(--bg-x)*-1)_calc(var(--bg-y)*-1),var(--bg-x)_var(--bg-y)] after:[background-blend-mode:soft-light,hue,hard-light]"
+					className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-(--opacity) will-change-background transition-opacity [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),var(--logo-pattern),var(--rainbow),var(--diagonal),var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-inherit after:mix-blend-exclusion after:bg-size-[var(--foil-size),200%_400%,800%,200%] after:bg-position-[center,0%_var(--bg-y),calc(var(--bg-x)*-1)_calc(var(--bg-y)*-1),var(--bg-x)_var(--bg-y)] after:[background-blend-mode:soft-light,hue,hard-light]"
 					style={{ ...backgroundStyle }}
 				/>
 			</div>

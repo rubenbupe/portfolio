@@ -58,7 +58,7 @@ export function ExpandableHoloJobCards({
 						<motion.div
 							layoutId={`card-${active.id}-${id}`}
 							ref={ref}
-							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] overflow-hidden sm:border sm:outline-solid outline-[1px] outline-background"
+							className="relative w-full max-w-[500px] flex flex-col  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-card/90 sm:rounded-[48px] corner-squircle overflow-hidden sm:border sm:outline-solid outline-[1px] outline-background"
 						>
 							{animation}
 							<motion.button
@@ -163,10 +163,7 @@ export function ExpandableHoloJobCards({
 								<motion.p layoutId={`title-${card.id}-${id}`} className="text-white font-bold text-xl mt-4">
 									{card.title}
 								</motion.p>
-								<motion.p
-									className="absolute bottom-4 text-white/50 text-xs"
-									layoutId={`timeperiod-${card.id}-${id}`}
-								>
+								<motion.p className="absolute bottom-4 text-white/50 text-xs" layoutId={`timeperiod-${card.id}-${id}`}>
 									{card.timePeriod}
 								</motion.p>
 								<p className="visually-hidden" aria-hidden="true">

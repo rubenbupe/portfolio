@@ -13,12 +13,12 @@ const post = Astro.props;
 	title="Click to read more"
 	href={`/blog/${post.id}/`}
 	containerClassName="w-full"
-	className="w-full p-4 rounded-2xl border border-transparent group-hover/pin:border-border outline-solid outline-transparent group-hover/pin:outline-background outline-[1px] transition-all"
+	className="w-full p-4 rounded-2xl corner-superellipse-[1.4] border border-transparent group-hover/pin:border-border outline-solid outline-transparent group-hover/pin:outline-background outline-[1px] transition-all"
 >
 	<article class="w-full">
 		<Image
 			loading="eager"
-			class="w-full h-full object-cover rounded-md overflow-hidden aspect-video border filter grayscale group-hover/pin:grayscale-0 transition-all"
+			class="w-full h-full object-cover rounded-xl corner-squircle overflow-hidden aspect-video border filter grayscale group-hover/pin:grayscale-0 transition-all"
 			width={720}
 			height={360}
 			src={post.data.heroImage}
@@ -27,10 +27,7 @@ const post = Astro.props;
 		/>
 
 		<div>
-			<h2
-				class="text-lg md:text-xl leading-tight line-clamp-3 mt-4 text-balance"
-				transition:name={'title-' + post.id}
-			>
+			<h2 class="text-lg md:text-xl leading-tight line-clamp-3 mt-4 text-balance" transition:name={'title-' + post.id}>
 				{post.data.title}
 			</h2>
 		</div>
@@ -41,7 +38,7 @@ const post = Astro.props;
 		</div>
 	</article>
 	<div
-		class="absolute -inset-2 pointer-evnets-none rounded-2xl group-hover/pin:backdrop-blur-sm transition-all duration-500 mask-[linear-gradient(to_top,transparent,black)]"
+		class="absolute -inset-2 pointer-evnets-none rounded-2xl corner-superellipse-[1.4] group-hover/pin:backdrop-blur-sm transition-all duration-500 mask-[linear-gradient(to_top,transparent,black)]"
 	>
 	</div>
 </Pin3d>

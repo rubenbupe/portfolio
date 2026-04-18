@@ -36,7 +36,7 @@ const links = [
 			'!md:mx-8',
 			'mx-8!',
 			'px-4!',
-			'rounded-2xl!',
+			'rounded-3xl!',
 			'mask-none!'
 		];
 		const header = document.querySelector('header');
@@ -89,7 +89,7 @@ const links = [
 	<header
 		class={cn(
 			'border border-t-transparent border-x-transparent outline-solid outline-[1px] outline-background/80 mx-0 mask-[linear-gradient(to_right,transparent,black_40px,black_calc(100%-40px),transparent)]',
-			'transition-all duration-300 ease-in-out rounded-2xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg'
+			'transition-all duration-300 ease-in-out corner-superellipse-[1.5] rounded-3xl rounded-t-none rounded-l-none rounded-r-none p-3 px-6 md:px-10 self-stretch backdrop-filter backdrop-blur-lg'
 		)}
 	>
 		<nav class="relative flex gap-4 items-center">
@@ -103,7 +103,7 @@ const links = [
 				{
 					[...links].map(link => (
 						<a
-							class="text-sm font-medium mx-2 text-foreground px-2 py-1 rounded-lg hover:bg-primary/20 whitespace-nowrap"
+							class="text-sm font-medium mx-2 text-foreground px-2 py-1 rounded-lg corner-superellipse-[1.4] hover:bg-primary/20 whitespace-nowrap"
 							href={link.href}
 							target={link.external ? '_blank' : '_self'}
 						>
