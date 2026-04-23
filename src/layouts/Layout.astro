@@ -6,7 +6,7 @@ import { createThemeInitScript } from '../lib/theme';
 import '../styles/globals.css';
 import Spotlight from '../components/Spotlight.astro';
 import { ClientRouter } from 'astro:transitions';
-import Posthog from '../components/posthog.astro';
+import Posthog from '../components/Posthog.astro';
 
 interface Props {
 	title?: string;
@@ -26,11 +26,13 @@ const themeInitScript = createThemeInitScript();
 		<meta name="description" content={siteDescription} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
-		<Posthog posthog={{
-			apiHost: import.meta.env.PUBLIC_POSTHOG_API_HOST,
-			apiKey: import.meta.env.PUBLIC_POSTHOG_API_KEY,
-			personProfiles: import.meta.env.PUBLIC_POSTHOG_PERSON_PROFILES
-		}} />
+		<Posthog
+			posthog={{
+				apiHost: import.meta.env.PUBLIC_POSTHOG_API_HOST,
+				apiKey: import.meta.env.PUBLIC_POSTHOG_API_KEY,
+				personProfiles: import.meta.env.PUBLIC_POSTHOG_PERSON_PROFILES
+			}}
+		/>
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
