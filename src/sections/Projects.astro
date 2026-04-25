@@ -11,6 +11,7 @@ import projectSeniorLauncher from '../assets/project-senior-launcher.webp';
 import projectBuildingRoofDetection from '../assets/project-building-roof-detection.webp';
 import projectGabinsoftLanding from '../assets/project-gabinsoft-landing.webp';
 import projectFacialExpressionRecognition from '../assets/project-facial-expression-recognition.webp';
+import projectFerropanel from '../assets/project-ferropanel.webp';
 import projectRecipeAIVideoParser from '../assets/project-recipe-ai-video-parser.webp';
 import projectOpenSource from '../assets/project-github.webp';
 import { Image } from 'astro:assets';
@@ -73,6 +74,17 @@ const projects = [
 		url: 'https://github.com/rubenbupe/facial-expressions-detector',
 		image: projectFacialExpressionRecognition,
 		feature: false
+	},
+	{
+		title: 'Ferropanel - ADIF dashboard configurator',
+		paragraphs: [
+			'Ferropanel is an open-source visual configurator for ADIF station dashboards, built after reverse engineering the original QR-based system.',
+			'It generates fully customizable panel URLs and includes a custom React wrapper connected directly to the original real-time data WebSocket.'
+		],
+		badges: ['TypeScript', 'React', 'TailwindCSS', 'Shadcn UI', 'WebSocket', 'Reverse Engineering'],
+		url: 'https://ferropanel.rubenbupe.com',
+		image: projectFerropanel,
+		feature: true
 	},
 	{
 		title: 'Recipe AI video parser',
