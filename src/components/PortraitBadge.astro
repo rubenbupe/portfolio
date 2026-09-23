@@ -320,12 +320,14 @@ const fields = [
 			v1Url ? (
 				<a
 					href={v1Url}
+					target="_blank"
+					rel="noopener"
 					class="badge-back absolute inset-0 rounded-[28px] corner-superellipse-[1.4] border border-foreground/20 overflow-hidden transition-transform duration-700 ease-(--ease-out-expo)"
 				>
 					<span class="absolute inset-0 bg-[linear-gradient(135deg,#fafafa_0%,#b9bec6_28%,#f2f3f5_46%,#8e949c_70%,#e6e8eb_100%)]" />
 					<span class="absolute top-3 right-3 flex items-center gap-0.5 text-[#16181b]">
 						<code class="text-sm">v1</code>
-						<span class="sr-only"> (previous version of this website)</span>
+						<span class="sr-only"> (previous version of this website, opens in a new tab)</span>
 						<Icon name="tabler:arrow-up-right" size={14} />
 					</span>
 				</a>
