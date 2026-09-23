@@ -32,9 +32,7 @@ const fields = [
 	const DAMPING = 0.985;
 	const STEP = 1 / 120;
 	const ROPE_SEGMENTS = 12;
-	// How much the strap can be pulled beyond its length while dragging (just a little)
-	const MAX_STRETCH = 1.4;
-	const ITERATIONS = 24;
+	const ITERATIONS = 16;
 	// Where the fabric ends inside the metal crimp, measured up from the slot centre.
 	// The crimp and ring are part of the badge, so they rotate with it and never slide.
 	const STRAP_END = 41;
@@ -130,19 +128,8 @@ const fields = [
 			if (dragged) {
 				dragged.px = dragged.x;
 				dragged.py = dragged.y;
-				let x = dragTarget.x - dragOffset.x;
-				let y = dragTarget.y - dragOffset.y;
-				// Keep the grabbed point within reach of the strap, so it only stretches a little
-				const reach = ropeLength * MAX_STRETCH + (dragged === com ? link : 0);
-				anchors.forEach(anchor => {
-					const distance = Math.hypot(x - anchor.x, y - anchor.y);
-					if (distance > reach) {
-						x = anchor.x + ((x - anchor.x) * reach) / distance;
-						y = anchor.y + ((y - anchor.y) * reach) / distance;
-					}
-				});
-				dragged.x = x;
-				dragged.y = y;
+				dragged.x = dragTarget.x - dragOffset.x;
+				dragged.y = dragTarget.y - dragOffset.y;
 			}
 			ropes.forEach(rope => rope.slice(0, -1).forEach(integrate));
 			integrate(pivotPoint);
