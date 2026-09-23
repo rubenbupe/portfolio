@@ -28,8 +28,8 @@ const fields = [
 	type Point = { x: number; y: number; px: number; py: number; inv: number };
 
 	const GRAVITY = 2400;
-	// Strong damping: it moves and swings, but settles quickly instead of bouncing around
-	const DAMPING = 0.972;
+	// Light damping: the badge keeps swinging and bouncing for a while before it settles
+	const DAMPING = 0.985;
 	const STEP = 1 / 120;
 	const ROPE_SEGMENTS = 12;
 	// How much the strap can be pulled beyond its length while dragging (just a little)
@@ -255,7 +255,7 @@ const fields = [
 		layout();
 		if (!reduceMotion) {
 			// Enter with a small swing
-			com.px = com.x - 12;
+			com.px = com.x - 26;
 		}
 		render();
 		wake();
