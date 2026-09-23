@@ -41,28 +41,233 @@ const { class: className } = Astro.props;
 	});
 </script>
 <script>
-	// Sliding pill behind the hovered link, resting on the section currently in view
+	import { attachLiquidGlass, SEARCH_PROFILE } from '../lib/liquid-glass';
+
+	const PILL_HEIGHT = 40;
+	const PILL_RADIUS = 12;
+	// Growth at full lift: 40 px → 60 px tall, a bit taller than the bar
+	const LIFT_X = 0.18;
+	const LIFT_Y = 0.5;
+	// Frosted fallback (no glass): 40 px → 48 px, it stays inside the bar
+	const LIFT_Y_FROSTED = 0.2;
+	// The article's search-box bezel scaled to half its size: the pill is ~32 px tall, not 42
+	const PILL_PROFILE = SEARCH_PROFILE.filter((_, i) => i % 2 === 0).map(v => v / 2);
+
+	// Pill marking the current section. Scroll and click move it like the iOS 26 tab bar selection:
+	// it lifts into magnifying liquid glass while it grows, stretches with its speed as it travels,
+	// then shrinks back into the opaque pill. Hover doesn't move it, that would break the effect.
+	type Spring = { x: number; v: number; target: number; k: number; c: number };
+	const spring = (x: number, k: number, c: number): Spring => ({ x, v: 0, target: x, k, c });
+	const step = (s: Spring, dt: number) => {
+		const n = Math.max(1, Math.ceil(dt * 240));
+		const h = dt / n;
+		for (let i = 0; i < n; i++) {
+			s.v += (-s.k * (s.x - s.target) - s.c * s.v) * h;
+			s.x += s.v * h;
+		}
+	};
+	const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
 	const setupNavPill = () => {
 		const nav = document.querySelector<HTMLElement>('#header-links');
 		const pill = document.querySelector<HTMLElement>('#header-pill');
 		if (!nav || !pill) return;
 
 		const navLinks = [...nav.querySelectorAll<HTMLAnchorElement>('a[data-nav]')];
+		const glass = attachLiquidGlass(pill, {
+			// Clone fallback: the page behind the header (the pill no longer refracts the labels)
+			sources: () =>
+				[document.getElementById('main'), document.querySelector('body > footer')].filter(
+					(el): el is HTMLElement => el instanceof HTMLElement
+				),
+			profile: PILL_PROFILE,
+			magnifiable: true,
+			refraction: 0,
+			blur: 0,
+			// Zooming out through feDisplacementMap samples nearest pixels: half a pixel of blur keeps it smooth
+			smooth: 0.5,
+			// Where there is no glass the lifted pill turns frosted instead
+			blurFallback: 10,
+			specularOpacity: 0.5,
+			specularSaturation: 6
+		});
 
-		const moveTo = (link: HTMLElement | null) => {
-			if (!link) {
-				pill.style.opacity = '0';
+		const pos = spring(0, 380, 34);
+		const width = spring(0, 380, 34);
+		const lift = spring(0, 520, 42);
+		let lifting = false;
+		// Pointer held on the pill: it stays lifted until release (iOS keeps the capsule up under the finger)
+		let held = false;
+		let visible = false;
+		let raf = 0;
+		let last = 0;
+
+		const frame = (now: number) => {
+			const dt = Math.min(0.05, last ? (now - last) / 1000 : 1 / 60);
+			last = now;
+			const travelling = Math.abs(pos.x - pos.target) > 0.5 || Math.abs(pos.v) > 8;
+			// Stay lifted while held or travelling; settle once it has arrived and finished lifting
+			if (lifting && !held && !travelling && lift.x > 0.9) lifting = false;
+			lift.target = lifting ? 1 : 0;
+			step(pos, dt);
+			step(width, dt);
+			step(lift, dt);
+
+			const g = clamp01(lift.x);
+			// Grows while it is glass (taller than the bar at full lift: 40 px → 60 px) and stretches
+			// along the motion like a drop of liquid
+			const stretch = Math.min(0.3, Math.abs(pos.v) / 2600) * g;
+			const sx = 1 + LIFT_X * g + stretch;
+			const sy = 1 + (glass.mode === 'blur' ? LIFT_Y_FROSTED : LIFT_Y) * g - stretch * 0.45;
+			// Real size instead of transform: scale() would stretch a raster of the pill and pixelate its edge
+			const w = width.x * sx;
+			const h = PILL_HEIGHT * sy;
+			pill.style.width = `${w.toFixed(2)}px`;
+			pill.style.height = `${h.toFixed(2)}px`;
+			pill.style.marginTop = `${(-h / 2).toFixed(2)}px`;
+			pill.style.borderRadius = `${(PILL_RADIUS * Math.min(sx, sy)).toFixed(2)}px`;
+			pill.style.transform = `translateX(${(pos.x - (w - width.x) / 2).toFixed(2)}px)`;
+			// Glass clears the fill completely; the frosted fallback (Firefox, phones) keeps some of it
+			pill.style.setProperty('--pill-fill', (1 - (glass.mode === 'blur' ? 0.6 : 1) * g).toFixed(3));
+			// The labels stay on top, sharp, like iOS. The glass zooms out what is behind it, so the
+			// bar seen through the lifted pill looks smaller than the pill
+			glass.setActive(g > 0.01);
+			glass.setDynamic({ refraction: g, magnify: 1 - 0.2 * g });
+
+			const settled =
+				!lifting &&
+				!travelling &&
+				Math.abs(lift.x) < 0.002 &&
+				Math.abs(lift.v) < 0.01 &&
+				Math.abs(width.x - width.target) < 0.3;
+			if (settled) {
+				lift.x = lift.v = 0;
+				raf = 0;
+				last = 0;
 				return;
 			}
-			pill.style.width = `${link.offsetWidth}px`;
-			pill.style.transform = `translateX(${link.offsetLeft}px)`;
+			raf = requestAnimationFrame(frame);
+		};
+
+		const moveTo = (link: HTMLElement | null, liftIt: boolean) => {
+			if (!link) {
+				pill.style.opacity = '0';
+				visible = false;
+				return;
+			}
+			pos.target = link.offsetLeft;
+			width.target = link.offsetWidth;
+			if (!visible) {
+				// Appear in place instead of flying in from the left edge
+				pos.x = pos.target;
+				width.x = width.target;
+				pos.v = width.v = 0;
+				liftIt = false;
+			}
 			pill.style.opacity = '1';
+			visible = true;
+			if (liftIt) lifting = true;
+			if (!raf) raf = requestAnimationFrame(frame);
 		};
 
 		const activeLink = () => navLinks.find(link => link.classList.contains('active')) ?? null;
 
-		navLinks.forEach(link => link.addEventListener('mouseenter', () => moveTo(link)));
-		nav.addEventListener('mouseleave', () => moveTo(activeLink()));
+		// Refraction maps for every size the pill rests or lifts at, built ahead of time so the glass
+		// never waits for them (it would show stretched maps, then jump when the real ones arrive)
+		const prepareMaps = () =>
+			glass.prepare(
+				navLinks.flatMap(link => [
+					{ width: link.offsetWidth, height: PILL_HEIGHT, radius: PILL_RADIUS },
+					{
+						width: link.offsetWidth * (1 + LIFT_X),
+						height: PILL_HEIGHT * (1 + LIFT_Y),
+						radius: PILL_RADIUS * (1 + LIFT_X)
+					}
+				])
+			);
+		const idle = window.requestIdleCallback ?? ((callback: () => void) => window.setTimeout(callback, 200));
+		idle(prepareMaps);
+		document.fonts?.ready.then(() => idle(prepareMaps));
+		const centreOf = (link: HTMLElement) => link.offsetLeft + link.offsetWidth / 2;
+		const nearest = (x: number) =>
+			navLinks.reduce((best, link) => (Math.abs(centreOf(link) - x) < Math.abs(centreOf(best) - x) ? link : best));
+		// Past the ends the pill follows the pointer with resistance, like a scroll view overscrolling
+		const rubber = (overshoot: number) => 24 * (1 - Math.exp(-overshoot / 60));
+
+		// While a click scrolls the page, sections passing by must not pull the pill around
+		let clickTarget: HTMLElement | null = null;
+		let releaseTimer = 0;
+		const release = () => {
+			clickTarget = null;
+			clearTimeout(releaseTimer);
+		};
+		navLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				clickTarget = link;
+				moveTo(link, true);
+				window.addEventListener('scrollend', release, { once: true });
+				clearTimeout(releaseTimer);
+				releaseTimer = window.setTimeout(release, 1500);
+			});
+		});
+
+		// Drag: press a section link and slide. The pill stays lifted under the pointer and snaps to the
+		// nearest section on release, which is then selected as if it had been clicked
+		let drag: { id: number; startX: number; grab: number; moved: boolean } | null = null;
+		let swallowClick = false;
+		nav.addEventListener('pointerdown', event => {
+			const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-nav]');
+			if (!link || event.button !== 0 || !navLinks.includes(link)) return;
+			held = true;
+			moveTo(link, true);
+			const left = nav.getBoundingClientRect().left;
+			drag = { id: event.pointerId, startX: event.clientX, grab: event.clientX - left - link.offsetLeft, moved: false };
+		});
+		nav.addEventListener('pointermove', event => {
+			if (!drag || event.pointerId !== drag.id) return;
+			if (!drag.moved) {
+				if (Math.abs(event.clientX - drag.startX) < 4) return;
+				drag.moved = true;
+				nav.setPointerCapture(event.pointerId);
+				release();
+			}
+			const raw = event.clientX - nav.getBoundingClientRect().left - drag.grab;
+			const target = nearest(raw + width.x / 2);
+			width.target = target.offsetWidth;
+			const first = navLinks[0];
+			const lastLink = navLinks[navLinks.length - 1];
+			const min = first.offsetLeft;
+			const max = lastLink.offsetLeft + lastLink.offsetWidth - width.target;
+			pos.target = raw < min ? min - rubber(min - raw) : raw > max ? max + rubber(raw - max) : raw;
+			lifting = true;
+			if (!raf) raf = requestAnimationFrame(frame);
+		});
+		const endDrag = (event: PointerEvent) => {
+			if (!drag || event.pointerId !== drag.id) return;
+			const dragged = drag.moved;
+			drag = null;
+			held = false;
+			if (!raf) raf = requestAnimationFrame(frame);
+			if (!dragged) return; // a plain press: the link's own click selects it
+			// The browser still fires a click where the pointer was released: swallow it
+			swallowClick = true;
+			window.setTimeout(() => (swallowClick = false), 0);
+			nearest(pos.x + width.x / 2).click();
+		};
+		nav.addEventListener('pointerup', endDrag);
+		nav.addEventListener('pointercancel', endDrag);
+		nav.addEventListener(
+			'click',
+			event => {
+				if (!swallowClick || !event.isTrusted) return;
+				event.preventDefault();
+				event.stopPropagation();
+				swallowClick = false;
+			},
+			true
+		);
+		// Links would otherwise start a native link drag and cancel the pointer events
+		nav.addEventListener('dragstart', event => event.preventDefault());
 
 		const sections = navLinks
 			.map(link => document.getElementById(link.dataset.nav ?? ''))
@@ -73,18 +278,60 @@ const { class: className } = Astro.props;
 				entries.forEach(entry => {
 					if (!entry.isIntersecting) return;
 					navLinks.forEach(link => link.classList.toggle('active', link.dataset.nav === entry.target.id));
-					if (!nav.matches(':hover')) moveTo(activeLink());
+					if (!clickTarget) moveTo(activeLink(), visible);
 				});
 			},
 			{ rootMargin: '-45% 0px -50% 0px' }
 		);
 
 		sections.forEach(section => observer.observe(section));
-		document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				observer.disconnect();
+				cancelAnimationFrame(raf);
+				release();
+				glass.destroy();
+			},
+			{ once: true }
+		);
 	};
 
 	document.addEventListener('astro:page-load', () => {
 		setupNavPill();
+	});
+</script>
+<script>
+	import { attachLiquidGlass } from '../lib/liquid-glass';
+
+	// Liquid glass on the scrolled pill: the article's SVG backdrop filter in Chromium,
+	// a filtered live clone of the page in Firefox/Safari desktop, plain blur elsewhere.
+	document.addEventListener('astro:page-load', () => {
+		const header = document.getElementById('site-header');
+		const container = document.getElementById('header-container');
+		if (!header || !container) return;
+
+		const glass = attachLiquidGlass(header, {
+			// feDisplacementMap samples nearest pixels: smooth the jaggies the bezel leaves on text
+			smooth: 0.5,
+			sources: () =>
+				[document.getElementById('main'), document.querySelector('body > footer')].filter(
+					(el): el is HTMLElement => el instanceof HTMLElement
+				)
+		});
+		const sync = () => glass.setActive(container.classList.contains('scrolled'));
+		const observer = new MutationObserver(sync);
+		observer.observe(container, { attributes: true, attributeFilter: ['class'] });
+		sync();
+
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				observer.disconnect();
+				glass.destroy();
+			},
+			{ once: true }
+		);
 	});
 </script>
 <script>
@@ -119,6 +366,7 @@ const { class: className } = Astro.props;
 	)}
 >
 	<header
+		id="site-header"
 		class={cn(
 			'relative mx-auto w-full max-w-6xl h-16 flex items-center px-2 md:px-6 border border-transparent rounded-2xl corner-superellipse-[1.4]',
 			'transition-[max-width,height,background-color,border-color,box-shadow,padding] duration-500 ease-(--ease-out-expo)',
@@ -136,10 +384,13 @@ const { class: className } = Astro.props;
 				<span class="text-foreground/70 mr-1 font-light">/</span>rubenbupe
 			</a>
 
-			<div id="header-links" class="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-0.5">
+			<div
+				id="header-links"
+				class="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-0.5 select-none touch-pan-y"
+			>
 				<span
 					id="header-pill"
-					class="absolute top-0 left-0 h-full rounded-[10px] corner-superellipse-[1.4] bg-foreground/8 dark:bg-foreground/15 opacity-0 pointer-events-none transition-[transform,width,opacity] duration-500 ease-(--ease-out-expo)"
+					class="absolute top-1/2 left-0 h-10 -mt-5 rounded-[12px] corner-superellipse-[1.4] opacity-0 pointer-events-none transition-opacity duration-300"
 					aria-hidden="true"></span>
 				{
 					links.map(link => (
@@ -220,6 +471,24 @@ const { class: className } = Astro.props;
 </div>
 
 <style is:global>
+	/* Glass tint; the clone fallback paints it above the refracted clone instead of the element background */
+	#site-header {
+		--lg-tint: rgb(255 255 255 / 0.7);
+		--lg-border: hsl(var(--border));
+	}
+	.dark #site-header {
+		--lg-tint: rgb(20 21 24 / 0.62);
+	}
+	/* Nav pill fill: fades out while the pill turns into glass (--pill-fill goes 1 → 0) */
+	#header-pill {
+		--pill-alpha: 0.08;
+		--lg-tint: hsl(var(--foreground) / calc(var(--pill-alpha) * var(--pill-fill, 1)));
+		background-color: var(--lg-tint);
+	}
+	.dark #header-pill {
+		--pill-alpha: 0.15;
+	}
+
 	@keyframes drop {
 		from {
 			opacity: 0;
