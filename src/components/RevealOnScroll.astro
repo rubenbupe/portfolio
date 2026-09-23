@@ -1,0 +1,43 @@
+---
+// Adds the `revealed` class to every [data-reveal] element once it enters the viewport.
+// The matching transition lives in globals.css.
+---
+
+<script>
+	const setupReveal = () => {
+		const elements = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.revealed)');
+		if (!elements.length) return;
+
+		const observer = new IntersectionObserver(
+			entries => {
+				entries.forEach(entry => {
+					if (!entry.isIntersecting) return;
+					const element = entry.target as HTMLElement;
+					element.classList.add('revealed');
+					observer.unobserve(element);
+					// Once the entrance is over, drop the reveal styles so the element's own
+					// transitions (hover lifts, etc.) apply again instead of the reveal ones
+					const delay = Number(getComputedStyle(element).getPropertyValue('--reveal-delay') || 0) * 80;
+					// Elements with a longer entrance (e.g. the timeline bars) declare it in data-reveal-duration
+					const duration = Number(element.dataset.revealDuration || 900);
+					window.setTimeout(
+						() => {
+							element.removeAttribute('data-reveal');
+							element.classList.remove('revealed');
+						},
+						duration + delay + 100
+					);
+				});
+			},
+			{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+		);
+
+		elements.forEach(element => observer.observe(element));
+		document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+	};
+
+	setupReveal();
+	document.addEventListener('astro:page-load', () => {
+		setupReveal();
+	});
+</script>

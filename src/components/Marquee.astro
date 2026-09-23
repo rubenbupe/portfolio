@@ -1,0 +1,39 @@
+---
+import { cn } from '../lib/utils';
+
+type Props = {
+	items: string[];
+	class?: string;
+};
+
+const { items, class: className } = Astro.props;
+// Duplicated so the track can loop seamlessly
+const track = [...items, ...items];
+---
+
+<div
+	class={cn(
+		'group relative w-full overflow-hidden py-6 border-y mask-[linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]',
+		className
+	)}
+>
+	<ul class="sr-only" aria-label="Technologies I work with">
+		{items.map(item => <li>{item}</li>)}
+	</ul>
+	<div aria-hidden="true" class="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
+		{
+			track.map(item => (
+				<span
+					class={cn(
+						'inline-flex items-center gap-7 pr-7 whitespace-nowrap font-display text-2xl md:text-3xl tracking-tight text-foreground/50 dark:text-foreground/40 hover:text-foreground transition-colors'
+					)}
+				>
+					{item}
+					<span class="text-[11px] not-italic opacity-60" aria-hidden="true">
+						✦
+					</span>
+				</span>
+			))
+		}
+	</div>
+</div>

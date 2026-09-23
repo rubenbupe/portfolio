@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import ThemeSwitch from '../components/ThemeSwitch.astro';
 import { siteName, siteDescription } from '../constants/site';
 import { createThemeInitScript } from '../lib/theme';
@@ -8,12 +9,16 @@ import Spotlight from '../components/Spotlight.astro';
 import { ClientRouter } from 'astro:transitions';
 import Posthog from '../components/Posthog.astro';
 import ConsoleEasterEgg from '../components/ConsoleEasterEgg.astro';
+import RevealOnScroll from '../components/RevealOnScroll.astro';
+import CardSpotlight from '../components/CardSpotlight.astro';
+import MagneticButtons from '../components/MagneticButtons.astro';
 
 interface Props {
 	title?: string;
+	description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = siteDescription } = Astro.props;
 
 const themeInitScript = createThemeInitScript();
 ---
@@ -24,9 +29,10 @@ const themeInitScript = createThemeInitScript();
 		<ClientRouter />
 		<script is:inline set:html={themeInitScript} />
 		<meta charset="UTF-8" />
-		<meta name="description" content={siteDescription} />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
 		<Posthog
 			posthogConfig={{
 				apiHost: import.meta.env.PUBLIC_POSTHOG_API_HOST,
@@ -40,9 +46,14 @@ const themeInitScript = createThemeInitScript();
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+		<link rel="preload" href="/fonts/CalSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/InstrumentSerif-Italic.ttf" as="font" type="font/ttf" crossorigin />
 		<meta name="msapplication-TileColor" content="#da532c" />
 		<meta name="theme-color" content="#090a0b" />
 		<meta name="generator" content={Astro.generator} />
+		<meta property="og:title" content={`${siteName}${title ? ` | ${title}` : ''}`} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
 		<title>{siteName}{title && ` | ${title}`}</title>
 		<style>
 			*,
@@ -62,6 +73,10 @@ const themeInitScript = createThemeInitScript();
 			<Spotlight class="left-0 md:left-40 max-w-[90%] top-[30vh] h-screen" fill="#d1d1d1" />
 			<slot />
 		</main>
+		<Footer />
+		<RevealOnScroll />
+		<CardSpotlight />
+		<MagneticButtons />
 		<ConsoleEasterEgg />
 	</body>
 </html>

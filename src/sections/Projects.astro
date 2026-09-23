@@ -2,8 +2,7 @@
 import Section from '../components/Section.astro';
 import ConicHeader from '../components/ConicHeader.astro';
 import { Particles } from '../components/Particles';
-import Separator from '../components/Separator.astro';
-import GridIcon from '../components/GridIcon.astro';
+import { Icon } from 'astro-icon/components';
 import { cn } from '../lib/utils';
 import projectGabinsoftDashboard from '../assets/project-gabinsoft-dashboard.webp';
 import projectMeAsesoranRentas from '../assets/project-measesoran-rentas.webp';
@@ -13,20 +12,20 @@ import projectGabinsoftLanding from '../assets/project-gabinsoft-landing.webp';
 import projectFacialExpressionRecognition from '../assets/project-facial-expression-recognition.webp';
 import projectFerropanel from '../assets/project-ferropanel.webp';
 import projectRecipeAIVideoParser from '../assets/project-recipe-ai-video-parser.webp';
-import projectOpenSource from '../assets/project-github.webp';
 import { Image } from 'astro:assets';
+import { githubUrl } from '../constants/site';
 
 const projects = [
 	{
-		title: 'Gabinsoft Web and Mobile Apps',
+		title: 'Gabinsoft',
 		paragraphs: [
 			'Gabinsoft is a company specialized in building tools for psychologists. I developed the full-stack web and mobile applications, as well as the backend services.',
 			'These apps include a complete CRM, billing system, calendar, real-time chat, video calls, and more.'
 		],
-		badges: ['TypeScript', 'Go', 'React', 'React Native', 'CSS', 'SQL'],
+		badges: ['TypeScript', 'Go', 'React', 'React Native', 'SQL'],
 		url: 'https://app.gabinsoft.com',
 		image: projectGabinsoftDashboard,
-		feature: false
+		feature: true
 	},
 	{
 		title: 'Me Asesoran Rentas',
@@ -34,29 +33,36 @@ const projects = [
 			'Me Asesoran Rentas is an app that helps users file their tax returns. I developed the backend services, web and mobile apps, and review tools.',
 			'This project integrates several government APIs and is used by thousands of people every year.'
 		],
-		badges: ['TypeScript', 'React', 'React Native', 'CSS', 'SQL'],
+		badges: ['TypeScript', 'React', 'React Native', 'SQL', 'Gov APIs'],
 		url: 'https://rentas.measesoran.com',
 		image: projectMeAsesoranRentas,
-		feature: false
+		feature: true
+	},
+	{
+		title: 'Ferropanel',
+		paragraphs: [
+			'Ferropanel is an open-source visual configurator for ADIF station dashboards, built after reverse engineering the original QR-based system.',
+			'It generates fully customizable panel URLs and includes a custom React wrapper connected directly to the original real-time data WebSocket.'
+		],
+		badges: ['TypeScript', 'React', 'TailwindCSS', 'Shadcn UI', 'WebSocket'],
+		url: 'https://ferropanel.rubenbupe.com',
+		image: projectFerropanel,
+		feature: true
 	},
 	{
 		title: 'Senior Android Launcher',
 		paragraphs: [
-			'Senior Launcher is an Android launcher app designed for older users, with a simplified interface, visual accessibility, and optional remote control through a backend.',
-			'It is ideated as an Android-first experience inspired by the iPhone Guided Access mode, focused on reducing distractions and making daily use easier for seniors.',
-			"I developed it for my grandmother and some of my friends' grandmothers, who use it daily."
+			"Senior Launcher is an Android launcher app designed for older users, with a simplified interface, visual accessibility, and optional remote control through a backend. Inspired by the iPhone Guided Access mode, I developed it for my grandmother and some of my friends' grandmothers, who use it daily."
 		],
 		badges: ['Kotlin', 'Android', 'Jetpack Compose', 'AI Assisted'],
 		url: 'https://github.com/rubenbupe/senior-launcher',
 		image: projectSeniorLauncher,
-		feature: true
+		feature: false
 	},
 	{
 		title: 'Gabinsoft landing & website',
 		paragraphs: [
-			"I developed the Gabinsoft website, featuring a hero section inspired by Linear's site and several sections showcasing the app features.",
-			'Focusing on performance, SEO, and accessibility, I built the site using Astro, TailwindCSS, and TypeScript.',
-			'Later, I integrated a headless CMS so the marketing team could update the site without developer intervention, along with a custom caching layer to optimize performance.'
+			"A marketing site with a hero inspired by Linear's, built with Astro, TailwindCSS and TypeScript focusing on performance, SEO and accessibility. Later wired to a headless CMS with a custom caching layer so the marketing team ships without developer intervention."
 		],
 		badges: ['TypeScript', 'Astro', 'TailwindCSS', 'Strapi'],
 		url: 'https://gabinsoft.com',
@@ -64,33 +70,9 @@ const projects = [
 		feature: false
 	},
 	{
-		title: 'Facial expression recognition',
-		paragraphs: [
-			'This was one of my final university projects. I built a system capable of detecting facial expressions in real time using a webcam.',
-			'Developed with TensorFlow and OpenCV, the system could detect 3 expressions with 86% accuracy, or 5 expressions with 74% accuracy.',
-			'I received an honorable mention for this project.'
-		],
-		badges: ['TypeScript', 'Astro', 'TailwindCSS'],
-		url: 'https://github.com/rubenbupe/facial-expressions-detector',
-		image: projectFacialExpressionRecognition,
-		feature: false
-	},
-	{
-		title: 'Ferropanel - ADIF dashboard configurator',
-		paragraphs: [
-			'Ferropanel is an open-source visual configurator for ADIF station dashboards, built after reverse engineering the original QR-based system.',
-			'It generates fully customizable panel URLs and includes a custom React wrapper connected directly to the original real-time data WebSocket.'
-		],
-		badges: ['TypeScript', 'React', 'TailwindCSS', 'Shadcn UI', 'WebSocket', 'Reverse Engineering'],
-		url: 'https://ferropanel.rubenbupe.com',
-		image: projectFerropanel,
-		feature: true
-	},
-	{
 		title: 'Recipe AI video parser',
 		paragraphs: [
-			'An API that parses cooking videos to extract structured recipe data, including ingredients, quantities, and step-by-step instructions.',
-			'I use it in combination with iOS Shortcuts to automatically save recipes from social media videos to my recipe manager app.'
+			'An API that parses cooking videos to extract structured recipe data: ingredients, quantities, and step-by-step instructions. I use it with iOS Shortcuts to automatically save recipes from social media videos to my recipe manager app.'
 		],
 		badges: ['Golang', 'Typescript', 'AI', 'Gemini'],
 		url: 'https://github.com/rubenbupe/recipe-video-parser',
@@ -98,63 +80,34 @@ const projects = [
 		feature: false
 	},
 	{
+		title: 'Facial expression recognition',
+		paragraphs: [
+			'One of my final university projects: a system capable of detecting facial expressions in real time using a webcam. Built with TensorFlow and OpenCV, it detects 3 expressions with 86% accuracy, or 5 with 74%. It received an honorable mention.'
+		],
+		badges: ['Python', 'TensorFlow', 'OpenCV'],
+		url: 'https://github.com/rubenbupe/facial-expressions-detector',
+		image: projectFacialExpressionRecognition,
+		feature: false
+	},
+	{
 		title: 'Building roof detection',
 		paragraphs: [
-			'This was also one of my final university projects. We built a system that detects building roofs in satellite images.',
-			'I designed a microservices architecture to demonstrate real-world usage, including a web app, a backend for image processing, and an analytics service. I used Docker and Kubernetes for deployment as part of a CI/CD pipeline.',
-			"This project earned me a job offer from my professor's company, which I declined to pursue my own projects."
+			"Also a final university project: a system that detects building roofs in satellite images, deployed as a real microservices architecture (web app, image-processing backend, analytics service) with a CI/CD pipeline to Kubernetes. It earned me a job offer from my professor's company, which I declined to pursue my own projects."
 		],
 		badges: ['Python', 'React', 'Docker', 'Kubernetes', 'MongoDB', 'TensorFlow', 'Github Actions'],
 		url: 'https://github.com/rubenbupe/building-roof-detection',
 		image: projectBuildingRoofDetection,
+		imageFit: 'contain',
 		feature: false
-	},
-	{
-		title: 'Other projects',
-		paragraphs: [
-			"I've shared several open-source and side projects over the years, and I plan to keep building in public.",
-			'Some examples include some utilities that I built for myself, React Navigation utilities, ML/AI experiments, and a Twitter client for Bash.'
-		],
-		badges: ['TypeScript', 'React Native', 'Python', 'Bash', 'AI', 'ML'],
-		url: 'https://github.com/rubenbupe',
-		image: projectOpenSource,
-		feature: true
 	}
 ];
+
+const featuredProjects = projects.filter(project => project.feature);
+const otherProjects = projects.filter(project => !project.feature);
+
+const host = (url: string) => new URL(url).host;
 ---
 
-<script>
-	const handleMouse = () => {
-		const projectsGrid = document.getElementById('projects-grid');
-		const cursorGlow = document.getElementById('cursor-glow');
-
-		if (!projectsGrid || !cursorGlow) return;
-
-		projectsGrid.addEventListener('mousemove', e => {
-			const bbox = projectsGrid.getBoundingClientRect();
-			const x = e.clientX - bbox.left - cursorGlow.offsetWidth / 2;
-			const y = e.clientY - bbox.top - cursorGlow.offsetHeight / 2;
-
-			requestAnimationFrame(() => {
-				cursorGlow.style.left = `${x}px`;
-				cursorGlow.style.top = `${y}px`;
-			});
-		});
-
-		projectsGrid.addEventListener('mouseleave', () => {
-			cursorGlow.style.opacity = '0';
-		});
-
-		projectsGrid.addEventListener('mouseenter', () => {
-			cursorGlow.style.opacity = '1';
-		});
-	};
-
-	handleMouse();
-	document.addEventListener('astro:after-swap', () => {
-		handleMouse();
-	});
-</script>
 <div class="relative w-full flex flex-col overflow-hidden">
 	<ConicHeader color="hsla(var(--conic-background))" borderColor="hsla(var(--conic-border))" />
 	<div
@@ -163,120 +116,211 @@ const projects = [
 		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
 	<Section id="projects" class="relative py-24 min-h-[90vh] flex flex-col" zoomEffect>
-		<div class="grid md:grid-cols-2 gap-12 px-4 md:px-12">
-			<div class="flex gap-4 col-start-2">
-				<Separator class="inline flex-1 w-fit translate-y-1 border-primary" />
-				<h2 class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">Some projects</h2>
-			</div>
+		<h2 class="font-display text-4xl sm:text-5xl md:text-7xl leading-[0.98] tracking-[-0.03em]" data-reveal>
+			<span class="font-gradient">Things I've shipped.</span>
+		</h2>
+		<p class="mt-6 max-w-lg leading-relaxed text-foreground/60 md:text-lg" data-reveal style="--reveal-delay: 1">
+			Products used by thousands of people, open-source tools and a few experiments I built because I was curious.
+		</p>
+
+		<div class="grid gap-5 mt-14 md:mt-20">
+			{
+				featuredProjects.map((project, index) => (
+					<article
+						class={cn(
+							'card-surface card-spotlight group grid md:grid-cols-[0.9fr_1.1fr] md:min-h-130 rounded-3xl corner-superellipse-[1.4] border overflow-hidden',
+							index % 2 === 1 && 'md:grid-cols-[1.1fr_0.9fr]'
+						)}
+						data-reveal
+					>
+						<div class={cn('flex flex-col items-start p-7 md:p-12', index % 2 === 1 && 'md:order-2')}>
+							<h3 class="font-display text-4xl md:text-5xl leading-none tracking-[-0.035em]">{project.title}</h3>
+							{project.paragraphs.map((paragraph, paragraphIndex) => (
+								<p
+									class={cn(
+										'mt-4 max-w-md leading-relaxed',
+										paragraphIndex === 0 ? 'text-foreground/80 md:text-lg' : 'text-foreground/60'
+									)}
+								>
+									{paragraph}
+								</p>
+							))}
+							<div class="flex gap-1.5 mt-5 flex-wrap">
+								{project.badges.map(badge => (
+									<code class="text-[11.5px] leading-none px-2 py-1.5 rounded-lg border border-foreground/12 bg-foreground/4 text-foreground/85">
+										{badge}
+									</code>
+								))}
+							</div>
+							<a
+								href={project.url}
+								target="_blank"
+								class="mt-auto pt-7 inline-flex items-center gap-2 text-sm font-medium after:content-[''] after:absolute after:inset-0"
+							>
+								<span class="border-b border-foreground/30 group-hover:border-foreground transition-colors">
+									{host(project.url)}
+								</span>
+								<Icon
+									name="tabler:arrow-up-right"
+									size={16}
+									class="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+								/>
+							</a>
+						</div>
+
+						<div
+							class={cn(
+								'relative perspective-[1600px] pt-12 max-md:pl-7 max-md:h-75 pointer-events-none',
+								index % 2 === 1 ? 'md:pr-12' : 'md:pl-12'
+							)}
+							aria-hidden="true"
+						>
+							<div
+								class={cn(
+									'relative h-full md:min-h-95 overflow-hidden border border-b-0 bg-background transition-transform duration-1000 ease-(--ease-out-expo) group-hover:transform-none',
+									index % 2 === 1
+										? 'md:rounded-tr-xl md:border-l-0 md:origin-bottom-right md:transform-[rotateY(8deg)_rotateX(4deg)_translate3d(-24px,12px,0)] md:shadow-[30px_20px_80px_-20px_rgba(0,0,0,0.6)]'
+										: 'rounded-tl-xl border-r-0 md:origin-bottom-left md:transform-[rotateY(-8deg)_rotateX(4deg)_translate3d(24px,12px,0)] md:shadow-[-30px_20px_80px_-20px_rgba(0,0,0,0.6)]'
+								)}
+							>
+								<div class="flex items-center gap-3.5 h-9 px-3.5 border-b bg-card">
+									<span class="inline-flex gap-1.5 [&>i]:size-2.5 [&>i]:rounded-full [&>i]:bg-foreground/20 [&>i]:transition-colors group-hover:[&>i:nth-child(1)]:bg-[#ff5f57] group-hover:[&>i:nth-child(2)]:bg-[#febc2e] group-hover:[&>i:nth-child(3)]:bg-[#28c840]">
+										<i />
+										<i />
+										<i />
+									</span>
+									<code class="text-[11.5px] text-foreground/70 px-2.5 py-0.5 rounded-md bg-foreground/5">
+										{host(project.url)}
+									</code>
+								</div>
+								<Image
+									src={project.image}
+									alt={project.title}
+									class={cn(
+										'w-full h-[calc(100%-36px)] object-cover',
+										index % 2 === 1 ? 'object-right-top' : 'object-left-top'
+									)}
+								/>
+							</div>
+						</div>
+					</article>
+				))
+			}
 		</div>
 
-		<div
-			id="projects-grid"
-			class="relative mt-24 mb-24 grid md:grid-cols-2 border-l border-b border-dashed bg-linear-to-b from-foreground/5 dark:from-foreground/10 dark:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.1)] [box-shadow:inset_0_0_10px_0_rgba(0,0,0,0.1)]"
-		>
-			<div class="absolute w-full h-full overflow-hidden pointer-events-none">
-				<div
-					id="cursor-glow"
-					class="absolute w-24 h-24 rounded-full bg-foreground pointer-events-none opacity-0 transition-opacity duration-300 ease-in-out blur-[150px] will-change-[filter]"
-				>
-				</div>
-			</div>
-			<div
-				class="w-48
-							h-48
-					absolute
-					-top-48
-					-left-48
-					border-b
-					border-r
-					border-dashed
-					mask-[linear-gradient(to_bottom_right,transparent_50%,black)]"
-			>
-			</div>
+		<div class="flex items-center gap-5 mt-20 md:mt-28 mb-7" data-reveal>
+			<h3 class="font-display text-3xl md:text-4xl tracking-tight whitespace-nowrap">More projects</h3>
+			<span class="flex-1 h-px bg-linear-to-r from-border to-transparent" aria-hidden="true"></span>
+		</div>
 
-			<div
-				class="w-48
-							h-48
-							absolute
-							-bottom-48
-							-right-48
-							border-t
-							border-l
-							border-dashed
-							mask-[linear-gradient(to_top_left,transparent_50%,black)]"
-			>
-			</div>
-			<div
-				class="w-48
-							h-48
-							absolute
-							-top-48
-							-right-48
-							border-b
-							border-l
-							border-dashed
-							mask-[linear-gradient(to_bottom_left,transparent_50%,black)]"
-			>
-			</div>
-			<div
-				class="w-48
-							h-48
-							absolute
-							-bottom-48
-							-left-48
-							border-t
-							border-r
-							border-dashed
-							mask-[linear-gradient(to_top_right,transparent_50%,black)]"
-			>
-			</div>
-			<GridIcon class="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-foreground" />
-			<GridIcon class="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-foreground" />
-			<GridIcon class="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-foreground" />
-			<GridIcon class="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-foreground" />
-
+		<div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
 			{
-				projects.map(project => (
+				otherProjects.map((project, index) => (
 					<a
 						href={project.url}
 						target="_blank"
 						class={cn(
-							`group border-t border-r border-dashed w-full cursor-pointer hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)] transition-all duration-500 flex flex-col justify-between`,
-							project.feature ? 'md:col-span-2 md:grid md:grid-cols-2 items-center' : 'md:col-span-1'
+							'card-surface card-spotlight group flex flex-col rounded-3xl corner-superellipse-[1.4] border transition-transform duration-500 ease-(--ease-out-expo) hover:-translate-y-1',
+							index === 0 ? 'lg:col-span-4' : 'lg:col-span-2'
 						)}
+						data-reveal
+						style={`--reveal-delay: ${index % 3}`}
 					>
-						<div class="p-8 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-500">
-							<h3 class="text-xl font-bold">
-								<code>{project.title}</code>
-							</h3>
-							<div class="w-full mt-4">
-								<div class="flex flex-col gap-2">
-									{project.paragraphs.map(paragraph => (
-										<p class="text-sm text-foreground/50">
-											<code>{paragraph}</code>
-										</p>
-									))}
-								</div>
-							</div>
-							<div class="flex gap-2 mt-4 flex-wrap">
-								{project.badges.map(badge => (
-									<span class="text-xs border-foreground text-foreground border border-dashed p-1 px-2 rounded-full group-hover:bg-foreground/20 transition-all duration-500">
-										<code>{badge}</code>
-									</span>
-								))}
-							</div>
-						</div>
-						<div class={cn('relative w-full aspect-video p-8 overflow-hidden')}>
-							<div class="absolute inset-8 bg-foreground/20 group-hover:translate-x-2 group-hover:translate-y-2 transition-all duration-500 ease-in-out group-hover:[box-shadow:inset_0_0_10px_0_rgba(255,255,255,0.2)]" />
+						<div
+							class={cn(
+								'relative aspect-video overflow-hidden rounded-t-[calc(var(--radius-3xl)-1px)] corner-superellipse-[1.4] border-b bg-background after:content-[""] after:absolute after:inset-0 after:opacity-75 after:bg-linear-to-t after:from-card after:to-transparent after:to-45%',
+								index === 0 && 'md:aspect-21/9',
+								project.imageFit === 'contain' && 'bg-white'
+							)}
+						>
 							<Image
 								src={project.image}
-								alt="Project 1"
-								class="w-full h-full filter grayscale group-hover:filter-none transition-all duration-500 group-hover:-translate-x-2 group-hover:-translate-y-2 group-hover:shadow-sm object-cover"
+								alt={project.title}
+								class={cn(
+									'w-full h-full object-top transition-all duration-1000 ease-(--ease-out-expo) saturate-90 group-hover:saturate-100 group-hover:scale-104',
+									project.imageFit === 'contain' ? 'object-contain p-3.5' : 'object-cover'
+								)}
 							/>
+						</div>
+						<div class="flex flex-col flex-1 p-6">
+							<h4 class="flex items-center justify-between gap-3 font-display text-2xl tracking-tight leading-tight">
+								{project.title}
+								<span
+									class="grid place-items-center size-7.5 flex-none rounded-full border text-foreground/60 transition-all duration-500 ease-(--ease-out-expo) group-hover:rotate-45 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
+									aria-hidden="true"
+								>
+									<Icon name="tabler:arrow-up-right" size={16} />
+								</span>
+							</h4>
+							{project.paragraphs.map(paragraph => (
+								<p class="mt-2.5 mb-4 text-sm leading-relaxed text-foreground/60">{paragraph}</p>
+							))}
+							<div class="flex gap-1.5 mt-auto flex-wrap">
+								{project.badges.map(badge => (
+									<code class="text-[11.5px] leading-none px-2 py-1.5 rounded-lg border border-foreground/12 bg-foreground/4 text-foreground/85">
+										{badge}
+									</code>
+								))}
+							</div>
 						</div>
 					</a>
 				))
 			}
+
+			<a
+				href={githubUrl}
+				target="_blank"
+				class="card-surface card-spotlight group grid md:grid-cols-[1fr_1.15fr] md:col-span-2 lg:col-span-6 rounded-3xl corner-superellipse-[1.4] border"
+				data-reveal
+			>
+				<div class="flex flex-col p-7">
+					<h4 class="flex items-center justify-between gap-3 font-display text-2xl tracking-tight leading-tight">
+						Other projects
+						<span
+							class="grid place-items-center size-7.5 flex-none rounded-full border text-foreground/60 transition-all duration-500 ease-(--ease-out-expo) group-hover:rotate-45 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground"
+							aria-hidden="true"
+						>
+							<Icon name="tabler:arrow-up-right" size={16} />
+						</span>
+					</h4>
+					<p class="mt-2.5 mb-4 text-sm leading-relaxed text-foreground/60">
+						I've shared several open-source and side projects over the years, and I plan to keep building in public.
+						Some examples include some utilities that I built for myself, React Navigation utilities, ML/AI experiments,
+						and a Twitter client for Bash.
+					</p>
+					<div class="flex gap-1.5 mt-auto flex-wrap">
+						{
+							['TypeScript', 'React Native', 'Python', 'Bash', 'AI', 'ML'].map(badge => (
+								<code class="text-[11.5px] leading-none px-2 py-1.5 rounded-lg border border-foreground/12 bg-foreground/4 text-foreground/85">
+									{badge}
+								</code>
+							))
+						}
+					</div>
+				</div>
+				<div
+					class="m-5 md:ml-0 rounded-2xl corner-superellipse-[1.4] border border-white/10 bg-[#060708] text-[#c9d1d9] overflow-hidden text-[13px] max-md:text-xs"
+					aria-hidden="true"
+				>
+					<div class="flex items-center gap-3.5 h-8.5 px-3.5 border-b border-white/7 text-[#8b949e] text-[11.5px]">
+						<span
+							class="inline-flex gap-1.5 [&>i]:size-2.5 [&>i]:rounded-full [&>i]:bg-white/20 [&>i]:transition-colors group-hover:[&>i:nth-child(1)]:bg-[#ff5f57] group-hover:[&>i:nth-child(2)]:bg-[#febc2e] group-hover:[&>i:nth-child(3)]:bg-[#28c840]"
+						>
+							<i></i>
+							<i></i>
+							<i></i>
+						</span>
+						<code>~/github/rubenbupe</code>
+					</div>
+					<pre
+						class="m-0 p-5 leading-[1.8] whitespace-pre-wrap font-mono"><span class="text-[#7ee787]">$</span> ls -1 --sort=fun
+<span class="text-[#79c0ff]">smartir-mqtt-climate-builder/</span>
+<span class="text-[#79c0ff]">react-navigation-responsive-tab-navigator/</span>
+<span class="text-[#79c0ff]">simple-python-logger/</span>
+<span class="text-[#f7f8f8]">twitter-bash/</span>
+<span class="text-[#7ee787]">$</span> <span class="inline-block w-2 h-3.75 align-[-2px] bg-[#c9d1d9] animate-blink" /></pre>
+				</div>
+			</a>
 		</div>
 	</Section>
 </div>

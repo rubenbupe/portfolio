@@ -1,0 +1,34 @@
+---
+// Tracks the pointer relative to every `.card-spotlight` element and exposes it as --mx / --my.
+// It listens page-wide so a card border already lights up when the cursor gets close to it.
+---
+
+<script>
+	const setupSpotlight = () => {
+		if (document.documentElement.getAttribute('data-spotlight-bound') === 'true') return;
+		if (!window.matchMedia('(pointer: fine)').matches) return;
+
+		let rafId: number | null = null;
+
+		const onMove = (event: PointerEvent) => {
+			if (rafId !== null) cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(() => {
+				document.querySelectorAll<HTMLElement>('.card-spotlight').forEach(card => {
+					const rect = card.getBoundingClientRect();
+					// Skip cards far off screen, their ring can't be lit anyway
+					if (rect.bottom < -400 || rect.top > window.innerHeight + 400) return;
+					card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+					card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+				});
+			});
+		};
+
+		document.addEventListener('pointermove', onMove, { passive: true });
+		document.documentElement.setAttribute('data-spotlight-bound', 'true');
+	};
+
+	setupSpotlight();
+	document.addEventListener('astro:page-load', () => {
+		setupSpotlight();
+	});
+</script>

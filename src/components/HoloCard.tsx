@@ -75,7 +75,7 @@ export const HoloCard = ({
 			className="relative isolate contain-[layout_style] perspective-[600px] transition-transform duration-(--duration) ease-(--easing) delay-(--delay) will-change-transform w-[320px] aspect-17/21"
 			ref={refElement}
 			onPointerMove={event => {
-				const rotateFactor = 0.4;
+				const rotateFactor = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.4;
 				const rect = event.currentTarget.getBoundingClientRect();
 				const position = {
 					x: event.clientX - rect.left,

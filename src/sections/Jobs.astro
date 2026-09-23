@@ -2,11 +2,9 @@
 import { Icon } from 'astro-icon/components';
 import ConicHeader from '../components/ConicHeader.astro';
 import { ExpandableHoloJobCards } from '../components/ExpandableHoloJobCards';
-import { Globe } from '../components/Globe';
-import MeteorAnimation from '../components/MeteorAnimation.astro';
+import JobsTimeline from '../components/JobsTimeline.astro';
 import { Particles } from '../components/Particles';
 import Section from '../components/Section.astro';
-import Separator from '../components/Separator.astro';
 ---
 
 <div class="relative w-full flex flex-col">
@@ -16,26 +14,19 @@ import Separator from '../components/Separator.astro';
 	>
 		<Particles client:visible theme="auto" minSize={0.4} maxSize={1} particleDensity={100} className="w-full h-full" />
 	</div>
-	<div class="absolute h-full w-full max-w-full overflow-hidden self-center max-w-[1500px]">
-		<div class="absolute aspect-square w-full bottom-0 transform translate-y-1/2">
-			<Globe client:idle />
-		</div>
-	</div>
 	<Section id="jobs" class="relative py-24 min-h-[90vh] flex flex-col" zoomEffect>
-		<div class="flex gap-8">
-			<Separator class="inline flex-1 w-fit translate-y-1 border-primary" />
-			<h2 class="inline text-2xl font-bold tracking-tight sm:text-4xl md:text-5xl">Experience</h2>
-			<Separator class="inline flex-1 w-fit translate-y-1 border-primary" />
-		</div>
-		<p class="mt-8 self-center text-center text-foreground/50 max-w-lg">
-			Click on the cards below to learn more about the places I've worked at, and a little bit about what I did there.
+		<h2 class="font-display text-4xl sm:text-5xl md:text-7xl leading-[0.98] tracking-[-0.03em]" data-reveal>
+			<span class="font-gradient">Places I've built at.</span>
+		</h2>
+		<p class="mt-6 max-w-lg leading-relaxed text-foreground/60 md:text-lg" data-reveal style="--reveal-delay: 1">
+			Since 2019 I've been shipping across the whole stack, often for more than one team at a time. Click on the cards
+			to learn more about the places I've worked at, and a little bit about what I did there.
 		</p>
-		<ExpandableHoloJobCards
-			client:load
-			listClassName="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24 w-fit self-center"
-		>
-			<MeteorAnimation slot="animation" />
-			<Icon name="tabler:chevron-right" slot="bullet" class="mt-1" />
+
+		<JobsTimeline class="mt-14 md:mt-20" />
+
+		<ExpandableHoloJobCards client:idle listClassName="mt-8">
+			<Icon name="tabler:chevron-right" slot="bullet" class="mt-1 flex-none" />
 		</ExpandableHoloJobCards>
 	</Section>
 </div>

@@ -1,0 +1,167 @@
+---
+import { Image } from 'astro:assets';
+import { cn } from '../lib/utils';
+import portraitCutout from '../assets/portrait-1.webp';
+import portraitBackground from '../assets/portrait-2.webp';
+
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<script>
+	// The portrait is a window cut into the page: the frame stays still and the scene
+	// behind it shifts with the pointer and the scroll. The background moves more than
+	// the cutout, which gives the parallax depth of looking through a real window.
+	const setupPortraitWindow = () => {
+		const frame = document.getElementById('portrait-window');
+		if (!frame || frame.getAttribute('data-window-bound') === 'true') return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const area = frame.closest('section') ?? document.body;
+		let pointer = { x: 0, y: 0 };
+		let rafId: number | null = null;
+
+		const update = () => {
+			rafId = null;
+			const rect = frame.getBoundingClientRect();
+			// -1..1 while the window crosses the viewport
+			const scroll = Math.max(-1, Math.min(1, (rect.top + rect.height / 2) / window.innerHeight - 0.5));
+			frame.style.setProperty('--look-x', pointer.x.toFixed(3));
+			frame.style.setProperty('--look-y', (pointer.y + scroll).toFixed(3));
+		};
+
+		const requestUpdate = () => {
+			if (rafId === null) rafId = requestAnimationFrame(update);
+		};
+
+		const onMove = (event: PointerEvent) => {
+			pointer = {
+				x: (event.clientX / window.innerWidth - 0.5) * 2,
+				y: (event.clientY / window.innerHeight - 0.5) * 2
+			};
+			requestUpdate();
+		};
+
+		const onLeave = () => {
+			pointer = { x: 0, y: 0 };
+			requestUpdate();
+		};
+
+		area.addEventListener('pointermove', onMove);
+		area.addEventListener('pointerleave', onLeave);
+		window.addEventListener('scroll', requestUpdate, { passive: true });
+		frame.setAttribute('data-window-bound', 'true');
+		update();
+
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				area.removeEventListener('pointermove', onMove);
+				area.removeEventListener('pointerleave', onLeave);
+				window.removeEventListener('scroll', requestUpdate);
+			},
+			{ once: true }
+		);
+	};
+
+	setupPortraitWindow();
+	document.addEventListener('astro:page-load', () => {
+		setupPortraitWindow();
+	});
+</script>
+
+<div class={cn('relative', className)}>
+	<!--
+		Raised rim: the page surface lifts softly around the opening (outer diffuse shadow,
+		lit top edge, vertical gradient) and then steps down into the window. Its radius is
+		the window radius + the rim width, with the same corner shape, so both curves run parallel.
+	-->
+	<div
+		class="portrait-rim relative p-2 md:p-3 rounded-[38px] md:rounded-[42px] corner-superellipse-[1.4] bg-linear-to-b from-[#fefefe] to-[#efeff0] dark:from-[#16171a] dark:to-[#0a0b0c]"
+	>
+		<div
+			id="portrait-window"
+			class="portrait-window relative aspect-4/5 rounded-[30px] corner-superellipse-[1.4] overflow-hidden isolate bg-[#0d0e10]"
+		>
+			<Image
+				src={portraitBackground}
+				alt=""
+				width={900}
+				height={900}
+				loading="eager"
+				class="window-layer window-layer-bg absolute -inset-[10%] w-[120%] h-[120%] max-w-none object-cover saturate-85 brightness-85"
+			/>
+			<Image
+				src={portraitCutout}
+				alt="Rubén Buzón"
+				width={900}
+				height={900}
+				loading="eager"
+				class="window-layer window-layer-me absolute -inset-x-[5%] -bottom-[6%] w-[110%] h-[106%] max-w-none object-cover object-[50%_30%] drop-shadow-[0_24px_30px_rgba(0,0,0,0.45)]"
+			/>
+			<!-- Depth: darker edges and an inner shadow so the frame reads as cut into the page -->
+			<div
+				class="absolute inset-0 z-2 pointer-events-none rounded-[30px] corner-superellipse-[1.4] bg-[radial-gradient(120%_90%_at_50%_40%,transparent_55%,rgba(0,0,0,0.45))]"
+				aria-hidden="true"
+			>
+			</div>
+			<div
+				class="absolute inset-0 z-3 pointer-events-none rounded-[30px] corner-superellipse-[1.4] shadow-[inset_0_18px_32px_-6px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(0,0,0,0.5),inset_0_3px_2px_rgba(0,0,0,0.45)] dark:shadow-[inset_0_18px_32px_-6px_rgba(0,0,0,0.85),inset_0_0_0_1px_rgba(0,0,0,0.8),inset_0_3px_2px_rgba(0,0,0,0.6)]"
+				aria-hidden="true"
+			>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.portrait-window {
+		--look-x: 0;
+		--look-y: 0;
+		/* The step down from the rim into the opening */
+		box-shadow:
+			0 0 0 1px rgb(0 0 0 / 10%),
+			0 -1px 0 1px rgb(0 0 0 / 6%);
+	}
+
+	.portrait-rim {
+		box-shadow:
+			0 1px 1px rgb(0 0 0 / 4%),
+			0 22px 44px -22px rgb(0 0 0 / 28%),
+			0 8px 16px -10px rgb(0 0 0 / 10%),
+			inset 0 1px 0 rgb(255 255 255 / 100%),
+			inset 0 -1px 0 rgb(0 0 0 / 6%);
+	}
+
+	:global(.dark) .portrait-window {
+		box-shadow:
+			0 0 0 1px rgb(0 0 0 / 70%),
+			0 -1px 0 1px rgb(0 0 0 / 40%);
+	}
+
+	:global(.dark) .portrait-rim {
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 4%),
+			0 24px 48px -20px rgb(0 0 0 / 85%),
+			0 8px 16px -10px rgb(0 0 0 / 60%),
+			inset 0 1px 0 rgb(255 255 255 / 9%),
+			inset 0 -1px 0 rgb(0 0 0 / 50%);
+	}
+
+	.window-layer {
+		transition: transform 0.9s var(--ease-out-expo);
+		will-change: transform;
+	}
+
+	/* Through a window, what is further away moves more against the viewer */
+	.window-layer-bg {
+		transform: translate3d(calc(var(--look-x) * -4%), calc(var(--look-y) * -3%), 0);
+	}
+
+	.window-layer-me {
+		transform: translate3d(calc(var(--look-x) * -1.5%), calc(var(--look-y) * -1%), 0);
+	}
+</style>

@@ -1,0 +1,477 @@
+---
+import { Image } from 'astro:assets';
+import { cn } from '../lib/utils';
+import { Icon } from 'astro-icon/components';
+import { v1Url } from '../constants/site';
+import portraitCutout from '../assets/portrait-1.webp';
+import portraitBackground from '../assets/portrait-2.webp';
+
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+
+const fields = [
+	{ label: 'Name', value: 'Rubén Buzón' },
+	{ label: 'Role', value: 'Full-Stack Engineer' },
+	{ label: 'Based', value: 'Spain' }
+];
+---
+
+<script>
+	// The badge hangs from a lanyard and is simulated with verlet physics (like the Vercel
+	// Ship badge, but 2D and dependency free): gravity, inertia, drag and throw.
+	// Model: a rope of points pinned above the hero, whose last point is the crimp (fixed to the badge),
+	// plus a rigid link from the pivot to the badge centre of mass. The badge is drawn
+	// translated to the pivot and rotated along that link.
+	type Point = { x: number; y: number; px: number; py: number; inv: number };
+
+	const GRAVITY = 2400;
+	// Strong damping: it moves and swings, but settles quickly instead of bouncing around
+	const DAMPING = 0.972;
+	const STEP = 1 / 120;
+	const ROPE_SEGMENTS = 12;
+	// How much the strap can be pulled beyond its length while dragging (just a little)
+	const MAX_STRETCH = 1.4;
+	const ITERATIONS = 24;
+	// Where the fabric ends inside the metal crimp, measured up from the slot centre.
+	// The crimp and ring are part of the badge, so they rotate with it and never slide.
+	const STRAP_END = 41;
+	// Centre of the punched slot, measured from the top of the badge (see the markup)
+	const SLOT_Y = 17;
+
+	const setupPortraitBadge = () => {
+		const badge = document.getElementById('portrait-badge');
+		const container = badge?.parentElement;
+		const straps = [...document.querySelectorAll<SVGPathElement>('[data-lanyard-strap]')];
+		if (!badge || !container || straps.length < 1 || badge.getAttribute('data-badge-bound') === 'true') return;
+		badge.setAttribute('data-badge-bound', 'true');
+
+		const section = badge.closest('section') ?? document.body;
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		let ropes: Point[][] = [];
+		let anchors: { x: number; y: number }[] = [];
+		let ropeLength = 0;
+		let pivotPoint: Point = { x: 0, y: 0, px: 0, py: 0, inv: 0.35 };
+		let com: Point = { x: 0, y: 0, px: 0, py: 0, inv: 0.35 };
+		let pivotRest = { x: 0, y: 0 };
+		let segment = 0;
+		let link = 0;
+		let dragged: Point | null = null;
+		let dragTarget = { x: 0, y: 0 };
+		let dragOffset = { x: 0, y: 0 };
+		let dragDistance = 0;
+		let pointerId: number | null = null;
+		let rafId: number | null = null;
+		let lastTime = 0;
+		let accumulator = 0;
+		let restFrames = 0;
+		let visible = true;
+
+		const point = (x: number, y: number, inv: number): Point => ({ x, y, px: x, py: y, inv });
+		const pivot = () => pivotPoint;
+
+		const layout = () => {
+			const containerRect = container.getBoundingClientRect();
+			const sectionRect = section.getBoundingClientRect();
+			const width = containerRect.width;
+			pivotRest = { x: width / 2, y: badge.offsetTop + SLOT_Y };
+			// The lanyard comes from above the hero, so it looks hung from the top of the page
+			const anchorY = Math.min(-40, sectionRect.top - containerRect.top - 40);
+			const crimpY = pivotRest.y - STRAP_END;
+			pivotPoint = point(pivotRest.x, crimpY, 0.35);
+			anchors = [{ x: pivotRest.x, y: anchorY }];
+			ropeLength = crimpY - anchorY;
+			segment = ropeLength / ROPE_SEGMENTS;
+			ropes = anchors.map(anchor => {
+				const anchorX = anchor.x;
+				return Array.from({ length: ROPE_SEGMENTS + 1 }, (_, i) => {
+					if (i === ROPE_SEGMENTS) return pivotPoint;
+					const t = i / ROPE_SEGMENTS;
+					return point(anchorX + (pivotRest.x - anchorX) * t, anchorY + (crimpY - anchorY) * t, i === 0 ? 0 : 1);
+				});
+			});
+			const centre = badge.offsetTop + badge.offsetHeight / 2;
+			// Rigid link from the crimp to the badge centre of mass
+			link = centre - crimpY;
+			com = point(pivotRest.x, centre, 0.35);
+		};
+
+		const integrate = (p: Point) => {
+			if (p.inv === 0 || p === dragged) return;
+			const vx = (p.x - p.px) * DAMPING;
+			const vy = (p.y - p.py) * DAMPING;
+			p.px = p.x;
+			p.py = p.y;
+			p.x += vx;
+			p.y += vy + GRAVITY * STEP * STEP;
+		};
+
+		const solve = (a: Point, b: Point, rest: number, rigid: boolean) => {
+			const dx = b.x - a.x;
+			const dy = b.y - a.y;
+			const distance = Math.hypot(dx, dy) || 0.0001;
+			// A rope only pulls, it never pushes
+			if (!rigid && distance <= rest) return;
+			const aInv = a === dragged ? 0 : a.inv;
+			const bInv = b === dragged ? 0 : b.inv;
+			const total = aInv + bInv;
+			if (total === 0) return;
+			const diff = (distance - rest) / distance;
+			a.x += dx * diff * (aInv / total);
+			a.y += dy * diff * (aInv / total);
+			b.x -= dx * diff * (bInv / total);
+			b.y -= dy * diff * (bInv / total);
+		};
+
+		const simulate = () => {
+			if (dragged) {
+				dragged.px = dragged.x;
+				dragged.py = dragged.y;
+				let x = dragTarget.x - dragOffset.x;
+				let y = dragTarget.y - dragOffset.y;
+				// Keep the grabbed point within reach of the strap, so it only stretches a little
+				const reach = ropeLength * MAX_STRETCH + (dragged === com ? link : 0);
+				anchors.forEach(anchor => {
+					const distance = Math.hypot(x - anchor.x, y - anchor.y);
+					if (distance > reach) {
+						x = anchor.x + ((x - anchor.x) * reach) / distance;
+						y = anchor.y + ((y - anchor.y) * reach) / distance;
+					}
+				});
+				dragged.x = x;
+				dragged.y = y;
+			}
+			ropes.forEach(rope => rope.slice(0, -1).forEach(integrate));
+			integrate(pivotPoint);
+			integrate(com);
+			for (let i = 0; i < ITERATIONS; i++) {
+				ropes.forEach(rope => {
+					for (let j = 0; j < rope.length - 1; j++) solve(rope[j], rope[j + 1], segment, false);
+				});
+				solve(pivot(), com, link, true);
+			}
+		};
+
+		const render = () => {
+			// The crimp is the last rope point; the slot and the badge rotation follow from the crimp → centre line
+			const crimp = pivot();
+			const angle = Math.atan2(com.x - crimp.x, com.y - crimp.y);
+			const slotX = crimp.x + Math.sin(angle) * STRAP_END;
+			const slotY = crimp.y + Math.cos(angle) * STRAP_END;
+			badge.style.transform = `translate(${slotX - pivotRest.x}px, ${slotY - pivotRest.y}px) rotate(${(-angle * 180) / Math.PI}deg)`;
+
+			// One continuous strap: a smooth curve through every rope point, ending at the crimp
+			ropes.forEach((rope, index) => {
+				let d = `M ${rope[0].x} ${rope[0].y}`;
+				for (let i = 1; i < rope.length - 1; i++) {
+					const midX = (rope[i].x + rope[i + 1].x) / 2;
+					const midY = (rope[i].y + rope[i + 1].y) / 2;
+					d += ` Q ${rope[i].x} ${rope[i].y} ${midX} ${midY}`;
+				}
+				d += ` L ${crimp.x} ${crimp.y}`;
+				straps[index].setAttribute('d', d);
+			});
+		};
+
+		const energy = () =>
+			[...ropes.flat(), com].reduce((sum, p) => sum + Math.abs(p.x - p.px) + Math.abs(p.y - p.py), 0);
+
+		const frame = (time: number) => {
+			rafId = null;
+			const elapsed = Math.min(0.05, (time - lastTime) / 1000 || STEP);
+			lastTime = time;
+			accumulator += elapsed;
+			while (accumulator >= STEP) {
+				simulate();
+				accumulator -= STEP;
+			}
+			render();
+			// Sleep once it has settled, wake up again on interaction or resize
+			restFrames = !dragged && energy() < 0.02 ? restFrames + 1 : 0;
+			if (restFrames < 30 && visible) wake();
+		};
+
+		const wake = () => {
+			if (rafId !== null || reduceMotion) return;
+			lastTime = performance.now();
+			rafId = requestAnimationFrame(frame);
+		};
+
+		const toLocal = (event: PointerEvent) => {
+			const rect = container.getBoundingClientRect();
+			return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+		};
+
+		const onPointerDown = (event: PointerEvent) => {
+			if (reduceMotion || event.button !== 0) return;
+			const local = toLocal(event);
+			const p = pivot();
+			// Grabbing the top part moves the crimp, anything below swings the card by its body
+			dragged = Math.hypot(local.x - p.x, local.y - p.y) < link * 0.45 ? p : com;
+			dragOffset = { x: local.x - dragged.x, y: local.y - dragged.y };
+			dragTarget = local;
+			dragDistance = 0;
+			restFrames = 0;
+			// Capture only once it really moves, so a plain click still reaches links (v1 card)
+			pointerId = event.pointerId;
+			badge.classList.add('dragging');
+			wake();
+		};
+
+		const onPointerMove = (event: PointerEvent) => {
+			if (!dragged) return;
+			const local = toLocal(event);
+			dragDistance += Math.hypot(local.x - dragTarget.x, local.y - dragTarget.y);
+			dragTarget = local;
+			if (pointerId !== null && dragDistance > 4 && !badge.hasPointerCapture(pointerId)) {
+				badge.setPointerCapture(pointerId);
+			}
+		};
+
+		// On touch, touch-action: pan-y hands vertical swipes to the page scroll; the browser then
+		// fires pointercancel, which ends the drag here, so the badge never blocks scrolling
+		const onPointerUp = () => {
+			// Letting go keeps the last velocity (verlet), so the badge can be thrown
+			dragged = null;
+			pointerId = null;
+			badge.classList.remove('dragging');
+			wake();
+		};
+
+		// A drag must not open the v1 link, a plain click does
+		const onClick = (event: MouseEvent) => {
+			if (dragDistance > 6) event.preventDefault();
+		};
+
+		const onResize = () => {
+			layout();
+			render();
+			wake();
+		};
+
+		layout();
+		if (!reduceMotion) {
+			// Enter with a small swing
+			com.px = com.x - 12;
+		}
+		render();
+		wake();
+
+		const observer = new IntersectionObserver(([entry]) => {
+			visible = entry.isIntersecting;
+			if (visible) wake();
+		});
+		observer.observe(container);
+
+		badge.addEventListener('pointerdown', onPointerDown);
+		badge.addEventListener('pointermove', onPointerMove);
+		badge.addEventListener('pointerup', onPointerUp);
+		window.addEventListener('pointerup', onPointerUp);
+		badge.addEventListener('pointercancel', onPointerUp);
+		badge.addEventListener('click', onClick, true);
+		window.addEventListener('resize', onResize);
+
+		document.addEventListener(
+			'astro:before-swap',
+			() => {
+				observer.disconnect();
+				window.removeEventListener('resize', onResize);
+				window.removeEventListener('pointerup', onPointerUp);
+				if (rafId !== null) cancelAnimationFrame(rafId);
+			},
+			{ once: true }
+		);
+	};
+
+	setupPortraitBadge();
+	document.addEventListener('astro:page-load', () => {
+		setupPortraitBadge();
+	});
+</script>
+
+<div class={cn('relative pt-10', className)}>
+	<!-- Lanyard, drawn from the physics rope points -->
+	<svg
+		class="absolute inset-0 w-full h-full overflow-visible pointer-events-none text-[#16181b] dark:text-[#d6d9de]"
+		aria-hidden="true"
+	>
+		<path
+			id="badge-lanyard-strap"
+			data-lanyard-strap
+			d=""
+			fill="none"
+			stroke="currentColor"
+			stroke-width="14"
+			stroke-linejoin="round"></path>
+		<text
+			class="fill-white/75 dark:fill-[#16181b]/70 font-mono text-[8px] tracking-[0.3em]"
+			dominant-baseline="central"
+		>
+			<textPath href="#badge-lanyard-strap">{'RUBENBUPE • '.repeat(10)}</textPath>
+		</text>
+	</svg>
+
+	<div id="portrait-badge" class="portrait-badge group relative select-none touch-pan-y cursor-grab">
+		<!-- Chrome card peeking out behind the badge, linking to the previous version when PUBLIC_V1_URL is set -->
+		{
+			v1Url ? (
+				<a
+					href={v1Url}
+					class="badge-back absolute inset-0 rounded-[28px] corner-superellipse-[1.4] border border-foreground/20 overflow-hidden transition-transform duration-700 ease-(--ease-out-expo)"
+				>
+					<span class="absolute inset-0 bg-[linear-gradient(135deg,#fafafa_0%,#b9bec6_28%,#f2f3f5_46%,#8e949c_70%,#e6e8eb_100%)]" />
+					<span class="absolute top-3 right-3 flex items-center gap-0.5 text-[#16181b]">
+						<code class="text-sm">v1</code>
+						<span class="sr-only"> (previous version of this website)</span>
+						<Icon name="tabler:arrow-up-right" size={14} />
+					</span>
+				</a>
+			) : (
+				<div
+					class="badge-back absolute inset-0 rounded-[28px] corner-superellipse-[1.4] border border-foreground/20 overflow-hidden"
+					aria-hidden="true"
+				>
+					<span class="absolute inset-0 bg-[linear-gradient(135deg,#fafafa_0%,#b9bec6_28%,#f2f3f5_46%,#8e949c_70%,#e6e8eb_100%)]" />
+				</div>
+			)
+		}
+
+		<!-- Metal crimp closing the strap, fixed on top of the ring -->
+		<svg
+			class="absolute left-1/2 -top-7 -translate-x-1/2 w-5.5 h-4 pointer-events-none"
+			viewBox="0 0 22 16"
+			aria-hidden="true"
+		>
+			<rect x="0.5" y="0" width="21" height="16" rx="3.5" fill="url(#badge-ring-metal)"></rect>
+			<path d="M0.5 4 H21.5" stroke="rgba(0,0,0,0.18)" stroke-width="1"></path>
+		</svg>
+
+		<!-- Ring threaded through the slot: between the cards, so it shows above the badge and through the hole -->
+		<svg
+			class="absolute left-1/2 -top-3.5 -translate-x-1/2 w-4 h-9.5 overflow-visible pointer-events-none"
+			viewBox="0 0 16 38"
+			aria-hidden="true"
+		>
+			<defs>
+				<linearGradient id="badge-ring-metal" x1="0" x2="1">
+					<stop offset="0" stop-color="#6b7078"></stop>
+					<stop offset="0.45" stop-color="#eceef1"></stop>
+					<stop offset="1" stop-color="#7b8088"></stop>
+				</linearGradient>
+			</defs>
+			<ellipse cx="8" cy="18" rx="6.5" ry="17" fill="none" stroke="url(#badge-ring-metal)" stroke-width="2.8"></ellipse>
+		</svg>
+
+		<!-- The badge. The shadow lives on a wrapper (drop-shadow follows the mask), so the slot is a real hole -->
+		<div class="relative drop-shadow-[0_18px_24px_rgba(0,0,0,0.22)] dark:drop-shadow-[0_18px_28px_rgba(0,0,0,0.8)]">
+			<div
+				class="badge-front relative rounded-[28px] corner-superellipse-[1.4] px-3 pb-2.5 pt-8 md:px-3.5 md:pb-3.5 card-surface border bg-card shadow-none!"
+			>
+				<div class="relative aspect-square rounded-[18px] corner-superellipse-[1.4] overflow-hidden bg-[#0d0e10]">
+					<Image
+						src={portraitBackground}
+						alt=""
+						width={700}
+						height={700}
+						widths={[320, 480, 700]}
+						sizes="(max-width: 767px) 152px, 316px"
+						priority
+						draggable="false"
+						class="absolute inset-0 w-full h-full object-cover saturate-90"
+					/>
+					<Image
+						src={portraitCutout}
+						alt="Rubén Buzón"
+						width={700}
+						height={700}
+						widths={[320, 480, 700]}
+						sizes="(max-width: 767px) 152px, 316px"
+						priority
+						draggable="false"
+						class="absolute -inset-x-[4%] -bottom-[5%] w-[108%] h-[105%] max-w-none object-cover object-[50%_30%]"
+					/>
+				</div>
+
+				<dl class="mt-2 md:mt-3 px-1">
+					{
+						fields.map(field => (
+							<div class="flex items-baseline gap-2 md:gap-3 py-1.5 md:py-2 border-b border-dashed border-foreground/20 last:border-b-0">
+								<dt class="text-[10px] md:text-[11px] text-foreground/60">{field.label}</dt>
+								<dd>
+									<code class="text-[10px] md:text-[13px] text-foreground whitespace-nowrap">{field.value}</code>
+								</dd>
+							</div>
+						))
+					}
+				</dl>
+			</div>
+			<!-- Rim of the punched slot -->
+			<span
+				class="absolute left-1/2 top-[12px] -translate-x-1/2 w-11 h-2.5 rounded-full border border-foreground/15 shadow-[inset_0_1px_2px_rgba(0,0,0,0.25)] pointer-events-none"
+				aria-hidden="true"></span>
+		</div>
+
+		<!-- Front arc of the ring: crosses over the card from its top edge into the slot, while the other side goes behind -->
+		<svg
+			class="absolute left-1/2 -top-3.5 -translate-x-1/2 w-4 h-9.5 overflow-visible pointer-events-none"
+			viewBox="0 0 16 38"
+			aria-hidden="true"
+		>
+			<defs>
+				<clipPath id="badge-ring-front">
+					<rect x="-4" y="12" width="12" height="20"></rect>
+				</clipPath>
+			</defs>
+			<ellipse
+				cx="8"
+				cy="18"
+				rx="6.5"
+				ry="17"
+				fill="none"
+				stroke="url(#badge-ring-metal)"
+				stroke-width="2.8"
+				clip-path="url(#badge-ring-front)"
+				class="drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]"></ellipse>
+		</svg>
+	</div>
+</div>
+
+<style>
+	.portrait-badge {
+		/* Pivot on the punched slot (SLOT_Y in the script) */
+		transform-origin: 50% 17px;
+		will-change: transform;
+	}
+
+	.portrait-badge.dragging {
+		cursor: grabbing;
+	}
+
+	.badge-back {
+		transform: translate(15%, 4%) rotate(7deg);
+	}
+
+	.portrait-badge:hover .badge-back,
+	.badge-back:focus-visible {
+		transform: translate(18%, 5%) rotate(9deg);
+	}
+
+	/* Punched slot: a 44x10 rounded hole centred 17px below the top edge */
+	.badge-front {
+		mask:
+			linear-gradient(#000 0 0),
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='10'%3E%3Crect width='44' height='10' rx='5'/%3E%3C/svg%3E")
+				50% 12px / 44px 10px no-repeat;
+		mask-composite: exclude;
+	}
+	/* On the narrow mobile badge the v1 card has to peek out further for its label to fit */
+	@media (max-width: 767px) {
+		.badge-back,
+		.portrait-badge:hover .badge-back {
+			transform: translate(24%, 3%) rotate(7deg);
+		}
+	}
+</style>

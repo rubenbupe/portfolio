@@ -1,38 +1,102 @@
 ---
 import Section from '../components/Section.astro';
 import { Icon } from 'astro-icon/components';
-import { githubUrl, mailUrl } from '../constants/site';
+import { mailUrl } from '../constants/site';
 import Anchor from '../components/Anchor.astro';
+import PortraitWindow from '../components/PortraitWindow.astro';
+import PortraitBadge from '../components/PortraitBadge.astro';
+import { Particles } from '../components/Particles';
+
+const name = ['Rubén', 'Buzón'];
+
+// Which portrait to show in the hero: the hanging ID badge or the window cut into the page
+const portraitStyle: 'badge' | 'window' = 'badge';
 ---
 
-<div class="relative w-full overflow-hidden flex flex-col">
-	<Section id="home" class="relative py-24 min-h-[80vh]">
-		<h1
-			class="text-4xl font-bold sm:text-5xl md:text-7xl bg-linear-to-b from-20% dark:from-50% to-100% from-[#808080] to-black dark:from-white dark:to-gray-400 text-transparent bg-clip-text dark:[text-shadow:0_1px_5px_rgb(0_0_0/20%)] [text-shadow:0_0_4px_rgb(0_0_0/20%)]"
-		>
-			Rubén Buzón
-		</h1>
-		<h2
-			class="text-3xl font-bold tracking-tight sm:text-4xl md:text-6xl pb-3 mt-3 bg-linear-to-b from-20% dark:from-50% to-100% from-[#808080] to-black dark:from-white dark:to-gray-400 text-transparent bg-clip-text dark:[text-shadow:0_1px_5px_rgb(0_0_0/20%)] [text-shadow:0_0_4px_rgb(0_0_0/20%)]"
-		>
-			Full-Stack Engineer
-		</h2>
-		<p class="mt-4 max-w-lg leading-normal text-foreground/50 md:text-lg">
-			I'm a Full-Stack engineer with a passion for building high-quality and scalable software. I have experience in
-			both frontend and backend technologies, and I'm always looking for new challenges.
-		</p>
-		<div class="flex gap-4 mt-8">
-			<Anchor size="default" href={mailUrl} target="_blank"> Get in touch </Anchor>
-			<Anchor size="default" variant="outline" href={githubUrl} target="_blank">
-				<Icon name="tabler:brand-github-filled" class="mr-2" />
-				Github
-			</Anchor>
+<div class="relative w-full overflow-hidden flex flex-col isolate">
+	<div
+		class="absolute inset-0 -z-2 opacity-60 mask-[linear-gradient(to_bottom,transparent,black_15%,black_80%,transparent)]"
+	>
+		<Particles
+			client:media="(min-width: 768px)"
+			theme="auto"
+			minSize={0.2}
+			maxSize={0.8}
+			particleDensity={25}
+			className="w-full h-full"
+		/>
+	</div>
+	<div
+		class="absolute inset-0 -z-1 opacity-55 pointer-events-none bg-[linear-gradient(hsl(var(--border)/50%)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/50%)_1px,transparent_1px)] bg-size-[72px_72px] bg-position-[center_top] mask-[radial-gradient(ellipse_70%_55%_at_50%_40%,black_10%,transparent_75%)]"
+	>
+	</div>
+
+	<Section id="home" class="relative pt-14 pb-24 md:pt-32 md:pb-32 min-h-[80vh] flex flex-col justify-center">
+		<div class="grid md:grid-cols-[1.25fr_0.9fr] items-center gap-8 md:gap-16 lg:gap-22">
+			<div>
+				<h1
+					class="-ml-[0.04em] font-display text-[clamp(60px,9.5vw,128px)] leading-[0.88] tracking-[-0.03em]"
+					aria-label="Rubén Buzón"
+				>
+					{
+						name.map((word, wordIndex) => (
+							<span class="block pb-[0.06em] font-display" aria-hidden="true">
+								{[...word].map((letter, letterIndex) => (
+									<span
+										class="inline-block -mx-[0.08em] px-[0.08em] -my-[0.2em] py-[0.2em] font-gradient animate-rise"
+										style={`animation-delay: ${120 + (wordIndex * 5 + letterIndex) * 45}ms`}
+									>
+										{letter}
+									</span>
+								))}
+							</span>
+						))
+					}
+				</h1>
+				<h2
+					class="mt-3 font-display text-[clamp(26px,3.4vw,42px)] tracking-tight leading-tight pb-1"
+					data-reveal
+					style="--reveal-delay: 3"
+				>
+					<span class="font-gradient">Full-Stack Engineer</span>
+				</h2>
+				<p class="mt-6 max-w-lg leading-relaxed text-foreground/60 md:text-lg" data-reveal style="--reveal-delay: 4">
+					I'm a Full-Stack engineer with a passion for building <span class="text-foreground">high-quality</span> and
+					<span class="text-foreground">scalable</span> software. I work on everything from the database to the pixel, and
+					I'm always looking for new challenges.
+				</p>
+				<div class="flex flex-wrap gap-3 mt-8" data-reveal style="--reveal-delay: 5">
+					<Anchor size="lg" href={mailUrl} target="_blank" class="group backdrop-blur-none" data-magnetic>
+						Get in touch
+						<Icon
+							name="tabler:arrow-up-right"
+							size={16}
+							class="ml-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+						/>
+					</Anchor>
+				</div>
+			</div>
+
+			{
+				portraitStyle === 'badge' ? (
+					<PortraitBadge class="max-md:order-first max-md:w-44 max-md:mx-auto md:justify-self-end md:w-full md:max-w-84" />
+				) : (
+					<PortraitWindow class="max-md:order-first max-md:w-36 md:justify-self-end md:w-full md:max-w-100" />
+				)
+			}
 		</div>
 	</Section>
-	<div class="absolute bottom-4 left-0 right-0 mx-auto flex justify-center">
+
+	<div class="absolute bottom-6 left-0 right-0 z-1 mx-auto flex justify-center">
 		<Anchor href="#about" size="default" variant="outline" class="rounded-full p-2 animate-bounce !corner-round">
 			<Icon name="tabler:arrow-down" size={18} />
 			<span class="sr-only">Scroll down</span>
 		</Anchor>
+	</div>
+
+	<div
+		class="absolute left-1/2 -translate-x-1/2 -bottom-px w-400 h-45 -z-1 pointer-events-none bg-[radial-gradient(60%_100%_at_50%_100%,hsl(var(--foreground)/12%),transparent_70%)] after:content-[''] after:absolute after:inset-x-[10%] after:bottom-0 after:h-px after:bg-linear-to-r after:from-transparent after:via-foreground/55 after:to-transparent dark:after:shadow-[0_0_24px_2px_rgba(255,255,255,0.25)]"
+		aria-hidden="true"
+	>
 	</div>
 </div>

@@ -36,6 +36,9 @@ export const Particles = (props: ParticlesProps) => {
 		return 'dark';
 	});
 	const [init, setInit] = useState(false);
+	const [reduceMotion] = useState(
+		() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+	);
 
 	useEffect(() => {
 		if (theme !== 'auto') {
@@ -243,7 +246,7 @@ export const Particles = (props: ParticlesProps) => {
 								distance: {},
 								direction: 'none',
 								drift: 0,
-								enable: true,
+								enable: !reduceMotion,
 								gravity: {
 									acceleration: 9.81,
 									enable: false,
@@ -299,7 +302,7 @@ export const Particles = (props: ParticlesProps) => {
 								},
 								animation: {
 									count: 0,
-									enable: true,
+									enable: !reduceMotion,
 									speed: speed || 4,
 									decay: 0,
 									delay: 0,

@@ -17,6 +17,8 @@ const { class: className, zoomEffect, ...rest } = Astro.props;
 	const LEAVE_THRESHOLD = 0.5;
 
 	const setupSectionEffects = () => {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
 		const sections = document.querySelectorAll('.section-zoom') as unknown as HTMLElement[];
 
 		if (!sections.length) return;
@@ -52,9 +54,9 @@ const { class: className, zoomEffect, ...rest } = Astro.props;
 
 				if (isLeavingTop) {
 					const intensity = Math.max(0, Math.min(1, 1 - visibleHeight / (windowHeight * LEAVE_THRESHOLD)));
-					const blurAmount = intensity * 8;
-					const scaleAmount = 1 + intensity * 0.1;
-					const translateY = intensity * 50;
+					const blurAmount = intensity * 5;
+					const scaleAmount = 1 + intensity * 0.04;
+					const translateY = intensity * 30;
 
 					section.style.filter = `blur(${blurAmount}px)`;
 					section.style.transform = `scale(${scaleAmount}) translateY(${translateY}px)`;

@@ -19,10 +19,7 @@ export const getSystemTheme = (systemQuery: Pick<MediaQueryList, 'matches'>): Re
 	return systemQuery.matches ? 'dark' : 'light';
 };
 
-export const resolveThemePreference = (
-	themePreference: ThemePreference,
-	systemTheme: ResolvedTheme
-): ResolvedTheme => {
+export const resolveThemePreference = (themePreference: ThemePreference, systemTheme: ResolvedTheme): ResolvedTheme => {
 	return themePreference === 'system' ? systemTheme : themePreference;
 };
 
@@ -33,10 +30,7 @@ export const toCanonicalThemePreference = (
 	return resolvedTheme === systemTheme ? 'system' : resolvedTheme;
 };
 
-export const applyResolvedTheme = (
-	root: Pick<Element, 'classList'>,
-	resolvedTheme: ResolvedTheme
-) => {
+export const applyResolvedTheme = (root: Pick<Element, 'classList'>, resolvedTheme: ResolvedTheme) => {
 	root.classList.toggle('light', resolvedTheme === 'light');
 	root.classList.toggle('dark', resolvedTheme === 'dark');
 };

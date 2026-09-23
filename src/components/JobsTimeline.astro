@@ -1,0 +1,168 @@
+---
+import { cn } from '../lib/utils';
+import { jobs, timelineRange } from '../constants/jobs';
+
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+
+const span = timelineRange.to - timelineRange.from;
+const toPercent = (year: number) => ((year - timelineRange.from) / span) * 100;
+const years = Array.from(
+	{ length: Math.floor(timelineRange.to) - timelineRange.from + 1 },
+	(_, i) => timelineRange.from + i
+);
+---
+
+<script>
+	// Hovering a job card (or a bar) highlights the matching bar in the timeline.
+	// Events are delegated so the React island can hydrate without us touching its DOM.
+	const setupTimeline = () => {
+		if (document.documentElement.getAttribute('data-timeline-bound') === 'true') return;
+
+		const highlight = (jobId: string | null) => {
+			const rows = document.querySelector<HTMLElement>('#jobs-timeline-rows');
+			if (!rows) return;
+			rows.classList.toggle('hovering', jobId !== null);
+			rows.querySelectorAll<HTMLElement>('[data-job-bar]').forEach(bar => {
+				bar.classList.toggle('hot', bar.dataset.jobBar === jobId);
+			});
+		};
+
+		const jobIdFrom = (event: Event) => {
+			const target = (event.target as HTMLElement | null)?.closest<HTMLElement>('[data-job-bar], [data-job]');
+			return target ? (target.dataset.jobBar ?? target.dataset.job ?? null) : null;
+		};
+
+		document.addEventListener('pointerover', event => {
+			const jobId = jobIdFrom(event);
+			if (jobId !== null) highlight(jobId);
+		});
+		document.addEventListener('click', event => {
+			const bar = (event.target as HTMLElement | null)?.closest<HTMLElement>('[data-job-bar]');
+			if (!bar) return;
+			window.dispatchEvent(new CustomEvent('job:open', { detail: Number(bar.dataset.jobBar) }));
+		});
+		document.addEventListener('pointerout', event => {
+			if (jobIdFrom(event) !== null) highlight(null);
+		});
+
+		document.documentElement.setAttribute('data-timeline-bound', 'true');
+	};
+
+	setupTimeline();
+	document.addEventListener('astro:page-load', () => {
+		setupTimeline();
+	});
+</script>
+
+<figure
+	class={cn(
+		'w-full rounded-3xl corner-superellipse-[1.4] border card-surface backdrop-blur-md p-5 md:px-7 md:pb-6 overflow-hidden',
+		className
+	)}
+	aria-label="Timeline of the places I've worked at, from 2019 to today"
+	data-reveal
+	data-reveal-duration="2000"
+>
+	<div class="relative">
+		<!-- One grid layer behind every row, so the year lines run top to bottom without gaps -->
+		<div class="absolute top-4.5 bottom-0 left-0 right-0 md:left-35 pointer-events-none" aria-hidden="true">
+			{
+				years.map(year => (
+					<span class="absolute inset-y-0 border-l border-border/60" style={`left:${toPercent(year)}%`} />
+				))
+			}
+			<span
+				class="absolute inset-y-0 border-l border-dashed border-foreground/50"
+				style={`left:${toPercent(timelineRange.to)}%`}></span>
+		</div>
+
+		<div class="relative h-6.5 md:ml-35 border-b border-border/60" aria-hidden="true">
+			{
+				years.map((year, index) => (
+					<code
+						class={cn(
+							'absolute top-0 -translate-x-1/2 text-[11px] text-foreground/60',
+							index % 2 === 1 && 'max-md:hidden'
+						)}
+						style={`left:${toPercent(year)}%`}
+					>
+						{year}
+					</code>
+				))
+			}
+			<code class="absolute top-0 right-1.5 text-[11px] text-foreground"> Now </code>
+		</div>
+
+		<div id="jobs-timeline-rows" class="relative grid gap-1.5 pt-3.5">
+			{
+				jobs.map((job, index) => {
+					const end = job.end ?? timelineRange.to;
+					return (
+						<button
+							type="button"
+							class="timeline-row grid md:grid-cols-[140px_1fr] items-center w-full md:h-9 max-md:gap-1 text-left cursor-pointer transition-opacity duration-300"
+							data-job-bar={job.id}
+							aria-label={`Show ${job.title} details`}
+						>
+							<span class="text-sm text-foreground/60 transition-colors">{job.title}</span>
+							<span class="relative block h-7.5 md:h-full">
+								<span
+									class={cn(
+										'timeline-bar absolute top-1.5 bottom-1.5 flex items-center px-2.5 rounded-lg overflow-hidden origin-left border border-foreground/20 bg-linear-to-b from-foreground/15 to-foreground/5 backdrop-blur-sm transition-[background,border-color,box-shadow] duration-300',
+										job.end === null &&
+											'border-r-0 rounded-r-none mask-[linear-gradient(to_right,black_80%,rgba(0,0,0,0.35))]'
+									)}
+									style={`left:${toPercent(job.start)}%; width:${toPercent(end) - toPercent(job.start)}%; --i:${index}`}
+								>
+									<code class="text-[11px] text-foreground/80 whitespace-nowrap max-md:hidden">{job.timePeriod}</code>
+								</span>
+							</span>
+						</button>
+					);
+				})
+			}
+		</div>
+	</div>
+</figure>
+
+<style>
+	/* Bars grow from the left once the figure is revealed */
+	@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+		[data-reveal]:not(.revealed) .timeline-bar {
+			transform: scaleX(0);
+		}
+		.revealed .timeline-bar {
+			transform: none;
+			transition:
+				transform 1.3s var(--ease-out-expo) calc(200ms + var(--i) * 120ms),
+				background 0.3s,
+				border-color 0.3s,
+				box-shadow 0.3s;
+		}
+	}
+
+	.hovering .timeline-row {
+		opacity: 0.35;
+	}
+
+	.hovering .timeline-row.hot {
+		opacity: 1;
+	}
+
+	.timeline-row.hot span:first-child {
+		color: hsl(var(--foreground));
+	}
+
+	.timeline-row.hot .timeline-bar {
+		background: linear-gradient(to bottom, hsl(var(--foreground) / 92%), hsl(var(--foreground) / 70%));
+		box-shadow: 0 0 30px -4px hsl(var(--foreground) / 40%);
+	}
+
+	.timeline-row.hot .timeline-bar code {
+		color: hsl(var(--background));
+	}
+</style>

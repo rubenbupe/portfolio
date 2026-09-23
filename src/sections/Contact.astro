@@ -1,32 +1,98 @@
 ---
 import Anchor from '../components/Anchor.astro';
 import BackgroundRetroGrid from '../components/BackgroundRetroGrid.astro';
+import Button from '../components/Button.astro';
 import { FlipWords } from '../components/FlipWords';
 import Section from '../components/Section.astro';
-import { mailUrl } from '../constants/site';
+import { Icon } from 'astro-icon/components';
+import { mail, mailUrl } from '../constants/site';
 ---
 
-<div class="relative w-full flex flex-col h-[80vh] overflow-hidden">
+<script>
+	const setupCopyEmail = () => {
+		document.querySelectorAll<HTMLElement>('[data-copy]').forEach(button => {
+			if (button.getAttribute('data-copy-bound') === 'true') return;
+
+			button.addEventListener('click', async () => {
+				const value = button.dataset.copy ?? '';
+				try {
+					await navigator.clipboard.writeText(value);
+					button.classList.add('copied');
+					setTimeout(() => button.classList.remove('copied'), 1800);
+				} catch {
+					window.location.href = `mailto:${value}`;
+				}
+			});
+
+			button.setAttribute('data-copy-bound', 'true');
+		});
+	};
+
+	setupCopyEmail();
+	document.addEventListener('astro:page-load', () => {
+		setupCopyEmail();
+	});
+</script>
+
+<div class="relative w-full flex flex-col min-h-[80vh] overflow-hidden">
 	<BackgroundRetroGrid />
 
-	<Section id="jobs" class="py-24 h-full flex flex-col justify-center items-center">
-		<h2 class="relative text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-center">
-			<span aria-hidden="false" class="visually-hidden">Let's build the future together</span>
-			<span aria-hidden="true">
-				Want to<FlipWords words={['get in touch?', 'say hi?']} client:load />
-			</span>
-		</h2>
-		<p class="relative mt-4 max-w-lg leading-normal text-foreground/80 md:text-lg text-center">
-			My inbox is always open. Whether you have an opportunity, a project you'd like to discuss, or a question, I'll try
-			my best to get back to you!
-		</p>
-		<Anchor size="default" href={mailUrl} target="_blank" class="mt-8"> Get in touch </Anchor>
+	<Section id="contact" class="py-32 md:py-40 h-full flex flex-col justify-center items-center text-center">
 		<div
 			class="absolute inset-0 w-full h-full bg-background mask-[radial-gradient(transparent,white)] pointer-events-none"
 		>
 		</div>
+		<p class="relative font-serif italic text-2xl text-foreground/60" data-reveal>Let's build the future together</p>
+		<h2
+			class="relative mt-2 font-display text-[clamp(44px,7.6vw,108px)] whitespace-nowrap leading-[0.95] tracking-[-0.045em] text-center"
+			data-reveal
+			style="--reveal-delay: 1"
+		>
+			<span aria-hidden="false" class="visually-hidden">Want to get in touch?</span>
+			<span aria-hidden="true" class="flex flex-col items-center font-display">
+				<span class="font-gradient">Want to</span>
+				<!-- Own line with a fixed height so swapping words never shifts the layout -->
+				<span class="relative flex justify-center w-full h-[1.1em]">
+					<FlipWords
+						words={['say hi?', 'get in touch?']}
+						className="font-display px-0"
+						letterClassName="inline-block whitespace-pre -m-[0.08em] p-[0.08em] -my-[0.2em] py-[0.2em] font-gradient"
+						client:visible
+					/>
+				</span>
+			</span>
+		</h2>
+		<p
+			class="relative mt-6 max-w-lg leading-relaxed text-foreground/60 md:text-lg text-center"
+			data-reveal
+			style="--reveal-delay: 2"
+		>
+			My inbox is always open. Whether you have an opportunity, a project you'd like to discuss, or a question, I'll try
+			my best to get back to you!
+		</p>
+
+		<div class="relative flex flex-wrap justify-center gap-3 mt-10" data-reveal style="--reveal-delay: 3">
+			<Anchor size="lg" href={mailUrl} target="_blank" class="text-base backdrop-blur-none" data-magnetic>
+				<Icon name="tabler:mail" size={18} class="mr-2" />
+				{mail}
+			</Anchor>
+			<Button
+				size="lg"
+				variant="outline"
+				class="group/copy relative min-w-30 text-base [&>span]:inline-flex [&>span]:items-center [&>span]:gap-2 [&>span]:transition-all [&>span]:duration-300"
+				data-copy={mail}
+				data-magnetic
+				aria-label="Copy email address"
+			>
+				<span class="group-[.copied]/copy:opacity-0 group-[.copied]/copy:-translate-y-2">
+					<Icon name="tabler:copy" size={18} /> Copy
+				</span>
+				<span
+					class="absolute opacity-0 translate-y-2 group-[.copied]/copy:opacity-100 group-[.copied]/copy:translate-y-0"
+				>
+					<Icon name="tabler:check" size={18} /> Copied
+				</span>
+			</Button>
+		</div>
 	</Section>
-	<p class="relative mt-auto mb-2 text-center text-foreground/80 text-xs">
-		© {new Date().getFullYear()} Rubén Buzón.
-	</p>
 </div>

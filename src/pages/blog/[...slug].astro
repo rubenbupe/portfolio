@@ -1,13 +1,15 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Anchor from '../../components/Anchor.astro';
 import { formatDate } from '../../lib/utils';
 import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map(post => ({
-		params: { slug: post.id }, // ✅ post.slug → post.id
+		params: { slug: post.id },
 		props: post
 	}));
 }
@@ -16,7 +18,7 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const slug = Astro.params.slug;
-const { Content } = await render(post); // ✅ post.render() → render(post)
+const { Content } = await render(post);
 
 if (!slug || !post) {
 	return new Response(null, { status: 404, statusText: 'Not found' });
@@ -25,50 +27,49 @@ if (!slug || !post) {
 const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = Astro.props.data;
 ---
 
-<Layout title={title}>
-	<div class="relative container max-w-(--breakpoint-md) py-10">
+<Layout title={title} description={description}>
+	<div class="relative container max-w-(--breakpoint-md) pt-32 pb-20">
 		<article class="max-w-none">
-			<div class="flex items-center justify-center w-full">
-				<span
-					class="mt-6 text-center text-sm leading-[1.6] text-foreground/50 font-normal"
-					transition:name={`date-${slug}`}
-				>
+			<Anchor variant="outline" size="sm" href="/blog" class="group">
+				<Icon name="tabler:arrow-left" size={14} class="mr-1.5 transition-transform group-hover:-translate-x-0.5" />
+				Blog
+			</Anchor>
+			<div class="flex items-center w-full mt-10">
+				<code class="text-sm text-foreground/60" transition:name={`date-${slug}`}>
 					<time datetime={pubDate.toDateString()}>
 						{formatDate(pubDate)}
 					</time>
 					{
 						updatedDate && (
 							<span>
-								- Last updated on <time datetime={updatedDate.toDateString()}>{formatDate(updatedDate)}</time>
+								· Last updated on <time datetime={updatedDate.toDateString()}>{formatDate(updatedDate)}</time>
 							</span>
 						)
 					}
-				</span>
+				</code>
 			</div>
-			<h2
-				class="mt-4 text-center text-3xl md:text-5xl tracking-tight leading-[120%] font-gradient"
+			<h1
+				class="mt-4 font-display font-gradient text-4xl md:text-6xl leading-[1.02] tracking-[-0.035em] text-balance pb-1"
 				transition:name={`title-${slug}`}
 			>
 				{title}
-			</h2>
-			<p class="text-center text-md md:text-lg leading-[1.6] text-foreground/50 font-normal md:leading-normal mt-4">
+			</h1>
+			<p class="mt-5 max-w-2xl text-lg md:text-xl leading-relaxed text-foreground/60 text-pretty">
 				{description}
 			</p>
 
 			<Image
 				loading="eager"
-				class="w-full h-full object-cover rounded-2xl corner-squircle overflow-hidden aspect-video border mt-12 mb-12"
+				class="w-full h-full object-cover rounded-3xl corner-superellipse-[1.4] overflow-hidden aspect-video border mt-12 mb-12"
 				width={720}
 				height={360}
 				src={heroImage}
 				alt={heroImageAlt}
 				transition:name={`img-${post.id}`}
-				✅
-				post.slug
-				→
-				post.id
 			/>
-			<div class="prose dark:prose-invert">
+			<div
+				class="prose dark:prose-invert prose-headings:font-display prose-headings:tracking-tight prose-a:text-foreground prose-a:underline-offset-4 prose-img:rounded-2xl prose-img:border prose-pre:rounded-2xl prose-pre:border prose-code:before:content-none prose-code:after:content-none"
+			>
 				<Content />
 			</div>
 		</article>

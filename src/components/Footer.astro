@@ -1,0 +1,68 @@
+---
+import { githubUrl, linkedinUrl, links, mailUrl } from '../constants/site';
+import GridIcon from './GridIcon.astro';
+
+const footerLinks = [
+	...links.filter(link => !link.external),
+	{ href: githubUrl, text: 'GitHub', external: true },
+	{ href: linkedinUrl, text: 'LinkedIn', external: true },
+	{ href: mailUrl, text: 'Email', external: true }
+];
+---
+
+<footer class="relative w-full overflow-hidden flex flex-col items-center">
+	<div class="w-full max-w-6xl px-6 md:px-12 pt-24">
+		<!-- Dashed frame with crosses and fading corner extensions, like the original projects grid -->
+		<div class="relative border border-dashed px-6 md:px-8 py-7">
+			<div
+				class="w-24 h-24 absolute -top-24 -left-24 border-b border-r border-dashed mask-[linear-gradient(to_bottom_right,transparent_50%,black)]"
+			>
+			</div>
+			<div
+				class="w-24 h-24 absolute -top-24 -right-24 border-b border-l border-dashed mask-[linear-gradient(to_bottom_left,transparent_50%,black)]"
+			>
+			</div>
+			<div
+				class="w-24 h-24 absolute -bottom-24 -left-24 border-t border-r border-dashed mask-[linear-gradient(to_top_right,transparent_50%,black)]"
+			>
+			</div>
+			<div
+				class="w-24 h-24 absolute -bottom-24 -right-24 border-t border-l border-dashed mask-[linear-gradient(to_top_left,transparent_50%,black)]"
+			>
+			</div>
+			<GridIcon class="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-foreground" />
+			<GridIcon class="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-foreground" />
+			<GridIcon class="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-foreground" />
+			<GridIcon class="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-foreground" />
+
+			<div class="flex flex-wrap items-center justify-between gap-4">
+				<a class="text-lg tracking-tight font-semibold text-foreground" href="/#home">
+					<span class="text-foreground/70 mr-1 font-light">/</span>rubenbupe
+				</a>
+				<nav class="flex flex-wrap gap-x-5 gap-y-1" aria-label="Footer">
+					{
+						footerLinks.map(link => (
+							<a
+								class="text-sm text-foreground/60 hover:text-foreground transition-colors"
+								href={link.href}
+								target={link.external ? '_blank' : '_self'}
+							>
+								{link.text}
+							</a>
+						))
+					}
+				</nav>
+			</div>
+			<div class="flex flex-wrap items-center justify-between gap-4 pt-4 text-xs text-foreground/60">
+				<span>© {new Date().getFullYear()} Rubén Buzón. Designed &amp; built with care in Spain.</span>
+				<a class="hover:text-foreground transition-colors" href="/#home">Back to top ↑</a>
+			</div>
+		</div>
+	</div>
+	<div
+		class="w-full mt-10 text-center font-display text-[18vw] leading-[0.78] tracking-[-0.015em] select-none translate-y-[8%] bg-linear-to-b from-foreground/15 to-transparent to-85% text-transparent bg-clip-text"
+		aria-hidden="true"
+	>
+		rubenbupe
+	</div>
+</footer>

@@ -1,14 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../sections/Hero.astro';
+import Marquee from '../components/Marquee.astro';
 import About from '../sections/About.astro';
 import Jobs from '../sections/Jobs.astro';
-import Contact from '../sections/Contact.astro';
 import Projects from '../sections/Projects.astro';
+import Contact from '../sections/Contact.astro';
+
+const technologies = [
+	'TypeScript',
+	'Go',
+	'React',
+	'React Native',
+	'Astro',
+	'Node.js',
+	'Kotlin',
+	'Jetpack Compose',
+	'Python',
+	'TensorFlow',
+	'OpenCV',
+	'SQL',
+	'MongoDB',
+	'Docker',
+	'Kubernetes',
+	'GCP',
+	'WebSocket',
+	'Gemini'
+];
 ---
 
 <Layout>
 	<Hero />
+	<Marquee items={technologies} />
 	<About />
 	<Jobs />
 	<Projects />

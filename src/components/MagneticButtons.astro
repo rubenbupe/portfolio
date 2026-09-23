@@ -1,0 +1,33 @@
+---
+// Buttons marked with data-magnetic follow the pointer slightly while hovered.
+---
+
+<script>
+	const setupMagnetic = () => {
+		const finePointer = window.matchMedia('(pointer: fine)').matches;
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!finePointer || reduceMotion) return;
+
+		document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach(element => {
+			if (element.getAttribute('data-magnetic-bound') === 'true') return;
+
+			element.style.transition = 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)';
+			element.addEventListener('pointermove', event => {
+				const rect = element.getBoundingClientRect();
+				const x = (event.clientX - (rect.left + rect.width / 2)) * 0.18;
+				const y = (event.clientY - (rect.top + rect.height / 2)) * 0.28;
+				element.style.transform = `translate(${x}px, ${y}px)`;
+			});
+			element.addEventListener('pointerleave', () => {
+				element.style.transform = '';
+			});
+
+			element.setAttribute('data-magnetic-bound', 'true');
+		});
+	};
+
+	setupMagnetic();
+	document.addEventListener('astro:page-load', () => {
+		setupMagnetic();
+	});
+</script>
