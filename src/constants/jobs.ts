@@ -30,7 +30,7 @@ export const jobs = [
 			'Google Cloud',
 			'Git'
 		],
-		role: 'Co-Founder & Fullstack Developer',
+		role: 'Co-Founder & Fullstack Software Engineer',
 		paragraphs: [
 			'Led the creation of the platform, building the backend, frontend, and mobile apps from the ground up.',
 			'Designed and implemented the psychologist platform based on business requirements, developing new features and improving existing ones.',
@@ -59,7 +59,7 @@ export const jobs = [
 			'AWS',
 			'Git'
 		],
-		role: 'Fullstack Developer',
+		role: 'Fullstack Software Engineer',
 		paragraphs: [
 			'Developed key features for the main platform, working on both backend and frontend for thousands of users.',
 			'Collaborated with the product team to understand user needs and deliver features that matched expectations.',
@@ -86,7 +86,7 @@ export const jobs = [
 			'AWS',
 			'Git'
 		],
-		role: 'Co-Founder & Fullstack Developer',
+		role: 'Co-Founder & Fullstack Software Engineer',
 		paragraphs: [
 			'Led full-stack development, including architecture, design, and implementation of backend and frontend technologies.',
 			'Built a cross-platform mobile app with features like authentication, push notifications, real-time chat, and video calls.',
@@ -103,7 +103,7 @@ export const jobs = [
 		end: 2024,
 		svg: nodelixSvg,
 		badges: ['Python', 'Django', 'ML', 'TensorFlow', 'OCR', 'AWS', 'Git'],
-		role: 'Co-Founder & Fullstack Developer',
+		role: 'Co-Founder & Fullstack Software Engineer',
 		paragraphs: [
 			'Delivered scalable ML solutions for fiscal sector clients, focusing on OCR and data extraction tools.',
 			'Developed a custom OCR pipeline for real-time data processing and extraction from various documents, including invoices and contracts.',

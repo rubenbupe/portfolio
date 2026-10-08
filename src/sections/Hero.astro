@@ -1,16 +1,28 @@
 ---
 import Section from '../components/Section.astro';
 import { Icon } from 'astro-icon/components';
-import { mailUrl } from '../constants/site';
+import { mailUrl, v1Url } from '../constants/site';
 import Anchor from '../components/Anchor.astro';
 import PortraitWindow from '../components/PortraitWindow.astro';
 import PortraitBadge from '../components/PortraitBadge.astro';
 import { Particles } from '../components/Particles';
+import { HeroLanyard } from '../components/HeroLanyard';
+import lanyardFrontLight from '../assets/lanyard/front-light.webp';
+import lanyardFrontDark from '../assets/lanyard/front-dark.webp';
+import lanyardBackLight from '../assets/lanyard/back-light.webp';
+import lanyardBackDark from '../assets/lanyard/back-dark.webp';
+import lanyardStrapLight from '../assets/lanyard/strap-light.webp';
+import lanyardStrapDark from '../assets/lanyard/strap-dark.webp';
 
 const name = ['Rubén', 'Buzón'];
 
-// Which portrait to show in the hero: the hanging ID badge or the window cut into the page
-const portraitStyle: 'badge' | 'window' = 'badge';
+// Which portrait to show in the hero: the 3D lanyard (React Bits), the hanging ID badge or the window cut into the page
+const portraitStyle = 'lanyard' as 'lanyard' | 'badge' | 'window';
+
+const lanyardImages = {
+	light: { front: lanyardFrontLight.src, back: lanyardBackLight.src, strap: lanyardStrapLight.src },
+	dark: { front: lanyardFrontDark.src, back: lanyardBackDark.src, strap: lanyardStrapDark.src }
+};
 ---
 
 <div class="relative w-full overflow-hidden flex flex-col isolate">
@@ -31,7 +43,35 @@ const portraitStyle: 'badge' | 'window' = 'badge';
 	>
 	</div>
 
-	<Section id="home" class="relative pt-14 pb-24 md:pt-32 md:pb-32 min-h-[80vh] flex flex-col justify-center">
+	{
+		portraitStyle === 'lanyard' && (
+			// Starts at the top of the page so the strap hangs from there. On desktop it covers the whole hero
+			// so the card can swing freely; the canvas lets the pointer through except over the card
+			<div class="relative z-1 h-[400px] pointer-events-none md:absolute md:inset-0 md:h-auto">
+				<HeroLanyard client:idle images={lanyardImages} v1Url={v1Url} className="h-full" />
+				{v1Url && (
+					// The v1 label on the card is drawn in the canvas: keyboard and screen readers get a real link
+					<a
+						href={v1Url}
+						target="_blank"
+						rel="noopener"
+						class="sr-only focus:not-sr-only focus:pointer-events-auto focus:absolute focus:top-24 focus:right-6 focus:rounded-lg focus:border focus:bg-card focus:px-3 focus:py-1.5 focus:text-sm"
+					>
+						v1 (previous version of this website, opens in a new tab)
+					</a>
+				)}
+			</div>
+		)
+	}
+
+	<Section
+		id="home"
+		class:list={[
+			'relative pb-24 md:pt-32 md:pb-32 min-h-[80vh] flex flex-col justify-center',
+			// On mobile the lanyard already sits above the name
+			portraitStyle === 'lanyard' ? 'pt-2' : 'pt-14'
+		]}
+	>
 		<div class="grid md:grid-cols-[1.25fr_0.9fr] items-center gap-8 md:gap-16 lg:gap-22">
 			<div>
 				<h1
@@ -81,7 +121,9 @@ const portraitStyle: 'badge' | 'window' = 'badge';
 				portraitStyle === 'badge' ? (
 					<PortraitBadge class="max-md:order-first max-md:w-44 max-md:mx-auto md:justify-self-end md:w-full md:max-w-84" />
 				) : (
-					<PortraitWindow class="max-md:order-first max-md:w-36 md:justify-self-end md:w-full md:max-w-100" />
+					portraitStyle === 'window' && (
+						<PortraitWindow class="max-md:order-first max-md:w-36 md:justify-self-end md:w-full md:max-w-100" />
+					)
 				)
 			}
 		</div>
